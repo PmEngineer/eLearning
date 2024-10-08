@@ -14,10 +14,18 @@ namespace ELearning.Controllers
            _masterService = masterService;
         }
         [HttpGet]
+        [Route("GetSubject")]
         public async Task<IActionResult> GetSubject()
         {
             var data = await _masterService.GetSubjectsList();
 
+            return Ok(data);
+        }
+        [HttpGet]
+        [Route("GetCourseList")]
+        public async Task<IActionResult> GetCourseList()
+        {
+            var data = await _masterService.GetCourseList();
             return Ok(data);
         }
     }
