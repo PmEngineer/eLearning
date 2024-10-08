@@ -17,9 +17,11 @@ namespace ELearning_Core.Model
         [StringLength(150)]
         public string HindiName { get; set; }
 
+        public string Description { get; set; }
         public int SubjectId { get; set; }
         [ForeignKey("SubjectId")]
         public virtual Subject Subject { get; set; }
        public bool IsActive { get; set; }
+
     }
 }
