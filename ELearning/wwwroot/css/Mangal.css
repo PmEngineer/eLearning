@@ -1,0 +1,8 @@
+﻿@font-face {
+    font-family: 'Mangal';
+    src: url('Mangal.ttf') format('truetype');
+}
+.hMFont {
+    font-family: 'Mangal' !important;
+    font-size: 25px !important;
+}  

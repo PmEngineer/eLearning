@@ -1,0 +1,84 @@
+﻿.chead {
+    text-align: center;
+}
+
+.idicon {
+    margin-top: 50px;
+}
+
+.text {
+    margin-top: 20px;
+}
+
+.intro {
+    transition: .5s;
+    text-align: center;
+    box-sizing: border-box;
+    position: absolute;
+    background-color: rgb(28, 94, 103);
+    color: white;
+    margin-top: 132px;
+    width: webkit-fill-available;
+}
+
+#icard {
+    width: 180px;
+    height: 193px;
+    overflow: hidden;
+    border-radius: 0%;
+}
+
+.text {
+    font-size: 12px;
+}
+
+.chead {
+    margin-top: 40px;
+    transition: .5s;
+}
+
+.idicon {
+    visibility: hidden;
+    opacity: 0;
+}
+
+#icard:hover {
+    cursor: pointer;
+}
+
+    #icard:hover .intro {
+        height: 191px;
+        bottom: 0px;
+        background: darkcyan;
+    }
+
+    #icard:hover .idicon {
+        opacity: 1;
+        visibility: visible;
+    }
+
+#icard:hover {
+    transform: scale(1.1);
+    border: 1px solid black;
+}
+
+#hcard {
+    margin-top: 23px;
+    font-size: 13px;
+}
+
+.circle {
+    font-size: 20px;
+    color: #2b8793;
+}
+
+#hvimg {
+    transform: scale(1);
+    transition: all 0.9s ease 0s;
+    box-shadow: 0px 3px 3px 1px rgba(0, 0, 0, 0.49);
+}
+
+    #hvimg:hover {
+        box-shadow: 0 0 0 14px #f7f5ec;
+        transform: scale(0.7);
+    }

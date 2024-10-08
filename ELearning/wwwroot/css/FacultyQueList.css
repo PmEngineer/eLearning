@@ -1,0 +1,97 @@
+﻿span.Equess.efontt p span span {
+    font-size: 23px !important;
+}
+
+.rightop1 span span {
+    font-size: 23px !important;
+}
+
+p {
+    font-size: 23px !important;
+    font-family: Akshar !important;
+    font-weight: bold;
+}
+
+.srno {
+    font-size: 23px !important;
+    font-family: Akshar !important;
+}
+
+.numbering {
+    float: left;
+    font-weight: bold;
+    font-size: 20px;
+    margin-right: 12px;
+    margin-top: 2px;
+}
+.col {
+    display: flex;
+    width: 20%;
+}
+#nav_down {
+    width: 40px;
+    line-height: 40px;
+    overflow: hidden;
+    z-index: 999;
+    display: none;
+    cursor: pointer;
+    -moz-transform: rotate(270deg);
+    -webkit-transform: rotate( 270deg );
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    transform: rotate( 90deg );
+    position: fixed;
+    top: 140px;
+    right: 0;
+    background-color: transparent;
+    color: red;
+    text-align: center;
+    font-size: 30px;
+    text-decoration: none;
+}
+
+    #nav_down:hover {
+        background-color: transparent;
+        color: #000;
+    }
+
+#back2Top {
+    width: 40px;
+    line-height: 40px;
+    overflow: hidden;
+    z-index: 999;
+    display: none;
+    cursor: pointer;
+    -moz-transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    transform: rotate(270deg);
+    position: fixed;
+    bottom: 140px;
+    right: 0;
+    background-color: transparent;
+    color: red;
+    text-align: center;
+    font-size: 30px;
+    text-decoration: none;
+}
+
+    #back2Top:hover {
+        background-color: transparent;
+        color: #000;
+    }
+
+.form-switch .form-check-input[type=checkbox] {
+    border-radius: 2em;
+    height: 30px;
+    width: 50px;
+    background-color: red;
+}
+
+    .form-switch .form-check-input[type=checkbox]:checked {
+        border-radius: 2em;
+        height: 30px;
+        width: 50px;
+        background-color: green;
+    }

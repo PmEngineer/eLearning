@@ -1,0 +1,120 @@
+﻿@page "/MainMenu/{Id?}"
+@model ELearning.Pages.Privileges.MainMenuModel
+@{
+}
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<div class="container-fluid mt-2">
+    <div class="card">
+        <div class="card-header bg-primary text-white">Main Menu</div>
+        <div class="card-body">
+            <form class="form row g-3" method="post">
+
+                <div class="row g-3">
+                    <div class="did-floating-label-content col-3">
+                        <input type="hidden" asp-for="mainMenu.Id" />
+                        <input type="hidden" asp-for="mainMenu.CreatedDate" />
+                        <input type="hidden" asp-for="mainMenu.CreatedBy" />
+
+                        <input type="text" asp-for="mainMenu.MainMenuName" class="did-floating-input" />
+                        <label class="did-floating-label">Main Menu</label>
+                    </div>
+                    <div class="did-floating-label-content col-3">
+                        <input type="text" asp-for="mainMenu.MenuURL" class="did-floating-input" />
+                        <label class="did-floating-label">Main URL:</label>
+                    </div>
+                    <div class="did-floating-label-content col-3">
+                        <input type="text" asp-for="mainMenu.MenuPriority" class="did-floating-input" />
+                        <label class="did-floating-label">Main Priority</label>
+                    </div>
+                    <div class="form-check col-1">
+                        <input type="checkbox" asp-for="mainMenu.IsMenuActive" class="form-check-input" />
+                        <label class="form-check-label">Is Active</label>
+                    </div>
+
+                    <div class="col-2">
+                        <input style=" background: linear-gradient(#ea0009, #c30008);" value="@Model.value" type="submit" class="btn btn-primary shadow rounded text-white" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    <div class="container-fluid mt-2">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Main Menu</th>
+                            <th>Main URL</th>
+                            <th>Main Priority</th>
+                            <th>IsActive</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.mainMenus)
+                        {
+                            <tr>
+                                <td>@item.MainMenuName</td>
+                                <td>@item.MenuURL</td>
+                                <td>@item.MenuPriority</td>
+                            <td><input class="form-check-input" type="checkbox" asp-for="@item.IsMenuActive" id="defaultCheck1" style="margin: auto;"></td>
+                                <td>
+                                    <a href="/MainMenu/@item.Id" class="fa fa-pencil fs-4"></a>
+                                    <a class="fa fa-trash-o fs-4 text-danger" asp-page="MainMenu" asp-page-handler="Delete"
+                                   asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)"></a>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-warning">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Do You really want to Delete??
+                            </div>
+                            <div class="modal-footer">
+                                <form method="Post" asp-page-handler="Delete">
+                                    <input type="hidden" id="idtoDelete" asp-for="@Model.Id" class="form-control" />
+
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    @*<a id="deletes" class="fa fa-trash-o fs-4 text-danger" asp-page="Country" asp-page-handler="Delete"
+                                    asp-route-Id="" ></a>*@
+                                    <button asp-page-handler="Delete" class="btn btn-danger db">Delete</button>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+
+        function DisplayConfirmDeleteModal(Id) {
+
+            $("#idtoDelete").val(Id);
+            //$(".db").attr('asp-route-id', Id);
+
+        }
+    </script>
+    <style>
+
+        button.fa.fa-trash-o.fs-4 {
+            border: none;
+        }
+
+        .card-header {
+            color: #fff;
+        }
+    </style>
+

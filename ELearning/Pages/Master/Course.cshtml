@@ -1,0 +1,252 @@
+﻿@page "/Course/{Id?}"
+@model ELearning.Pages.Master.CourseModel
+@{
+}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="~/css/form.css" rel="stylesheet" type="text/css" />
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">*@
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+@*<link href="~/css/Fonts/Fonts.css" rel="stylesheet" />*@
+<script src="~/js/ckeditor_full_nightly/ckeditor/ckeditor.js"></script>
+<script src="~/js/Questions/Questions.js"></script>
+<link rel="stylesheet" href="~/ckeditor/KrutiDev070/stylesheet.css" />
+<style>
+    .tbl {
+        height: 100%;
+        overflow: none;
+    }
+</style>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header bg-primary mainh">Course</div>
+        <div class="card-body"> 
+            <div>
+                <form class="form row g-3" method="post" enctype="multipart/form-data">
+
+                    <div class="dfelx">
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+                                <input type="hidden" asp-for="course.Id" />
+                                <input type="hidden" asp-for="course.CreatedBy" />
+                                <input type="hidden" asp-for="course.CreatedDate" />
+                                <input type="hidden" asp-for="course.Image" />
+                                <input class="did-floating-input" type="text" placeholder=" " asp-for="course.Name">
+                                <label class="did-floating-label">Name</label>
+                            </div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+
+                                <input class="did-floating-input" type="text" placeholder=" " asp-for="course.Validity">
+                                <label class="did-floating-label">Validity</label>
+                            </div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+
+                                <input class="did-floating-input" type="text" placeholder=" " asp-for="course.Support">
+                                <label class="did-floating-label">Support</label>
+                            </div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+
+                                <input class="did-floating-input" type="tel" placeholder=" " asp-for="course.Fee">
+                                <label class="did-floating-label">Fee</label>
+                            </div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+
+                                <input class="did-floating-input" type="text" placeholder=" " asp-for="course.Rating">
+                                <label class="did-floating-label">Rating</label>
+                            </div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+
+                                <input class="did-floating-input" type="date" placeholder=" " asp-for="course.StartDate">
+                                <label class="did-floating-label">Start Date</label>
+                            </div>
+                        </div>
+
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+
+                                <input class="did-floating-input" type="date" placeholder=" " asp-for="course.EndDate">
+                                <label class="did-floating-label">End Date</label>
+                            </div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+
+                                <input class="did-floating-input" type="file" placeholder=" " name="formFile"  id="fileuplode" asp-for="course.Image">
+                             
+                                <label class="did-floating-label">Image</label>
+                            </div>
+                        </div>
+                        <div class="flex-fill" style="text-align:center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="defaultCheck1" style="float:inherit;" asp-for="course.ISPaid">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    IsPaid
+                                </label>
+                            </div>
+                        </div>   
+                        <div class="flex-fill" style="text-align:center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="defaultCheck2" style="float:inherit;" asp-for="course.ISLive">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    IsLive
+                                </label>
+                            </div>
+                        </div>
+                        <div class="flex-fill textareas QuesEn">
+                            <div class="form-check">
+                                <label>Discription</label>
+
+                                <textarea class="" id="EnglishSolution" asp-for="course.Discription"></textarea>
+                            </div>
+                        </div>
+                        @{
+                            if (Model.course.Id > 0)
+                            {
+                                <div class="flex-fill ">
+                                    <div class="form-check">
+                                        <label>Image</label>
+                                        <br/>
+                                        <img src="/Course_Img/@Model.course.Image" height="200" width="170" alt="Alternamte Text" />
+                                    </div>
+                                </div>
+                            }
+                        }
+                   
+                        <div class="flex-fill" style="text-align:center;">
+                            <br/>
+                            <input type="submit" value="@Model.value" class="btn btn-primary shadow rounded" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="container-fluid mt-3">
+    <div class="card">
+        <div class="card-header">List</div>
+        <div class="card-body tbl">
+            <table class="table" id="dtdata">
+                <thead>
+                    <tr>
+                        <th>SrNo</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Fee</th>
+                        <th>Validity</th>
+                        <th>Support</th>
+                        <th>Rating</th>
+                        <th>IsPaid</th>
+                        <th>IsLive</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Discription</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var srno = 1;
+                    }
+                    @foreach (var item in Model.GetCourses)
+                    {
+                        <tr>
+
+                            <td>@srno</td>
+                            <td scope="row"><img src="/Course_Img/@item.Image" height="20" width="20" alt="Alternamte Text" /></td>
+                            <td>@item.Name</td>
+                            <td>@item.Fee</td>
+                            <td>@item.Validity</td>
+                            <td>@item.Support</td>
+                            <td>@item.Rating</td>                  
+                            <td><input class="form-check-input" type="checkbox" asp-for="@item.ISPaid" id="defaultCheck1" style="margin: auto;" readonly></td>
+                            <td><input class="form-check-input" type="checkbox" asp-for="@item.ISLive" id="defaultCheck2" style="margin: auto;" readonly></td>
+                            <td>@item.StartDate</td>
+                            <td>@item.EndDate</td>
+                            <td>@Html.Raw(item.Discription)</td>
+
+                            <td>
+                                <a href="/Course/@item.Id" class="fas fa-edit text-success"></a>&nbsp;
+
+                                <button class="fa fa-trash-o fs-4 text-danger" asp-page="Course" asp-page-handler="Delete"
+                                    asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)">
+                                </button>
+
+                            </td>
+
+                        </tr>
+                        srno++;
+                    }
+
+                </tbody>
+            </table>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Do You really want to Delete??
+                        </div>
+                        <div class="modal-footer">
+                            <form method="Post" asp-page-handler="Delete">
+                                <input type="hidden" id="idtoDelete" asp-for="@Model.Id" class="form-control" />
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                @*<a id="deletes" class="fa fa-trash-o fs-4 text-danger" asp-page="Country" asp-page-handler="Delete"
+                                asp-route-Id="" ></a>*@
+                                <button asp-page-handler="Delete" class="btn btn-danger db">Delete</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+    function DisplayConfirmDeleteModal(Id) {
+
+        $("#idtoDelete").val(Id);
+        //$(".db").attr('asp-route-id', Id);
+
+    }
+</script>
+<style>
+
+    button.fa.fa-trash-o.fs-4 {
+        border: none;
+    }
+
+    .card-header {
+        color: #fff;
+    }
+</style>

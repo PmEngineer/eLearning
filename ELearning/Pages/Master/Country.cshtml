@@ -1,0 +1,140 @@
+﻿@page "/Country/{Id?}"
+@model ELearning.Pages.Master.CountryModel
+@{
+}
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="~/css/form.css" rel="stylesheet" type="text/css" />
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<style>
+    .tbl {
+        height: 100%;
+        overflow: none;
+    }
+
+    
+</style>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header bg-primary mainh">Country</div>
+        <div class="card-body">
+            <div>
+                <form class="form row g-3" method="post">
+
+                    <div class="dfelx">
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+                                <input type="hidden" asp-for="country.Id" />
+                                <input type="hidden" asp-for="country.CreatedBy" />
+                                <input type="hidden" asp-for="country.CreatedDate" />
+                                <input class="did-floating-input" asp-for="country.Name" type="text" placeholder=" ">
+                                <label class="did-floating-label">Name</label>
+                            </div>
+                        </div>
+                        <div class="flex-fill" style="text-align:center;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" asp-for="country.IsActive" id="defaultCheck1" style="float:inherit;">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    IsActive
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="flex-fill" style="text-align:center;">
+
+                            <input type="submit" value="@Model.value" class="btn btn-primary shadow rounded" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="container-fluid mt-3">
+    <div class="card">
+        <div class="card-header">List</div>
+        <div class="card-body tbl">
+            <table class="table" id="dtdata">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>IsActive</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.countries)
+                    {
+                        <tr>
+
+                            <td>@item.Name</td>
+                            <td><input class="form-check-input" type="checkbox" asp-for="@item.IsActive" id="defaultCheck1" style="margin: auto;" readonly></td>
+                          
+                            <td>
+                                <a href="/Country/@item.Id" class="fa fa-pencil fs-4"></a>
+                                <a class="fa fa-trash-o fs-4 text-danger" asp-page="Country" asp-page-handler="Delete"
+                               asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)">
+                                   
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Do You really want to Delete??
+                        </div>
+                        <div class="modal-footer">
+                            <form method="Post" asp-page-handler="Delete">
+                                <input type="hidden" id="idtoDelete" asp-for="@Model.Id" class="form-control" />
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                @*<a id="deletes" class="fa fa-trash-o fs-4 text-danger" asp-page="Country" asp-page-handler="Delete"
+                                asp-route-Id="" ></a>*@
+                                <button asp-page-handler="Delete" class="btn btn-danger db">Delete</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+    function DisplayConfirmDeleteModal(Id) {
+
+        $("#idtoDelete").val(Id);
+        //$(".db").attr('asp-route-id', Id);
+
+    }
+</script>
+<style>
+
+    button.fa.fa-trash-o.fs-4 {
+        border: none;
+    }
+
+    .card-header {
+        color: #fff;
+    }
+</style>

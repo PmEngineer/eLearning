@@ -1,0 +1,86 @@
+﻿
+span.Equess.efontt p span span {
+    font-size: 23px !important;
+}
+
+.rightop1 span span {
+    font-size: 23px !important;
+}
+
+
+.card-body {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+    .card-body p {
+        display: flex;
+    }
+
+    .card-body span {
+        font-size: 18px !important;
+        font-weight: bold;
+       
+    }
+        .card-body span.Hquess hfontt span {
+            padding: 1px;
+        }
+
+.optionp p {
+    float: left;
+    padding-right: 8px;
+}
+
+.rightop p {
+    margin-bottom: 0;
+}
+
+.rightop {
+    border-radius: 8px;
+    background: linear-gradient(#019d01, #2a7e10);
+    color: #FBFCFC;
+    padding: 10px 10px;
+    float: left;
+}
+
+.optionp p:first-child {
+    padding-right: 10px;
+}
+
+.wrongop p:first-child {
+    padding-left: 1px;
+}
+.optionp p span {
+    font-size: 18px !important;
+}
+
+.card-header.Pagination span {
+    font-size: 16px !important;
+    font-weight: bold;
+}
+
+span.Hquess p strong span {
+    font-size: 21px !important;
+}
+
+.abcd {
+    font-size: 18px;
+}
+
+.slas {
+    margin-top: 3px;
+}
+
+span.Equess p {
+    margin-bottom: 0;
+}
+
+.rightop1 .fa.fa-check {
+    background: #2a7e10;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    color: #fff;
+    border-radius: 50%;
+}

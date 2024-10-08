@@ -1,0 +1,891 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    /* overflow: hidden;
+       
+    */
+}
+
+p {
+    font-size: 15px !important;
+}
+
+
+::-webkit-scrollbar {
+    width: 3px;
+    background-color: #f5f5f5;
+    height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #1e74be;
+}
+
+
+.flexx {
+    display: flex;
+    gap: 10px;
+}
+
+.flexx-wrap {
+ flex-wrap: wrap;
+}
+.flexx-nowrap {
+    flex-wrap: nowrap;
+   }
+
+.flexx-row {
+    flex-direction: row;
+}
+.flexx-column {
+     flex-direction: column;
+}
+
+.gap20{
+    gap: 20px;
+}
+.gap0{
+    gap: 0px;
+}
+
+.flex1{
+    flex: 1;
+}
+
+.flexauto{
+    flex: 1 1 auto;
+}
+ 
+.alighitems-c {
+    align-items: center;
+}
+
+.justifycontent-sb {
+    justify-content: space-between;
+}
+
+.justifycontent-c {
+    justify-content: center;
+}
+.justifycontent-l {
+    justify-content: left;
+}
+
+.flexx-grow-1 {
+    flex-grow: 1;
+}
+
+.order1{
+    order: 1;
+}
+.order2{
+    order: 2;
+}
+.order3{
+    order: 3;
+}
+
+.aligncontent-c{
+    align-content: center;
+}
+
+.alignself-c{
+  align-self: center;
+}
+
+ 
+
+ 
+
+.flexx_in12 {
+    padding: 10px 30px;
+}
+ 
+
+button.button.loginbtn {
+    background: #d6694b;
+    border: 0;
+    width: 100%;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    margin-top: 30px;
+}
+h3.loginh {
+    background: none repeat scroll 0 0 #DDD;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px 5px 0 0;
+    color: #444;
+    font-size: 20px;
+    padding: 8px 22px;
+    margin-bottom: 0;
+}
+.Loginsec {
+    top: 30%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 30%);
+}
+
+.login_txt {
+    background: #f5f5f5;
+    border: 1px solid #dbdbdb;
+    border-radius: 0 0 5px 5px;
+    padding: 25px;
+    border-top: none;
+    box-shadow: 0px 1px 42px #c7c1c1;
+}
+ 
+
+.logo_cnt-10 {
+    display: flex;
+    justify-content: center;
+    width: 150px;
+}
+
+.flexx_in1 {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+ 
+.pro-im1 h3 {
+    font-size: 15px;
+    color: #000;
+}
+
+.header-left h3 {
+    font-size: 15px;
+    margin-bottom: 0;
+    color: #fff;
+}
+
+.flexx_in {
+    padding: 10px;
+}
+ 
+.pro-im {
+    margin: auto;
+}
+
+.pro-im img {
+    height: 100px;
+    width: 100px;
+    border: 2px dashed #d0dae3;
+    padding: 5px;
+    border-radius: 50%;
+}
+.header-left p {
+    color: #fff;
+}
+.pro-im1 h2 {
+    color: #d6694b;
+    font-size: 20px;
+    font-weight: 700;
+    max-width: 150px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.pro-im1 p span {
+    color: #d6694b;
+    padding-left: 5px;
+    font-weight: 600;
+}
+.pro-im1 p {
+    font-size: 14px !important;
+}
+
+.middlesec {
+    padding: 0px;
+}
+
+.header-profile {
+    background: #e6edf3;
+}
+
+.header-left h2 {
+    color: #fff200;
+    font-size: 44px;
+}
+.container-fluid {
+    padding: 0;
+}
+
+.header-top {
+    background: #2d70b6 none repeat scroll 0 0;
+    border-bottom: 1px solid #7691a2;
+    color: #ffffff;
+    height: 50px;
+    padding: 0;
+}
+
+.iagree {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 0px;
+    cursor: pointer;
+    font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: justify;
+  }
+  
+  .iagree input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  
+  .checkmarkagree {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+  }
+  
+  .iagree:hover input ~ .checkmarkagree {
+    background-color: #ccc;
+  }
+  
+  
+  .iagree input:checked ~ .checkmarkagree {
+    background-color: #2196F3;
+  }
+  
+  
+  .checkmarkagree:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  
+  .iagree input:checked ~ .checkmarkagree:after {
+    display: block;
+  }
+  .nextt {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+button.button.prebtn {
+    background: #2a82bb;
+    border: none;
+    color: #fff;
+    font-size: 12px;
+}
+button.button.readybtn {
+    background: #2a82bb;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+  
+  .iagree .checkmarkagree:after {
+    left: 9px;
+    top: 7px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+.button {
+    padding: 5px 20px;
+    border-radius: 4px;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+}
+
+    .button span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+        font-size: 18px;
+        line-height: 18px;
+    }
+
+        .button span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+    .button:hover span {
+        padding-right: 25px;
+    }
+
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+
+        h3.inst {
+            line-height: 30px;
+            font-size: 20px;
+            font-weight: 500;
+            color: #676568;
+            background: #BCE8F5;
+            padding: 5px 10px;
+            margin-bottom: 0;
+        }
+
+        .userinfo h3 {
+            font-size: 20px;
+    max-width: 280px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    margin: auto;
+        }
+
+        .userim img {
+            height: 100px;
+            margin-bottom: 10px;
+        }
+        .ins1.instruction-right {
+            min-width: 400px;
+            text-align: center;
+            padding: 20px;
+        }
+        .instruction-txt {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px;
+            box-shadow: 0px 2px 10px #ddd;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .ins1.instruction-left {
+            position: relative;
+            border-right: 5px solid #ddd;
+        }
+        .general-ins {
+            text-decoration: underline;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 10px;
+            margin-left: -55px;
+        }
+        span.selectlag select {
+            border: 1px solid #c1bcbc;
+            border-radius: 5px;
+            padding: 0 5px;
+            height: 30px;
+            font-size: 13px;
+        }
+        button.button.nextbtn {
+            background: #2a82bb;
+            border: navajowhite;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .instruction-next {
+            padding: 20px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0px 2px 38px #837676;
+    background: #fff;
+        }
+
+        .noofinstrart {
+            max-height: 72vh;
+            min-height:72vh;
+            overflow: scroll;
+            padding-right: 10px;
+        }
+        .noofins {
+            max-height: 83vh;
+            min-height: 83vh;
+            overflow: scroll;
+            padding-right: 10px;
+        }
+        .noofins1 {
+            max-height: 68vh;
+            min-height: 68vh;
+            overflow: scroll;
+            padding-right: 10px;
+        }
+        .noofins ul {
+            padding-left: 70px;
+            list-style: auto;
+            margin-bottom: 30px;
+        }
+        .noofins ul li {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .anss {
+            display: flex;
+            gap: 10px;
+        }
+        .choose-default-lang {
+            text-align: left;
+        }
+        p.notee {
+            color: #eb1f32;
+            font-size: 13px !important;
+            text-align: left;
+            line-height: 16px;
+            font-weight: 500;
+        }
+        .abc ul {
+            list-style: lower-alpha;
+            padding-left: 35px;
+        }
+        .abc ul li {
+            font-size: 14px;
+        }
+        .instruction-read p {
+            margin-bottom: 0px;
+        }
+        span.viewin {
+            font-size: 13px;
+            margin-right: 10px;
+        }
+
+        .startexam-left {
+            float: left;
+            width: 80%;
+            border-right: 5px solid #ddd;
+        }
+        .startexam-right {
+            float: right;
+            width: 20%;
+            text-align: center;
+        }
+        .btmns{
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0px 2px 38px #837676;
+            background: #fff;
+            position: fixed;
+            bottom: 0;
+        }
+        .btmns {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        .btmns-in-btn {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btmns-in {
+            flex: 1;
+        }
+        .btmns-in-btn.savee {
+            justify-content: space-evenly;
+        }
+        button.reviewbtn {
+            border: 1px solid #d3c2c2;
+            background: #fff;
+            padding: 5px 10px;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0px 2px 16px #b3acac;
+            border-radius: 5px;
+        }
+        button.savebtnn {
+            border: 1px solid #d3c2c2;
+            background: #0d7cd4;
+            padding: 5px 10px;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0px 2px 16px #b3acac;
+            color: #fff;
+            border-radius: 5px;
+        }
+        button.subbtn {
+            border: 1px solid #d3c2c2;
+            background: #0d7cd4;
+            padding: 5px 10px;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0px 2px 16px #b3acac;
+            color: #fff;
+            border-radius: 5px;
+            opacity: .5;
+        }
+        .jobb {
+            font-size: 12px;
+        }
+        .jobb span {
+            background: #37aaec;
+            border-radius: 5px;
+            color: #fff;
+            padding: 3px 10px;
+        }
+        .timeleft {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 10px;
+            font-size: 13px;
+            border-bottom: 1px solid #ddd;
+            font-weight: 600;
+        }
+        .startexam-ins {
+            display: flex;
+            justify-content: space-between;
+            background: #eeeeee;
+            padding: 10px 10px;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0;  
+        }
+        .dropdown.dd .dropdown-toggle::after {
+           border: none;
+        }
+        .dropdown.dd .dropdown-menu {
+            min-width: 15rem;
+            padding: 10px;
+        }
+        .dropdown.dd {
+            float: right;
+        }
+        span.subb {
+            margin-right: 5px;
+        }
+        .marking {
+            display: flex;
+            justify-content: end;
+            padding: 10px;
+            font-size: 13px;
+        }
+        .marking-1n strong {
+            color: #28a745;
+            font-weight: 700;
+        }
+        .marking-1n span {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        .langview select {
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            margin-left: 5px;
+            color: #666;
+            padding: 1px 10px;
+        }
+        .langview {
+            background: #37aaec;
+            padding: 5px 10px;
+            color: #fff;
+            font-size: 13px;
+            display: flex;
+            justify-content: end;
+        }
+        .quess {
+            border-bottom: 1px solid #ddd;
+            padding: 5px 10px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .quess-in {
+            padding: 10px 20px;
+        }
+        .quess-inner h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .quess-option {
+            margin-bottom: 10px;
+            display: flex;
+    align-items: center;
+        }
+        .quess-option label {
+            margin-bottom: 0px;
+            margin-left: 10px;
+        }
+        .mar strong {
+            color: #28a745;
+        }
+        .mar {
+            font-size: 13px;
+        }
+        .negativen span {
+            color: #bd2130;
+            font-weight: 600;
+        }
+        .negativen {
+            font-size: 13px;
+            margin: 5px 0;
+        }
+        .langview-1n2 span {
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        span.selectlag-in2 select {
+            border: 1px solid #b9b0b0;
+            font-size: 13px;
+            border-radius: 3px;
+            color: #666;
+        }
+        .langview-1n2 {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .noyi {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 14px;
+        }
+        .noyi2 img {
+            height: 28px;
+        }
+        .noyi2 {
+            display: flex;
+            gap: 10px;
+        }
+        .jobb.viewins:hover {
+            text-decoration: none;
+        }
+        .jobb.viewins i {
+            margin-left: 5px;
+        }
+        
+        .jobb.viewins {
+            text-decoration: underline;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .subjects-option .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            color: #fff;
+            background-color: #4e85c0;
+            border-color: #4e85c0;
+        }
+        .subjects-option a {
+            color: #4e85c0;
+            border-left: 1px solid #ddd !important;
+        }
+        .modal-header.inshead {
+            background: #4185fa;
+            padding: 5px;
+        }
+        .modal-header.inshead h5 {
+            font-size: 15px;
+            color: #fff;
+        }
+        .modal-header.inshead .close {
+            font-size: 14px;
+            color: #fff;
+            opacity: 1;
+            text-shadow: none;
+            font-weight: unset;
+            margin-top: -13px;
+        }
+        .notethar {
+            color: #bd2130;
+            font-size: 15px;
+        }
+        .geneall {
+            background: #4e85c5;
+            text-align: left;
+            padding: 5px 10px;
+            color: #fff;
+            font-size: 15px;
+        }
+        .chooseques {
+            background: #e5f6fd;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 5px 10px;
+        }
+        .chooseanswer {
+            background: #e5f6fd;
+            padding: 10px;
+            min-height: 59vh;
+            max-height: 59vh;
+            overflow: auto;
+        }
+        .noyirt {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px 20px;
+            font-size: 13px;
+            text-align: left;
+        }
+        .userim1 img {
+            height: 70px;
+            width: 70px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #4e85c5;
+        }
+        .userinfo1 h3 {
+            font-size: 15px;
+            max-width: 280px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            margin: auto;
+        }
+        .startexam-questionno {
+            border: 2px solid #4e85c5;
+            margin-top: 10px;
+        }
+        .userpic {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .ansbtns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: left;
+        }
+        .num button.btn {
+            min-width: 38px;
+            border: 1px solid #bdb9b9;
+            padding: 6px;
+            font-size: 13px;
+        }
+ 
+@media only screen and (min-width: 992px) and (max-width: 1280px) {
+ 
+}
+
+ 
+
+@media (max-width:991px) {
+    .flexx.inss {
+        flex-direction: column-reverse;
+    }
+    .flexx {
+        flex-direction: column;
+    }
+    .Loginsec {
+        position: initial;
+        transform: none;
+        padding: 20px;
+    }
+    .userim img {
+        height: 50px;
+        margin-bottom: 0px;
+    }
+    .userinfo {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    .noofins {
+        max-height: 75vh;
+        min-height: 75vh;
+    }
+    .userinfo h3 {
+        font-size: 16px;
+    text-align: left;
+    margin-bottom: 0;
+    margin: initial;
+    }
+    .header-profile {
+        flex-direction: column-reverse;
+        gap: 5px;
+    }
+    .pro-im1 p {
+        margin-bottom: 0;
+    }
+    .logo_cnt-10 {
+        padding-top: 10px;
+    }
+    .pro-im img {
+        height: 60px;
+        width: 60px;
+    }
+    .noofins ul {
+        padding-left: 35px;
+    }
+    .general-ins {
+        margin-left: -10px;
+    }
+    .ins1.instruction-right {
+        padding: 10px 20px 0;
+    }
+    .instruction-txt {
+        flex-direction: column-reverse;
+    }
+    p.notee {
+        margin-top: 10px;
+        font-size: 12px !important;
+    }
+    button.button.readybtn {
+        font-size: 12px;
+    }
+    .button span {
+        font-size: 13px;
+    }
+    button.button.prebtn {
+        padding: 5px 10px;
+    }
+    .termsv {
+        max-height: 40px;
+        min-height: 40px;
+        overflow: auto;
+    }
+    .noofins1 {
+        max-height: 55vh;
+        min-height: 55vh;
+    }
+    h3.inst {
+        line-height: 20px;
+        font-size: 14px;
+        text-align: center;
+    }
+    .instruction-read p {
+        font-size: 13px !important;
+        text-align: center;
+    }
+    .header-left p {
+        font-size: 12px !important;
+        line-height: 17px;
+        text-align: justify;
+    }
+    .header-left h2 {
+        font-size: 30px;
+        margin-bottom: 0px;
+    }
+}

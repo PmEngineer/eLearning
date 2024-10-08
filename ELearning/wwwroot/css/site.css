@@ -1,0 +1,206 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+body {
+    background-color: #fbfbfb;
+}
+
+@media (min-width: 991.98px) {
+    main {
+        padding-left: 240px;
+    }
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 58px 0 0; /* Height of navbar */
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+    width: 240px;
+    z-index: 600;
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        width: 100%;
+    }
+}
+
+.sidebar .active {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: 0.5rem;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+.dashmenu{
+    padding: 25px;
+    align-items:center;
+    font-size: large;
+   
+}
+.brd{
+    border:groove;
+    height: 100px;
+    color: wheat;
+    padding: 30px;   
+    
+}
+.brd_1 {
+    background-color: rgb(3, 8, 48);
+    color: wheat;
+    
+}
+.brd_2 {
+    background-color: rgb(3, 8, 48);
+}
+.brd_3 {
+    background-color: rgb(3, 8, 48);
+}
+.brd_4 {
+    background-color: rgb(3, 8, 48);
+}
+.brd_5 {
+    background-color: rgb(3, 8, 48);
+}
+.brd_6 {
+    background-color: rgb(3, 8, 48);
+}
+.brd_7 {
+    background-color: rgb(3, 8, 48);
+}
+
+.brd_8 {
+    background-color: rgb(3, 8, 48);
+}
+.brd_1 a {
+    text-decoration: none;
+    color: wheat;
+    background-color: transparent;
+}
+    .brd_1 a:hover {
+        color: orange;
+        text-decoration: none;
+    }
+.brd_2 a {
+    text-decoration: none;
+    color: wheat;
+    background-color: transparent;
+}
+
+    .brd_2 a:hover {
+        color: orange;
+        text-decoration: none;
+    }
+.brd_3 a {
+    text-decoration: none;
+    color: wheat;
+    background-color: transparent;
+}
+
+    .brd_3 a:hover {
+        color: orange;
+        text-decoration: none;
+    }
+.brd_4 a {
+    text-decoration: none;
+    color: wheat;
+    background-color: transparent;
+}
+
+    .brd_4 a:hover {
+        color:orange;
+        text-decoration: none;
+    }
+.brd_5 a {
+    text-decoration: none;
+    color: wheat;
+    background-color: transparent;
+}
+
+    .brd_5 a:hover {
+        color: orange;
+        text-decoration: none;
+    }
+.brd_6 a {
+    text-decoration: none;
+    color: wheat;
+    background-color: transparent;
+}
+
+    .brd_6 a:hover {
+        color: orange;
+        text-decoration: none;
+    }
+.brd_7 a {
+    text-decoration: none;
+    color: wheat;
+    background-color: transparent;
+}
+
+    .brd_7 a:hover {
+        color: orange;
+        text-decoration: none;
+    }
+.brd_8 a {
+    text-decoration: none;
+    color: wheat;
+    background-color: transparent;
+}
+
+    .brd_8 a:hover {
+        color: orange;
+        text-decoration: none;
+    }
+
+.brd_9 {
+    background-color: rgb(3, 8, 48);
+}
+.brd_9 a{
+    text-decoration: none;
+    color: wheat;
+    background-color: transparent;
+}
+
+    .brd_9 a:hover {
+        color: orange;
+        text-decoration: none;
+    }
+.brd_10 {
+    background-color: rgb(3, 8, 48);
+}
+
+    .brd_10 a {
+        text-decoration: none;
+        color: wheat;
+        background-color: transparent;
+    }
+
+        .brd_10 a:hover {
+            color: orange;
+            text-decoration: none;
+        }

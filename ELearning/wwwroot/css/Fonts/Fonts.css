@@ -1,0 +1,8 @@
+﻿@font-face {  
+    font-family: 'Devlys_010';  
+    src: local('Devlys_010'),url('./Devlys_010.ttf') format('truetype');  
+}  
+  
+.hFont {  
+    font-family: 'Devlys_010' !important;  
+}  

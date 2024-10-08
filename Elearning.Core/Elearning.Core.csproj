@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" />
+    <Compile Include="obj\Debug\net6.0\Elearning.Core.AssemblyInfo.cs" />
+    <Compile Include="obj\Debug\net6.0\Elearning.Core.GlobalUsings.g.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\net6.0\Elearning.Core.deps.json" />
+    <Content Include="obj\Debug\net6.0\Elearning.Core.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Elearning.Core.csproj.nuget.dgspec.json" />
+    <Content Include="obj\project.assets.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0\Elearning.Core.dll" />
+    <None Include="bin\Debug\net6.0\Elearning.Core.pdb" />
+    <None Include="obj\Debug\net6.0\Elearning.Core.AssemblyInfoInputs.cache" />
+    <None Include="obj\Debug\net6.0\Elearning.Core.assets.cache" />
+    <None Include="obj\Debug\net6.0\Elearning.Core.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\net6.0\Elearning.Core.dll" />
+    <None Include="obj\Debug\net6.0\Elearning.Core.GeneratedMSBuildEditorConfig.editorconfig" />
+    <None Include="obj\Debug\net6.0\Elearning.Core.pdb" />
+    <None Include="obj\Debug\net6.0\refint\Elearning.Core.dll" />
+    <None Include="obj\Debug\net6.0\ref\Elearning.Core.dll" />
+    <None Include="obj\Elearning.Core.csproj.nuget.g.props" />
+    <None Include="obj\Elearning.Core.csproj.nuget.g.targets" />
+    <None Include="obj\project.nuget.cache" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+  </ItemGroup>
+
+</Project>

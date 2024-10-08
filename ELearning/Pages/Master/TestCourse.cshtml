@@ -1,0 +1,33 @@
+﻿@page "/TestCourse"
+@using System.Data;
+@model ELearning.Pages.Master.TestCourseModel
+@{
+}
+
+<table class="table" id="dtdata">
+    <thead>
+        <tr>
+            <th>SrNo</th>
+            <th>Name</th>
+            <th>Image</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var srno = 1;
+            foreach (DataRow row in Model.Data.Rows)
+            {
+                <tr>
+                    <td>@srno</td>
+                    <td>@row["Name"].ToString()</td>
+                    <td>@row["Image"].ToString()</td>
+                </tr>
+
+               
+
+            }
+
+        }
+</table>

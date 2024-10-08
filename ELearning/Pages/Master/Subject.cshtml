@@ -1,0 +1,146 @@
+﻿@page "/Subject/{Id?}"
+@model ELearning.Pages.Master.SubjectModel
+@{
+}
+<style>
+    .tbl {
+        height: 100%;
+        overflow: none;
+    }
+</style>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="~/css/Mangal.css" rel="stylesheet" />
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header bg-primary mainh">Subjects</div>
+        <div class="card-body">
+            <div>
+                <form class="form row g-3" method="post">
+
+                    <div class="dfelx">
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+                                <input type="hidden" asp-for="subject.Id" />
+                                <input type="hidden" asp-for="subject.CreatedBy" />
+                                <input type="hidden" asp-for="subject.CreatedDate" />
+                                <input class="did-floating-input" asp-for="subject.Name" type="text" placeholder=" ">
+                                <label class="did-floating-label">Name</label>
+                            </div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+                                <input class="did-floating-input hMFont" asp-for="subject.HindiName" type="text" placeholder=" ">
+                                <label class="did-floating-label">Name in Hindi</label>
+                            </div>
+                        </div>
+                        <div class="flex-fill" style="text-align:center;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" asp-for="subject.IsActive" id="defaultCheck1" style="float:inherit;">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    IsActive
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="flex-fill" style="text-align:center;">
+
+                            <input type="submit" value="@Model.value" class="btn btn-primary shadow rounded" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    <div class="container-fluid mt-3">
+        <div class="card">
+            <div class="card-header">List</div>
+            <div class="card-body tbl">
+                <table class="table" id="dtdata">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Name in Hindi</th>
+                            <th>IsActive</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.subjects)
+                        {
+                            <tr>
+
+                                <td>@item.Name</td>
+                                <td class="hMFont">@item.HindiName</td>
+
+                            <td><input class="form-check-input" type="checkbox" asp-for="@item.IsActive" id="defaultCheck1" readonly style="margin: auto;"></td>
+                                <td>
+                                    <a href="/Subject/@item.Id" class="fa fa-pencil fs-4"></a>
+                                    <button class="fa fa-trash-o fs-4 text-danger" asp-page="Subject" asp-page-handler="Delete"
+                                        asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)"></button>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-warning">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Do You really want to Delete??
+                            </div>
+                            <div class="modal-footer">
+                                <form method="Post" asp-page-handler="Delete">
+                                    <input type="hidden" id="idtoDelete" asp-for="@Model.Id" class="form-control" />
+
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    @*<a id="deletes" class="fa fa-trash-o fs-4 text-danger" asp-page="Country" asp-page-handler="Delete"
+                                    asp-route-Id="" ></a>*@
+                                    <button asp-page-handler="Delete" class="btn btn-danger  db">Delete</button>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+
+        function DisplayConfirmDeleteModal(Id) {
+
+            $("#idtoDelete").val(Id);
+            //$(".db").attr('asp-route-id', Id);
+
+        }
+    </script>
+    <style>
+
+        button.fa.fa-trash-o.fs-4 {
+            border: none;
+        }
+
+        .card-header {
+            color: #fff;
+        }
+
+        input[type="checkbox"][readonly] {
+            pointer-events: none;
+        }
+    </style>
+

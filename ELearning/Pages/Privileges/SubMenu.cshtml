@@ -1,0 +1,113 @@
+﻿@page "/SubMenu/{Id?}"
+@model ELearning.Pages.Privileges.SubMenuModel
+@{
+}
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<div class="container-fluid mt-2">
+    <div class="card">
+        <div class="card-header bg-primary text-white">Sub Menu</div>
+        <div class="card-body">
+            <form class="form row g-3" method="post">
+
+                <div class="row g-3">
+                    <div class="did-floating-label-content col-3">
+                        <input type="hidden" asp-for="subMenu.Id" />
+                        <input type="hidden" asp-for="subMenu.CreatedDate" />
+                        <input type="hidden" asp-for="subMenu.CreatedBy" />
+                        <select class="did-floating-select select2" asp-for="subMenu.MainMenuId">
+                            @foreach (var item in Model.mainMenus)
+                            {
+                                <option value="@item.Id">@item.MainMenuName</option>
+                            }
+                        </select>
+                        <label class="did-floating-label">Main Menu</label>
+                    </div>
+                    <div class="did-floating-label-content col-3">
+                        <input type="text" class="did-floating-input" asp-for="subMenu.SubMenuName" />
+                        <label class="did-floating-label">Sub Menu</label>
+                    </div>
+                    <div class="did-floating-label-content col-3">
+                        <input type="text" class="did-floating-input" asp-for="subMenu.MenuUrl" />
+                        <label class="did-floating-label">Menu Url</label>
+                    </div>
+                    <div class="did-floating-label-content col-2">
+                        <input type="text" class="did-floating-input" asp-for="subMenu.MenuPriority" />
+                        <label class="did-floating-label">Menu Priority</label>
+                    </div>
+                    <div class="form-check col-1">
+                        <input type="checkbox" asp-for="subMenu.IsSubMenuActive" class="form-check-input" />
+                        <label class="form-check-label">Is Active</label>
+                    </div>
+                    <div class="col-3">
+                        <input type="submit" style=" background: linear-gradient(#ea0009, #c30008); color:white" class="btn btn-primary shadow rounded" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt-3">
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <td>Main Menu </td>
+                        <td>Sub Menu </td>
+                        <td> Menu Url</td>
+                        <td> Menu priority</td>
+                        <td> Is Active</td>
+                    </tr>
+                </thead>
+                <tbody>
+                        @foreach (var item in Model.subMenus)
+                        {
+                        <tr>
+                            <td>@item.MainMenu.MainMenuName</td>
+                            <td>@item.SubMenuName</td>
+                            <td>@item.MenuUrl</td>
+                            <td>@item.MenuPriority</td>
+                            <td><input class="form-check-input" type="checkbox" asp-for="@item.IsSubMenuActive" id="defaultCheck1" style="margin: auto;"></td>
+                            <td>
+                                <a href="/SubMenu/@item.Id" class="fa fa-pencil fs-4"></a>
+                                <a class="fa fa-trash-o fs-4 text-danger" asp-page="SubMenu" asp-page-handler="Delete"
+                               asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)"></a>
+
+                            </td>
+                        </tr>
+                        }
+                </tbody>
+            </table>
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Do You really want to Delete??
+                        </div>
+                        <div class="modal-footer">
+                            <form method="Post" asp-page-handler="Delete">
+                                <input type="hidden" id="idtoDelete" asp-for="@Model.Id" class="form-control" />
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                @*<a id="deletes" class="fa fa-trash-o fs-4 text-danger" asp-page="Country" asp-page-handler="Delete"
+                                asp-route-Id="" ></a>*@
+                                <button asp-page-handler="Delete" class="btn btn-danger db">Delete</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+      //  Userprivillage('@Model.userId', @Model.submenuId);
+    });
+</script>

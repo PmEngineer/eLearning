@@ -1,0 +1,77 @@
+﻿@page
+@model RegisterModel
+@{
+
+    Layout = null;
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+<script src="~/js/Select/select2.min.js" defer></script>
+<link href="~/js/Select/select2.min.css" rel="stylesheet" />
+
+<h1>@ViewData["Title"]</h1>
+<link rel="stylesheet" type="text/css" href="~/css/LoginStyle.css">
+<style>
+    .login-box {
+        margin-left: 35%;
+        margin-top: 5%;
+    }
+</style>
+<div class="login-box">
+    <div class="login-logo">
+        <a href="javascript:void(0)">Register</a>
+
+    </div>
+    <div class="card">
+        <div class="card-body login-card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+                        <p class="login-box-msg">Create a new account.</p>
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="UserName" />
+                            <label asp-for="Input.Email">UserName</label>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Email" class="form-control" autocomplete="Email" aria-required="true" placeholder="name@example.com" />
+                            <label asp-for="Input.Email">Email</label>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                            <label asp-for="Input.Password">Password</label>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                            <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        
+                        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".select2").select2();
+    });
+</script>
