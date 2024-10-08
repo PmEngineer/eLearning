@@ -17,6 +17,7 @@ namespace ELearning_Core.Model
         public string EmailId { get; set; }
 
         public string? GSTNo { get; set; }
+
         public bool IsActive { get; set; }
 
     }
