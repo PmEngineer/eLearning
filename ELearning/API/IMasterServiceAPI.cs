@@ -8,3 +8,4 @@ namespace ELearning.API
         public Task<Result<List<Subject>>> GetSubjectsList();
     }
 }
+
