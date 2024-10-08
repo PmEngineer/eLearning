@@ -1,4 +1,5 @@
 ﻿using ELearning.Interface;
+using ELearning.Response;
 using ELearning_Core.Core.Model;
 using ELearning_Core.Model;
 using ELearning_Core.Model.City;
@@ -30,6 +31,28 @@ namespace ELearning.API
             _subMenuRepository = subMenuRepository;
             _courseRepository = courseRepository;
         }
+
+        public async Task<Result<List<CourseResponse>>> GetCourseList()
+        {
+            try
+            {
+                var data = await _courseRepository.GetAllAsync();
+                List<CourseResponse> courseList = new List<CourseResponse>();   
+                foreach (var item in data)
+                {
+                    CourseResponse course  =   new CourseResponse();
+                    course.Id = item.Id;
+                    course.Name = item.Name;    
+                    courseList.Add(course);
+                }
+                return await Result<List<CourseResponse>>.SuccessAsync(courseList);
+            }
+            catch (Exception ex)
+            { 
+                throw;
+            }
+        }
+
         public async Task<Result<List<Subject>>> GetSubjectsList()
         {
             try
