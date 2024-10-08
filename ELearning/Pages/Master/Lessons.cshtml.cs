@@ -47,6 +47,7 @@ namespace ELearning.Pages.Master
                     lesson.Name = lessondata.Name;
                     lesson.SubjectId = lessondata.SubjectId;
                     lesson.HindiName = lessondata.HindiName;
+                    lesson.Description = lessondata.Description;
                     lesson.IsActive = lessondata.IsActive;
                     lesson.CreatedDate = lessondata.CreatedDate;
                     lesson.CreatedBy = lessondata.CreatedBy;

@@ -28,7 +28,7 @@
                                 <label class="did-floating-label">Name</label>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-2">
                             <div class="did-floating-label-content">
                                 <input class="did-floating-input hMFont" required asp-for="lesson.HindiName" type="text" placeholder=" ">
                                 <label class="did-floating-label">Lesson Name(Hindi)</label>
@@ -48,6 +48,13 @@
                                     }
                                 </select>
                                 <label class="did-floating-label">Subject</label>
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <div class="did-floating-label-content">
+                                <input class="did-floating-input hMFont" required asp-for="lesson.Description" type="text" placeholder=" ">
+                                <label class="did-floating-label">Description</label>
                             </div>
                         </div>
 
@@ -105,6 +112,7 @@
                         <th>Name</th>
                         <th> Lesson Name in Hindi</th>
                         <th>Subject</th>
+                        <th>Description</th>
                         <th>Active</th>
                         <th>Action</th>
                     </tr>
@@ -118,11 +126,12 @@
                             <td class="hMFont">@item.HindiName</td>
 
                             <td>@item.Subject.Name</td>
+                            <td>@item.Description</td>
                             <td><input class="form-check-input" type="checkbox" asp-for="@item.IsActive" id="defaultCheck1" readonly style="margin: auto;"></td>
                             <td>
                                 <a href="/Lessons/@item.Id" class="fa fa-pencil fs-4"></a>
-                               @* <a class="fa fa-trash-o fs-4 text-danger" asp-page="Lessons" asp-page-handler="Delete"
-                               asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)"></a>*@
+                               <a class="fa fa-trash-o fs-4 text-danger" asp-page="Lessons" asp-page-handler="Delete"
+                               asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)"></a>
                             </td>
                         </tr>
                     }
