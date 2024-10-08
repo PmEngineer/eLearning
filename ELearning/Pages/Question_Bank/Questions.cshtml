@@ -1,0 +1,181 @@
+﻿@page "/Question/{Id?}"
+@model ELearning.Pages.Question_Bank.QuestionsModel
+@{
+}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="~/css/form.css" rel="stylesheet" type="text/css" />
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">*@
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+@*<link href="~/css/Fonts/Fonts.css" rel="stylesheet" />*@
+<script src="~/js/ckeditor_full_nightly/ckeditor/ckeditor.js"></script>
+<script src="~/js/Questions/Questions.js"></script>
+<link rel="stylesheet" href="~/ckeditor/KrutiDev070/stylesheet.css" />
+<style>
+   
+    .rc {
+        margin-top: 150px;
+    }
+
+    input[type=radio] {
+        width: 30px;
+        height: 30px;
+    }
+
+    input[type=checkbox] {
+        width: 30px;
+        height: 30px;
+    }
+</style>
+<link rel="stylesheet" href="~/css/M.css"/>
+
+<div class="container-fluid mt-3 w-90">
+   
+    <div class="card">
+        <div class="card-header bg-primary mainh text-white">Question</div>
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-4">
+                    <form method="post" asp-page-handler="GetLesson">
+                        
+                        <div class="did-floating-label-content">
+                            
+
+
+                            <select id="subjects" class="did-floating-select select2" >
+                                @foreach (var i in Model.subjects)
+                                {
+                                    <option value="@i.Id">@i.Name (@i.HindiName)</option>
+                                }
+                            </select>
+                            <label class="did-floating-label">Subject Name</label>
+
+
+                        </div>
+                        <button type="submit" id="get-lesson" style="display:none"  class="btn btn-danger btn-sm db">Delete</button>
+                    </form>
+                </div>
+                <div class="col-4">
+                    <div class="did-floating-label-content">
+                        <select id="lessons" class="did-floating-select select2" >
+
+                                <option value="0">Lesson1</option>
+                                <option value="0">Lesson2</option>
+                            
+                        </select>
+                        <label class="did-floating-label">Lesson Name</label>
+
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="did-floating-label-content">
+                        <select class="did-floating-select select2" id="select-question-type">
+                            <option value="1">Text</option>
+                         @*   <option value="2">Text with Image</option>
+                            <option value="3">Image</option>*@
+                        </select>
+                        <label class="did-floating-label">Question Type:</label>
+                    </div>
+
+                </div>
+
+            </div>
+            <br />
+
+            <div class="row">
+
+                <div class="col-4">
+                    <div class="did-floating-label-content">
+                        <select class="did-floating-select select2" id="select-option">
+                            <option value="1">Single</option>
+                            <option value="2">Multiple</option>
+                            <option value="3">Paragraph</option>
+                        </select>
+                        <label class="did-floating-label">Answer Type:</label>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="did-floating-label-content">
+                        <select class="did-floating-select select2" id="select-lang">
+                            <option value="1">Both</option>
+                           <option value="2">English</option>
+                            <option value="3">Hindi</option>
+                        </select>
+                        <label class="did-floating-label">Language Type:</label>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="did-floating-label-content" id="no-of-options">
+                        <select class="did-floating-select select2" id="select-nooptions">
+                            @for (var i = 2; i <= 9; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                        <label class="did-floating-label">No. of Options:</label>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-6 textareas QuesEn">
+                    <div class="did-floating-label-content">
+                        <label>Question(in English)</label>
+
+                        <textarea class="" id="EnglishQ"></textarea>
+                    </div>
+                </div>
+                <div class="col-6 textareas QuesEn">
+                    <div class="did-floating-label-content">
+                        <label>Question Solution(in English)</label>
+
+                        <textarea class="" id="EnglishSolution"></textarea>
+                    </div>
+                </div>
+                <div class="col-6 textareas QuesHi">
+                    <div class="did-floating-label-content">
+                        <label>Question(in Hindi)</label>
+
+                        <textarea class="Inscript" id="HindiQ"></textarea>
+                    </div>
+                </div>
+                <div class="col-6 textareas QuesHi">
+                    <div class="did-floating-label-content">
+                        <label>Question Solution(in Hindi)</label>
+
+                        <textarea class="" id="HindiSolution"></textarea>
+                    </div>
+                </div>
+                <div class="col-2" id="imgUpload">
+                    <label for="formFile" class="form-label">Upload Image</label>
+                    <input class="form-control" type="file" id="formFile">
+                </div>
+            </div>
+
+
+        </div>
+        <table class="tabl table table-hover table-bordered" id="table">
+            <thead>
+                <tr>
+                    <th class="w-65 QuesEn">Option in English</th>
+                    <th class="w-65 QuesHi" id="HindiQuestion">Option in Hindi</th>
+                    <th class=" w-5 text-center">IsCorrect</th>
+@*                    <th class="w-5">Action</th>
+*@                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <input type="submit" style="position:relative;left:75%;" class="btn btn-primary col-3 float-right" id="save-btn" />
+@*        <input type="button" value="Delete" style="position:relative;left:75%;" class="btn btn-primary col-3 float-right" id="delete-btn"/>
+*@    </div>
+
+</div>
+
