@@ -34,4 +34,7 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
     public DbSet<Course> Course { get; set; }
     public DbSet<MainMenu> MainMenus { get; set; }
     public DbSet<SubMenu> SubMenus { get; set; }
+    public DbSet<AppNotification>Notifications  { get; set; }
+
+    public DbSet<Trade> Trades { get; set; }        
 }

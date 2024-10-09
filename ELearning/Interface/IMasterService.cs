@@ -59,6 +59,17 @@ namespace ELearning.Interface
         public Task<Result<int>> InsertCourse(Course course);
         public Task<Result<int>> UpdateCourse(Course course);
         public Task<Result<int>> DeleteCourse(int Id);
-      
+
+
+        public Task<List<AppNotification>> GetNotification();
+        public Task<Result<int>> InsertNotification(AppNotification notification);
+        public Task<Result<int>> UpdateNotification(AppNotification notification);
+        public Task<Result<int>> DeleteNotification(int Id);
+
+        public Task<List<Trade>> GetTrades();
+        public Task<Result<int>> InsertTrade(Trade trade); 
+        public Task<Result<int>> UpdateTrade(Trade trade);
+        public Task<Result<int>> DeleteTrade(int Id);
+
     }
 }

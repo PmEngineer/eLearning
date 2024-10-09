@@ -20,7 +20,9 @@ namespace ELearning.Services
         public readonly IGenericRepository<MainMenu> _menuRepository;
         public readonly IGenericRepository<SubMenu> _subMenuRepository;
         public readonly IGenericRepository<Course> _courseRepository;
-        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository)
+        public readonly IGenericRepository<AppNotification> _notificationRepository;
+        public readonly IGenericRepository<Trade> _tradeRepository;
+        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -31,6 +33,9 @@ namespace ELearning.Services
             _menuRepository = menuRepository;
             _subMenuRepository = subMenuRepository;
             _courseRepository = courseRepository;
+            _notificationRepository = notificationRepository;
+            _tradeRepository = tradeRepository;
+            
         }
 
         public async Task<List<Company>> GetCompanies()
@@ -515,6 +520,129 @@ namespace ELearning.Services
             }
         }
 
-      
+        public async Task<List<AppNotification>> GetNotification()
+        {
+            try
+            {
+                var data = await _notificationRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+
+        public async Task<Result<int>> InsertNotification(AppNotification notification)
+        {
+            try
+            {
+                await _notificationRepository.AddAsync(notification);
+                return await Result<int>.SuccessAsync(notification.Id, "notification Added");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Result<int>> UpdateNotification(AppNotification notification)
+        {
+            try
+            {
+                await _notificationRepository.UpdateAsync(notification);
+                return await Result<int>.SuccessAsync(notification.Id, " Updated");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Result<int>> DeleteNotification(int Id)
+        {
+            try
+            {
+                var data = await _notificationRepository.GetByIdAsync(Id);
+                if (data == null)
+                {
+                    return await Result<int>.FailAsync("Data Not Found");
+                }
+                else
+                {
+                    await _notificationRepository.DeleteAsync(data);
+                    return await Result<int>.SuccessAsync("Data Deleted");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+        public async Task<List<Trade>> GetTrades()
+        {
+            try
+            {
+                var data = await _tradeRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+
+        public async Task<Result<int>> InsertTrade(Trade trade)
+        {
+            try
+            {
+                await _tradeRepository.AddAsync(trade);
+                return await Result<int>.SuccessAsync(trade.Id, "Trade Added");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Result<int>> UpdateTrade(Trade trade)
+        {
+            try
+            {
+                await _tradeRepository.UpdateAsync(trade);
+                return await Result<int>.SuccessAsync(trade.Id, " Updated");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Result<int>> DeleteTrade(int Id)
+        {
+            try
+            {
+                var data = await _tradeRepository.GetByIdAsync(Id);
+                if (data == null)
+                {
+                    return await Result<int>.FailAsync("Data Not Found");
+                }
+                else
+                {
+                    await _tradeRepository.DeleteAsync(data);
+                    return await Result<int>.SuccessAsync("Data Deleted");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
