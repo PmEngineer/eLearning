@@ -9,6 +9,7 @@ namespace ELearning.API
     {
         public Task<Result<List<Subject>>> GetSubjectsList();
         public Task<Result<List<CourseResponse>>> GetCourseList();
+        public Task<Result<List<Lessons>>> GetLessonist(int Subid);
     }
 }
 

@@ -53,6 +53,11 @@ namespace ELearning.API
             }
         }
 
+        public Task<Result<List<Lessons>>> GetLessonist(int Subid)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Result<List<Subject>>> GetSubjectsList()
         {
             try
