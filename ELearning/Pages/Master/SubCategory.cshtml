@@ -1,7 +1,8 @@
-﻿@page "/Trade/{Id?}"
-@model ELearning.Pages.Master.TradeModel
+﻿@page "/SubCategory/{Id?}"
+@model ELearning.Pages.Master.SubCategoryModel
 @{
 }
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
       integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
@@ -18,7 +19,7 @@
 
 <div class="container-fluid mt-3">
     <div class="card">
-        <div class="card-header bg-primary mainh text-white">Trade</div>
+        <div class="card-header bg-primary mainh text-white">Help SubCategory</div>
         <div class="card-body">
             <div>
                 <form class="form" method="post">
@@ -26,18 +27,34 @@
                     <div class="row g-3">
                         <div class="col-3">
                             <div class="did-floating-label-content">
-                                <input type="hidden" asp-for="trade.Id" />
-                                <input type="hidden" asp-for="trade.CreatedBy" />
-                                <input type="hidden" asp-for="trade.CreatedDate" />
-                                <input class="did-floating-input" asp-for="trade.Name" type="text" placeholder=" ">
+                                <input type="hidden" asp-for="subcategory.Id" />
+                                <input type="hidden" asp-for="subcategory.CreatedBy" />
+                                <input type="hidden" asp-for="subcategory.CreatedDate" />
+                                <input class="did-floating-input" asp-for="subcategory.Name" type="text" placeholder=" ">
                                 <label class="did-floating-label">Name</label>
                             </div>
                         </div>
 
-         
+                        <div class="col-3">
+                            <div class="did-floating-label-content">
+
+                                <select class=" did-floating-select select2" asp-for="subcategory.CategoryId">
+
+                                    @foreach (var item in Model.categories)
+                                    {
+
+                                        <option value="@item.Id">@item.Name</option>
+
+                                    }
+                                </select>
+                                <label class="did-floating-label">Category</label>
+
+                            </div>
+                        </div>
+
                         <div class="col-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" asp-for="trade.IsActive" id="defaultCheck1">
+                                <input class="form-check-input" type="checkbox" asp-for="subcategory.IsActive" id="defaultCheck1">
                                 <label class="form-check-label" for="defaultCheck1">
                                     IsActive
                                 </label>
@@ -65,22 +82,24 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Category</th>
                         <th>Active</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.trades)
+                    @foreach (var item in Model.subCategories)
                     {
                         <tr>
 
                             <td>@item.Name</td>
+                            <td>@item.CategoryId</td>
                             <td><input class="form-check-input" type="checkbox" asp-for="@item.IsActive" id="defaultCheck1" readonly style="margin: auto;"></td>
                             <td>
-                                <a href="/Trade/@item.Id" class="fa fa-pencil fs-4"></a>
-                                <a class="fa fa-trash-o fs-4 text-danger" asp-page="Trade" asp-page-handler="Delete"
-                               asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)">
-                                    
+                                <a href="/SubCategory/@item.Id" class="fa fa-pencil fs-4"></a>
+                                <a class="fa fa-trash-o fs-4 text-danger" asp-page="SubCategory" asp-page-handler="Delete"
+                                   asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)">
+
                                 </a>
                             </td>
                         </tr>

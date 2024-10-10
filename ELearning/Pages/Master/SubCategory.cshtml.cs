@@ -8,66 +8,72 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ELearning.Pages.Master
 {
-    public class TradeModel : PageModel
+    public class SubCategoryModel : PageModel
     {
         public readonly IMasterService _MasterService;
+
         private UserManager<IdentityUser> _UserManager;
         private readonly INotyfService _notyf;
-
-        public TradeModel(IMasterService masterService, UserManager<IdentityUser> userManager, INotyfService notyf)
+        public SubCategoryModel(IMasterService masterService, UserManager<IdentityUser> UserManager, INotyfService notyf)
         {
             _MasterService = masterService;
-            _UserManager = userManager;
+            _UserManager = UserManager;
             _notyf = notyf;
         }
+
         public string userId { get; set; }
         [BindProperty]
-        public Trade trade { get; set; } = new();
-        public List<Trade> trades { get; set; } = new();
-        public int Id { get; set; }
-        [Parameter]
+        public SubCategory subcategory { get; set; } = new();
+        public List<SubCategory> subCategories { get; set; } = new();
+        public List<Category> categories { get; set; } = new();
 
+        [Parameter] public int Id { get; set; }
         public string value { get; set; } = "Save";
         public async Task OnGetAsync(int Id)
         {
             var user = _UserManager.GetUserId(User);
             userId = user;
             await getData();
+            await getCategories();
             if (Id > 0)
             {
-                var tradedata = trades.Where(c => c.Id == Id).FirstOrDefault();
-                if (tradedata != null)
+                var subcategorydata = subCategories.Where(s => s.Id == Id).FirstOrDefault();
+                if (subcategorydata != null)
                 {
-                    trade.Name = tradedata.Name;
-                    trade.Id = tradedata.Id;
-                    trade.IsActive = tradedata.IsActive;
-                    trade.CreatedDate = tradedata.CreatedDate;
-                    trade.CreatedBy = tradedata.CreatedBy;
-                    trade.UpdatedBy = tradedata.UpdatedBy;
-                    trade.UpdatedDate = tradedata.UpdatedDate;
+                    subcategory.Id = subcategorydata.Id;
+                    subcategory.Name = subcategorydata.Name;
+                    subcategory.CategoryId = subcategorydata.CategoryId;
+                    subcategory.IsActive = subcategorydata.IsActive;
+                    subcategory.CreatedDate = subcategorydata.CreatedDate;
+                    subcategory.CreatedBy = subcategorydata.CreatedBy;
                 }
                 value = "Update";
             }
             else
             {
-                trade.IsActive = true;
+                subcategory.IsActive = true;
             }
         }
 
         public async Task getData()
         {
-            trades = await _MasterService.GetTrades();
+            subCategories = await _MasterService.GetSubCategories();
+        }
+        public async Task getCategories()
+        {
+            var categoriesList = await _MasterService.GetCategories();
+           categories = categoriesList.Where(s => s.IsActive == true).ToList();
         }
         public async Task<IActionResult> OnPostAsync()
         {
-
             var user = _UserManager.GetUserId(User);
             userId = user;
-            if (trade.Id == 0)
+
+            if (subcategory.Id == 0)
             {
-                trade.CreatedDate = DateTime.Now;
-                trade.CreatedBy = _UserManager.GetUserId(User);
-                var data = await _MasterService.InsertTrade(trade);
+                subcategory.CreatedDate = DateTime.Now;
+                subcategory.CreatedBy = _UserManager.GetUserId(User);
+                var data = await _MasterService.InsertSubCategory(subcategory);
                 if (data.Succeeded)
                 {
                     _notyf.Success(data.Messages[0]);
@@ -76,12 +82,13 @@ namespace ELearning.Pages.Master
                 {
                     _notyf.Error(data.Messages[0]);
                 }
+
             }
             else
             {
-                trade.UpdatedDate = DateTime.Now;
-                trade.UpdatedBy = _UserManager.GetUserId(User);
-                var data = await _MasterService.UpdateTrade(trade);
+                subcategory.UpdatedDate = DateTime.Now;
+                subcategory.UpdatedBy = _UserManager.GetUserId(User);
+                var data = await _MasterService.UpdateSubCategory(subcategory);
                 if (data.Succeeded)
                 {
                     _notyf.Success(data.Messages[0]);
@@ -92,12 +99,12 @@ namespace ELearning.Pages.Master
                 }
             }
             await Reset();
-            return Redirect("Trade");
-        }
 
+            return Redirect("SubCategory");
+        }
         public async Task<IActionResult> OnPostDelete(int Id)
         {
-            var data = await _MasterService.DeleteTrade(Id);
+            var data = await _MasterService.DeleteSubCategory(Id);
             if (data.Succeeded)
             {
                 _notyf.Success(data.Messages[0]);
@@ -107,14 +114,15 @@ namespace ELearning.Pages.Master
                 _notyf.Error(data.Messages[0]);
             }
             await Reset();
-            return RedirectToPage("Trade");
+            return Redirect("SubCategory");
         }
-
         public async Task Reset()
         {
             ModelState.Clear();
+
             await getData();
-            trade = new Trade();
+            await getCategories();
+            subcategory = null;
         }
     }
 }

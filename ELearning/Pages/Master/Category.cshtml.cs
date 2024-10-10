@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ELearning.Pages.Master
 {
-    public class TradeModel : PageModel
+    public class CategoryModel : PageModel
     {
         public readonly IMasterService _MasterService;
         private UserManager<IdentityUser> _UserManager;
         private readonly INotyfService _notyf;
 
-        public TradeModel(IMasterService masterService, UserManager<IdentityUser> userManager, INotyfService notyf)
+        public CategoryModel(IMasterService masterService, UserManager<IdentityUser> userManager, INotyfService notyf)
         {
             _MasterService = masterService;
             _UserManager = userManager;
@@ -22,8 +22,8 @@ namespace ELearning.Pages.Master
         }
         public string userId { get; set; }
         [BindProperty]
-        public Trade trade { get; set; } = new();
-        public List<Trade> trades { get; set; } = new();
+        public Category category { get; set; } = new();
+        public List<Category> categories { get; set; } = new();
         public int Id { get; set; }
         [Parameter]
 
@@ -35,39 +35,39 @@ namespace ELearning.Pages.Master
             await getData();
             if (Id > 0)
             {
-                var tradedata = trades.Where(c => c.Id == Id).FirstOrDefault();
-                if (tradedata != null)
+                var categorydata = categories.Where(c => c.Id == Id).FirstOrDefault();
+                if (categorydata != null)
                 {
-                    trade.Name = tradedata.Name;
-                    trade.Id = tradedata.Id;
-                    trade.IsActive = tradedata.IsActive;
-                    trade.CreatedDate = tradedata.CreatedDate;
-                    trade.CreatedBy = tradedata.CreatedBy;
-                    trade.UpdatedBy = tradedata.UpdatedBy;
-                    trade.UpdatedDate = tradedata.UpdatedDate;
+                    category.Name = categorydata.Name;
+                    category.Id = categorydata.Id;
+                    category.IsActive = categorydata.IsActive;
+                    category.CreatedDate = categorydata.CreatedDate;
+                    category.CreatedBy = categorydata.CreatedBy;
+                    category.UpdatedBy = categorydata.UpdatedBy;
+                    category.UpdatedDate = categorydata.UpdatedDate;
                 }
                 value = "Update";
             }
             else
             {
-                trade.IsActive = true;
+                category.IsActive = true;
             }
         }
 
         public async Task getData()
         {
-            trades = await _MasterService.GetTrades();
+            categories = await _MasterService.GetCategories();
         }
         public async Task<IActionResult> OnPostAsync()
         {
 
             var user = _UserManager.GetUserId(User);
             userId = user;
-            if (trade.Id == 0)
+            if (category.Id == 0)
             {
-                trade.CreatedDate = DateTime.Now;
-                trade.CreatedBy = _UserManager.GetUserId(User);
-                var data = await _MasterService.InsertTrade(trade);
+                category.CreatedDate = DateTime.Now;
+                category.CreatedBy = _UserManager.GetUserId(User);
+                var data = await _MasterService.InsertCategory(category);
                 if (data.Succeeded)
                 {
                     _notyf.Success(data.Messages[0]);
@@ -79,9 +79,9 @@ namespace ELearning.Pages.Master
             }
             else
             {
-                trade.UpdatedDate = DateTime.Now;
-                trade.UpdatedBy = _UserManager.GetUserId(User);
-                var data = await _MasterService.UpdateTrade(trade);
+                category.UpdatedDate = DateTime.Now;
+                category.UpdatedBy = _UserManager.GetUserId(User);
+                var data = await _MasterService.UpdateCategory(category);
                 if (data.Succeeded)
                 {
                     _notyf.Success(data.Messages[0]);
@@ -92,12 +92,12 @@ namespace ELearning.Pages.Master
                 }
             }
             await Reset();
-            return Redirect("Trade");
+            return Redirect("Category");
         }
 
         public async Task<IActionResult> OnPostDelete(int Id)
         {
-            var data = await _MasterService.DeleteTrade(Id);
+            var data = await _MasterService.DeleteCategory(Id);
             if (data.Succeeded)
             {
                 _notyf.Success(data.Messages[0]);
@@ -107,14 +107,14 @@ namespace ELearning.Pages.Master
                 _notyf.Error(data.Messages[0]);
             }
             await Reset();
-            return RedirectToPage("Trade");
+            return RedirectToPage("Category");
         }
 
         public async Task Reset()
         {
             ModelState.Clear();
             await getData();
-            trade = new Trade();
+            category = new Category();
         }
     }
 }

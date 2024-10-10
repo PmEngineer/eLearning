@@ -71,5 +71,16 @@ namespace ELearning.Interface
         public Task<Result<int>> UpdateTrade(Trade trade);
         public Task<Result<int>> DeleteTrade(int Id);
 
+        public Task<List<Category>> GetCategories();
+        public Task<Result<int>> InsertCategory(Category category);
+        public Task<Result<int>> UpdateCategory(Category category);
+        public Task<Result<int>> DeleteCategory(int Id);
+
+        public Task<List<SubCategory>> GetSubCategories();
+        public Task<Result<int>> InsertSubCategory(SubCategory subcategory);
+        public Task<Result<int>> UpdateSubCategory(SubCategory subcategory);
+        public Task<Result<int>> DeleteSubCategory(int Id);
+
+
     }
 }

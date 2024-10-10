@@ -22,7 +22,13 @@ namespace ELearning.Services
         public readonly IGenericRepository<Course> _courseRepository;
         public readonly IGenericRepository<AppNotification> _notificationRepository;
         public readonly IGenericRepository<Trade> _tradeRepository;
-        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository)
+        public readonly IGenericRepository<Category> _categoryRepository;
+        public readonly IGenericRepository<SubCategory> _subcategoryRepository;
+        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , 
+            IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, 
+            IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository,
+            IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository,
+            IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -35,7 +41,8 @@ namespace ELearning.Services
             _courseRepository = courseRepository;
             _notificationRepository = notificationRepository;
             _tradeRepository = tradeRepository;
-            
+            _categoryRepository = categoryRepository;
+            _subcategoryRepository = subcategoryRepository;
         }
 
         public async Task<List<Company>> GetCompanies()
@@ -641,6 +648,106 @@ namespace ELearning.Services
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+
+        public async Task<List<Category>> GetCategories()
+        {
+            try
+            {
+                var data = await _categoryRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+
+        public async Task<Result<int>> InsertCategory(Category category)
+        {
+            try
+            {
+                await _categoryRepository.AddAsync(category);
+                return await Result<int>.SuccessAsync(category.Id, "Category Added");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Result<int>> UpdateCategory(Category category)
+        {
+            try
+            {
+                await _categoryRepository.UpdateAsync(category);
+                return await Result<int>.SuccessAsync(category.Id, "Category Updated");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Result<int>> DeleteCategory(int Id)
+        {
+            try
+            {
+                var data = await _categoryRepository.GetByIdAsync(Id);
+                if (data == null)
+                {
+                    return await Result<int>.FailAsync("Data Not Found");
+                }
+                else
+                {
+                    await _categoryRepository.DeleteAsync(data);
+                    return await Result<int>.SuccessAsync("Data Deleted");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<List<SubCategory>> GetSubCategories()
+        {
+            try
+            {
+
+                var data = await _subcategoryRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> InsertSubCategory(SubCategory subcategory)
+        {
+            await _subcategoryRepository.AddAsync(subcategory);
+            return await Result<int>.SuccessAsync(subcategory.Id, "SubCategory Saved");
+        }
+
+        public async Task<Result<int>> UpdateSubCategory(SubCategory subcategory)
+        {
+            await _subcategoryRepository.UpdateAsync(subcategory);
+            return await Result<int>.SuccessAsync(subcategory.Id, "SubCategory Update");
+        }
+
+        public async Task<Result<int>> DeleteSubCategory(int Id)
+        {
+            var data = await _subcategoryRepository.GetByIdAsync(Id);
+            if (data == null)
+            {
+                return await Result<int>.FailAsync("SubCategory not found");
+            }
+            else
+            {
+                await _subcategoryRepository.DeleteAsync(data);
+                return await Result<int>.SuccessAsync("SubCategory Deleted");
             }
         }
 

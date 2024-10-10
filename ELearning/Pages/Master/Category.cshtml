@@ -1,7 +1,8 @@
-﻿@page "/Trade/{Id?}"
-@model ELearning.Pages.Master.TradeModel
+﻿@page "/Category/{Id?}/"
+@model ELearning.Pages.Master.CategoryModel
 @{
 }
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
       integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
@@ -18,7 +19,7 @@
 
 <div class="container-fluid mt-3">
     <div class="card">
-        <div class="card-header bg-primary mainh text-white">Trade</div>
+        <div class="card-header bg-primary mainh text-white">Help Category</div>
         <div class="card-body">
             <div>
                 <form class="form" method="post">
@@ -26,18 +27,18 @@
                     <div class="row g-3">
                         <div class="col-3">
                             <div class="did-floating-label-content">
-                                <input type="hidden" asp-for="trade.Id" />
-                                <input type="hidden" asp-for="trade.CreatedBy" />
-                                <input type="hidden" asp-for="trade.CreatedDate" />
-                                <input class="did-floating-input" asp-for="trade.Name" type="text" placeholder=" ">
+                                <input type="hidden" asp-for="category.Id" />
+                                <input type="hidden" asp-for="category.CreatedBy" />
+                                <input type="hidden" asp-for="category.CreatedDate" />
+                                <input class="did-floating-input" asp-for="category.Name" type="text" placeholder=" ">
                                 <label class="did-floating-label">Name</label>
                             </div>
                         </div>
 
-         
+
                         <div class="col-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" asp-for="trade.IsActive" id="defaultCheck1">
+                                <input class="form-check-input" type="checkbox" asp-for="category.IsActive" id="defaultCheck1">
                                 <label class="form-check-label" for="defaultCheck1">
                                     IsActive
                                 </label>
@@ -70,17 +71,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.trades)
+                    @foreach (var item in Model.categories)
                     {
                         <tr>
 
                             <td>@item.Name</td>
                             <td><input class="form-check-input" type="checkbox" asp-for="@item.IsActive" id="defaultCheck1" readonly style="margin: auto;"></td>
                             <td>
-                                <a href="/Trade/@item.Id" class="fa fa-pencil fs-4"></a>
-                                <a class="fa fa-trash-o fs-4 text-danger" asp-page="Trade" asp-page-handler="Delete"
-                               asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)">
-                                    
+                                <a href="/Category/@item.Id" class="fa fa-pencil fs-4"></a>
+                                <a class="fa fa-trash-o fs-4 text-danger" asp-page="Category" asp-page-handler="Delete"
+                                   asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)">
+
                                 </a>
                             </td>
                         </tr>

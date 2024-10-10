@@ -9,14 +9,17 @@ using System.Threading.Tasks;
 
 namespace ELearning_Core.Model.Master
 {
-    public class Trade : BaseEntity
+    public class SubCategory : BaseEntity
     {
         [Required]
-        [StringLength(50)]
-        public string? Name {  get; set; }
+        [StringLength(100)]
+        public string Name { get; set; }
         [Required]
-        
+
+        public int CategoryId {  get; set; }
+        [ForeignKey("CategoryId")]
+        public virtual Category? Category { get; set; }
+
         public bool IsActive { get; set; }
-            
     }
 }
