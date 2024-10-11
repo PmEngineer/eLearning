@@ -81,6 +81,7 @@ namespace ELearning.Interface
         public Task<Result<int>> UpdateSubCategory(SubCategory subcategory);
         public Task<Result<int>> DeleteSubCategory(int Id);
 
+      
 
     }
 }

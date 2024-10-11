@@ -37,6 +37,7 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
     public DbSet<AppNotification>Notifications  { get; set; }
     public DbSet<Trade> Trades { get; set; }    
     public DbSet<Category> categories { get; set; }
-
     public DbSet<SubCategory> subCategories { get; set; }
+
+
 }

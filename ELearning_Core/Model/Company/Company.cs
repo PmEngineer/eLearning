@@ -19,6 +19,8 @@ namespace ELearning_Core.Model
 
         public string? GSTNo { get; set; }
 
+        public string Password { get; set; }
+
         public bool IsActive { get; set; }
 
     }

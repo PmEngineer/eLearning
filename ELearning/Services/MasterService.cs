@@ -24,11 +24,8 @@ namespace ELearning.Services
         public readonly IGenericRepository<Trade> _tradeRepository;
         public readonly IGenericRepository<Category> _categoryRepository;
         public readonly IGenericRepository<SubCategory> _subcategoryRepository;
-        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , 
-            IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, 
-            IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository,
-            IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository,
-            IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository)
+    
+        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository , IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -43,6 +40,7 @@ namespace ELearning.Services
             _tradeRepository = tradeRepository;
             _categoryRepository = categoryRepository;
             _subcategoryRepository = subcategoryRepository;
+
         }
 
         public async Task<List<Company>> GetCompanies()
@@ -750,6 +748,9 @@ namespace ELearning.Services
                 return await Result<int>.SuccessAsync("SubCategory Deleted");
             }
         }
+
+      
+
 
     }
 }

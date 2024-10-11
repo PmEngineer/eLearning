@@ -45,6 +45,7 @@ namespace ELearning.Pages.Master
                     company.EmailId = companydata.EmailId;
                     company.ContactNo = companydata.ContactNo;
                     company.GSTNo = companydata.GSTNo;
+                    company.Password = companydata.Password;
                     company.CreatedBy = companydata.CreatedBy;
                     company.CreatedDate = companydata.CreatedDate;
                     company.UpdatedBy = companydata.UpdatedBy;
