@@ -1,8 +1,10 @@
-﻿namespace ELearning.Interface
+﻿using ELearning_Core.Model;
+
+namespace ELearning.Interface
 {
     public interface ICompanyService
     {
 
-        public bool CompanyLogin(string username, string password); 
+        public Company CompanyLogin(string username, string password); 
     }
 }

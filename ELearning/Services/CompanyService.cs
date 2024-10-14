@@ -11,12 +11,18 @@ namespace ELearning.Services
         {
             _company = company;
         }
-        public bool CompanyLogin(string username, string password)
+        public Company CompanyLogin(string username, string password)
         {
+            Company c = new Company();
              var data = _company.GetAllAsync(x=>x.Password == password && x.EmailId == username);
-            if (data != null) { return true;
+            if (data != null) {
+                c = data.Result.FirstOrDefault();
+                return c;
+
             }
-            else { return false; }
+            else {
+                return c;
+            }
         }
     }
 }

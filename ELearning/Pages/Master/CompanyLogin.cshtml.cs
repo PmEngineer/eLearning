@@ -3,6 +3,7 @@ using ELearning.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ELearning.Services;
 
 namespace ELearning.Pages.Master
 {
@@ -27,17 +28,20 @@ namespace ELearning.Pages.Master
         public async Task<IActionResult> OnPostAsync()
         {
             var data =  _companyService.CompanyLogin(username, password);
-            if (data)
+            if (data!=null)
             {
                 _notfy.Success("Login");
+                return Redirect("/CompanyDashboard");
+
 
             }
             else
             {
-                _notfy.Success("Not login");
-            }
+                _notfy.Error("Not login");
+                return Redirect("/CompanyLogin");
 
-            return Redirect("CompanyLogin");
+            }
+            
         }
     }
 }

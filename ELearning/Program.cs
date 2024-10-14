@@ -22,6 +22,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddTransient(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
 builder.Services.AddTransient<IMasterService, MasterService>();
 builder.Services.AddTransient<IMasterServiceAPI, MasterServiceAPI>();
+builder.Services.AddTransient<ICompanyService,CompanyService>();
 builder.Services.AddTransient<IFileUplodeService, LocalFileUplodeService>();
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 
