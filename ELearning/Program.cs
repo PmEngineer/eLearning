@@ -6,7 +6,10 @@ using ELearning.Services;
 using ELearning.Repository;
 using AspNetCoreHero.ToastNotification;
 using ELearning.Course_Img_Service;
+using ELearning.Post_Img_Service;
+using ELearning.AppNotify_Img_Service;
 using ELearning.API;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ELearningContextConnection") ?? throw new InvalidOperationException("Connection string 'ELearningContextConnection' not found.");
@@ -24,6 +27,8 @@ builder.Services.AddTransient<IMasterService, MasterService>();
 builder.Services.AddTransient<IMasterServiceAPI, MasterServiceAPI>();
 builder.Services.AddTransient<ICompanyService,CompanyService>();
 builder.Services.AddTransient<IFileUplodeService, LocalFileUplodeService>();
+builder.Services.AddTransient<IFileUploadSerVice, FileUploadSerVice>();
+builder.Services.AddTransient<IFileUpLoadService,FileUpLoadService >();
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 
 

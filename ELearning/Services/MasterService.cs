@@ -24,8 +24,9 @@ namespace ELearning.Services
         public readonly IGenericRepository<Trade> _tradeRepository;
         public readonly IGenericRepository<Category> _categoryRepository;
         public readonly IGenericRepository<SubCategory> _subcategoryRepository;
+        public readonly IGenericRepository<Post> _postRepository;
     
-        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository , IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository)
+        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository , IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<Post> postRepository  )
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -40,6 +41,7 @@ namespace ELearning.Services
             _tradeRepository = tradeRepository;
             _categoryRepository = categoryRepository;
             _subcategoryRepository = subcategoryRepository;
+            _postRepository = postRepository;
 
         }
 
@@ -749,7 +751,47 @@ namespace ELearning.Services
             }
         }
 
-      
+
+        public async Task<List<Post>> GetPosts()
+        {
+            try
+            {
+
+                var data = await _postRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> InsertPost(Post post)
+        {
+            await _postRepository.AddAsync(post);
+            return await Result<int>.SuccessAsync(post.Id, "Post is Saved");
+        }
+
+        public async Task<Result<int>> UpdatePost(Post post)
+        {
+            await _postRepository.UpdateAsync(post);
+            return await Result<int>.SuccessAsync(post.Id, "Post is Update");
+        }
+
+        public async Task<Result<int>> DeletePost(int Id)
+        {
+            var data = await _postRepository.GetByIdAsync(Id);
+            if (data == null)
+            {
+                return await Result<int>.FailAsync("Post is not found");
+            }
+            else
+            {
+                await _postRepository.DeleteAsync(data);
+                return await Result<int>.SuccessAsync("Post is Deleted");
+            }
+        }
+
+
 
 
     }

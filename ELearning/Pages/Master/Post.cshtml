@@ -1,8 +1,7 @@
-﻿@page "/AppNotification/{Id?}"
-@model ELearning.Pages.Master.AppNotificationModel
+﻿@page "/Post/{Id?}"
+@model ELearning.Pages.Master.PostModel
 @{
 }
-
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
       integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
@@ -23,9 +22,10 @@
         overflow: none;
     }
 </style>
+
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header bg-primary mainh">AppNotification</div>
+        <div class="card-header bg-primary mainh">Post</div>
         <div class="card-body">
             <div>
                 <form class="form row g-3" method="post" enctype="multipart/form-data">
@@ -33,27 +33,37 @@
                     <div class="dfelx">
                         <div class="flex-fill">
                             <div class="did-floating-label-content">
-                                <input type="hidden" asp-for="notification.Id" />
-                                <input type="hidden" asp-for="notification.CreatedBy" />
-                                <input type="hidden" asp-for="notification.CreatedDate" />
-                                <input type="hidden" asp-for="notification.Image" />
-                                <input class="did-floating-input" type="text" placeholder=" " asp-for="notification.Subject">
-                                <label class="did-floating-label">Subject</label>
+                                <input type="hidden" asp-for="post.Id" />
+                                <input type="hidden" asp-for="post.CreatedBy" />
+                                <input type="hidden" asp-for="post.CreatedDate" />
+                                <input type="hidden" asp-for="post.Image" />
+                                <input class="did-floating-input" type="file" multiple placeholder=" " name="formFile" id="fileuplode" asp-for="post.Image">
+                                <label class="did-floating-label">Image</label>
                             </div>
                         </div>
-                      
-                        <div class="flex-fill">
-                            <div class="did-floating-label-content">
 
-                                <input class="did-floating-input" type="file" placeholder=" " name="formFile" id="fileuplode" asp-for="notification.Image">
 
-                                <label class="did-floating-label">Image</label>
+                        <div class="flex-fill" style="text-align:center;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" asp-for="post.IsExplore" id="defaultCheck1" style="float:inherit;">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    IsExplore
+                                </label>
                             </div>
                         </div>
 
                         <div class="flex-fill" style="text-align:center;">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" asp-for="notification.IsActive" id="defaultCheck1" style="float:inherit;">
+                                <input class="form-check-input" type="checkbox" asp-for="post.IsBuyNow" id="defaultCheck1" style="float:inherit;">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    IsBuyNow
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="flex-fill" style="text-align:center;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" asp-for="post.IsActive" id="defaultCheck1" style="float:inherit;">
                                 <label class="form-check-label" for="defaultCheck1">
                                     IsActive
                                 </label>
@@ -64,17 +74,17 @@
                             <div class="form-check">
                                 <label>Description</label>
 
-                                <textarea class="" id="EnglishSolution" asp-for="notification.Description"></textarea>
+                                <textarea class="" id="EnglishSolution" asp-for="post.Description"></textarea>
                             </div>
                         </div>
                         @{
-                            if (Model.notification.Id > 0)
+                            if (Model.post.Id > 0)
                             {
                                 <div class="flex-fill ">
                                     <div class="form-check">
                                         <label>Image</label>
                                         <br />
-                                        <img src="/AppNotify_Img/@Model.notification.Image" height="200" width="170" alt="Alternamte Text" />
+                                        <img src="/Post_Img/@Model.post.Image" height="200" width="170" alt="Alternamte Text" />
                                     </div>
                                 </div>
                             }
@@ -100,10 +110,11 @@
                 <thead>
                     <tr>
                         <th>SrNo</th>
-                        <th>Subject</th>
                         <th>Image</th>
+                        <th>IsExplore</th>
+                        <th>IsBuyNow</th>
                         <th>IsActive</th>
-                        <th>Discription</th>
+                        <th>Description</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -111,25 +122,23 @@
                     @{
                         var srno = 1;
                     }
-                    @foreach (var item in Model.GetAppNotifications)
+                    @foreach (var item in Model.posts)
                     {
                         <tr>
 
                             <td>@srno</td>
-                            <td>@item.Subject</td>
-                            <td scope="row"><img src="/AppNotify_Img/@item.Image" height="20" width="20" alt="Alternamte Text" /></td>
+                            <td scope="row"><img src="/Post_Img/@item.Image" height="20" width="20" alt="Alternamte Text" /></td>
+                            <td><input class="form-check-input" type="checkbox" asp-for="@item.IsExplore" id="defaultCheck1" style="margin: auto;" readonly></td>
+                            <td><input class="form-check-input" type="checkbox" asp-for="@item.IsBuyNow" id="defaultCheck1" style="margin: auto;" readonly></td>
                             <td><input class="form-check-input" type="checkbox" asp-for="@item.IsActive" id="defaultCheck1" style="margin: auto;" readonly></td>
                             <td>@Html.Raw(item.Description)</td>
-
                             <td>
-                                <a href="/AppNotification/@item.Id" class="fas fa-edit text-success"></a>&nbsp;
+                                <a href="/Post/@item.Id" class="fas fa-edit text-success"></a>&nbsp;
 
-                                <button class="fa fa-trash-o fs-4 text-danger" asp-page="AppNotification" asp-page-handler="Delete"
+                                <button class="fa fa-trash-o fs-4 text-danger" asp-page="Post" asp-page-handler="Delete"
                                         asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)">
                                 </button>
-
                             </td>
-
                         </tr>
                         srno++;
                     }

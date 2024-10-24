@@ -39,5 +39,7 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
     public DbSet<Category> categories { get; set; }
     public DbSet<SubCategory> subCategories { get; set; }
 
+    public DbSet<Post>posts { get; set; }
+
 
 }

@@ -23,7 +23,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Course_Img\" />
+    <Folder Include="wwwroot\Post_Img\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\AppNotify_Img\hindi.jpeg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

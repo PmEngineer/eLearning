@@ -1,23 +1,21 @@
 using AspNetCoreHero.ToastNotification.Abstractions;
+using ELearning.Post_Img_Service;
 using ELearning.Interface;
-using ELearning_Core.Model;
 using ELearning_Core.Model.Master;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ELearning.AppNotify_Img_Service;
 
 namespace ELearning.Pages.Master
 {
-    public class AppNotificationModel : PageModel
+    public class PostModel : PageModel
     {
         public readonly IMasterService _MasterService;
         private readonly INotyfService _notyf;
         private UserManager<IdentityUser> _UserManager;
-        public readonly IFileUpLoadService _fileUplodeService;
-        public AppNotificationModel(IMasterService masterService, INotyfService notyf, UserManager<IdentityUser> userManager, IFileUpLoadService fileUplodeService)
+        public readonly IFileUploadSerVice _fileUplodeService;
+        public PostModel(IMasterService masterService, INotyfService notyf, UserManager<IdentityUser> userManager, IFileUploadSerVice fileUplodeService)
         {
             _MasterService = masterService;
             _notyf = notyf;
@@ -31,28 +29,31 @@ namespace ELearning.Pages.Master
         public string value { get; set; } = "Save";
         public string IMagePath { get; set; }
         [BindProperty]
-        public AppNotification notification { get; set; } = new();
+        public Post post { get; set; } = new();
 
-        public List<AppNotification> GetAppNotifications { get; set; } = new();
+        public List<Post> posts { get; set; } = new();
         public async Task OnGetAsync(int Id)
         {
-            GetAppNotifications = await _MasterService.GetNotification();
+            posts = await _MasterService.GetPosts();
             if (Id > 0)
             {
-                var appNotificationdata = GetAppNotifications.Where(x => x.Id == Id).FirstOrDefault();
+                var postdata = posts.Where(x => x.Id == Id).FirstOrDefault();
 
-                if (appNotificationdata != null)
+                if (postdata != null)
                 {
-                    notification.Id = appNotificationdata.Id;
-                    notification.Subject = appNotificationdata.Subject;
-                    notification.Description = appNotificationdata.Description;
-                    notification.Image = appNotificationdata.Image;
-                    notification.IsActive = appNotificationdata.IsActive;
-                    notification.CreatedDate = appNotificationdata.CreatedDate;
-                    notification.CreatedBy = appNotificationdata.CreatedBy;
-                    notification.UpdatedBy =   appNotificationdata.UpdatedBy;
-                    notification.UpdatedDate = appNotificationdata.UpdatedDate;
-                    IMagePath = appNotificationdata.Image;
+                    post.Id = postdata.Id;
+                    post.Image = postdata.Image;
+                    post.IsExplore = postdata.IsExplore;
+                    post.IsBuyNow = postdata.IsBuyNow;
+                    post.IsActive = postdata.IsActive;
+                    post.TotalComment = postdata.TotalComment;
+                    post.TotalView = postdata.TotalView;
+                    post.Description = postdata.Description;
+                    post.CreatedDate = postdata.CreatedDate;
+                    post.CreatedBy = postdata.CreatedBy;
+                    post.UpdatedBy = postdata.UpdatedBy;
+                    post.UpdatedDate = postdata.UpdatedDate;
+                    IMagePath = postdata.Image;
 
                 }
                 value = "Update";
@@ -70,13 +71,13 @@ namespace ELearning.Pages.Master
             var user = _UserManager.GetUserId(User);
             userId = user;
 
-            if (notification.Id == 0)
+            if (post.Id == 0)
             {
                 string fileName = Path.GetFileName(FilePath);
-                notification.CreatedBy = user;
-                notification.CreatedDate = DateTime.Now;
-                notification.Image = fileName;
-                var data = await _MasterService.InsertNotification(notification);
+                post.CreatedBy = user;
+                post.CreatedDate = DateTime.Now;
+                post.Image = fileName;
+                var data = await _MasterService.InsertPost(post);
                 if (data.Succeeded)
                 {
                     _notyf.Success(data.Messages[0]);
@@ -92,12 +93,12 @@ namespace ELearning.Pages.Master
                 string fileName = Path.GetFileName(FilePath);
                 if (fileName != null)
                 {
-                    notification.Image = fileName;
+                    post.Image = fileName;
                 }
 
-                notification.UpdatedBy = user;
-                notification.UpdatedDate = DateTime.Now;
-                var data = await _MasterService.UpdateNotification(notification);
+                post.UpdatedBy = user;
+                post.UpdatedDate = DateTime.Now;
+                var data = await _MasterService.UpdatePost(post);
                 if (data.Succeeded)
                 {
                     _notyf.Success(data.Messages[0]);
@@ -108,12 +109,12 @@ namespace ELearning.Pages.Master
                 }
             }
 
-            return Redirect("AppNotification");
+            return Redirect("Post");
         }
 
         public async Task<IActionResult> OnPostDelete(int Id)
         {
-            var data = await _MasterService.DeleteNotification(Id);
+            var data = await _MasterService.DeletePost(Id);
             if (data.Succeeded)
             {
                 _notyf.Success(data.Messages[0]);
@@ -122,7 +123,8 @@ namespace ELearning.Pages.Master
             {
                 _notyf.Error(data.Messages[0]);
             }
-            return Redirect("AppNotification");
+            return Redirect("Post");
         }
+
     }
 }
