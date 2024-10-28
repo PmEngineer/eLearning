@@ -1,7 +1,9 @@
 ﻿using ELearning.API;
 using ELearning.Interface;
+using ELearning_Core.Model.Master;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ELearning.Controllers
 {
@@ -9,9 +11,9 @@ namespace ELearning.Controllers
     [ApiController]
     public class MasterController : ControllerBase
     {
-        public IMasterServiceAPI _masterService { get; set; }  
+        public IMasterServiceAPI _masterService { get; set; }
         public MasterController(IMasterServiceAPI masterService) {
-           _masterService = masterService;
+            _masterService = masterService;
         }
         [HttpGet]
         [Route("GetSubject")]
@@ -26,6 +28,35 @@ namespace ELearning.Controllers
         public async Task<IActionResult> GetCourseList()
         {
             var data = await _masterService.GetCourseList();
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("GetDoubtList")]
+        public async Task<IActionResult> GetDoubtList() 
+        {
+            var data=await _masterService.GetDoubtsList();
+            return Ok(data);
+        }
+        [HttpPost]
+        [Route("InsertDoubt")]
+        public async Task<IActionResult> InsertDoubt(Doubt doubt)
+        {
+            var data = await _masterService.InsertDoubt(doubt);
+            return Ok(data);
+        }
+        [HttpGet]
+        [Route("GetDoubtComment")]
+        public async Task<IActionResult> GetDoubtComment()
+        {
+            var data= await _masterService.GetDoubtComment();
+            return Ok(data);
+        }
+        [HttpPost]
+        [Route("InsertDoubtComment")]
+        public async Task<IActionResult> InsertDoubtComment(DoubtComment doubtComment)
+        {
+            var data = await _masterService.InsertDoubtComment(doubtComment);
             return Ok(data);
         }
     }

@@ -10,6 +10,13 @@ namespace ELearning.API
         public Task<Result<List<Subject>>> GetSubjectsList();
         public Task<Result<List<CourseResponse>>> GetCourseList();
         public Task<Result<List<Lessons>>> GetLessonist(int Subid);
+
+        public Task<Result<List<Doubt>>> GetDoubtsList();
+        public Task<Result<int>> InsertDoubt(Doubt doubt);
+        public Task<Result<List<DoubtComment>>> GetDoubtComment();
+
+        public Task<Result<int>> InsertDoubtComment(DoubtComment doubtComment);
     }
 }
+
 

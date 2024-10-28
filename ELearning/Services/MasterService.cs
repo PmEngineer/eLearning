@@ -6,6 +6,7 @@ using ELearning_Core.Model.City;
 using ELearning_Core.Model.Master;
 using ELearning_Core.Core.Model;
 using System.Collections.Generic;
+using Microsoft.Extensions.Hosting;
 
 namespace ELearning.Services
 {
@@ -25,8 +26,10 @@ namespace ELearning.Services
         public readonly IGenericRepository<Category> _categoryRepository;
         public readonly IGenericRepository<SubCategory> _subcategoryRepository;
         public readonly IGenericRepository<Post> _postRepository;
+        public readonly IGenericRepository<Doubt> _doubtRepository;
+        public readonly IGenericRepository<DoubtComment> _doubtCommentRepository;
     
-        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository , IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<Post> postRepository  )
+        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository , IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<Post> postRepository,IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -42,6 +45,8 @@ namespace ELearning.Services
             _categoryRepository = categoryRepository;
             _subcategoryRepository = subcategoryRepository;
             _postRepository = postRepository;
+            _doubtRepository = doubtRepository;
+            _doubtCommentRepository = doubtCommentRepository;
 
         }
 
@@ -791,8 +796,41 @@ namespace ELearning.Services
             }
         }
 
+        public async Task<List<Doubt>> GetDoubts()
+        {
+            try
+            {
+                var data = await _doubtRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> InsertDoubt(Doubt doubt)
+        {
+            await _doubtRepository.AddAsync(doubt);
+            return await Result<int>.SuccessAsync(doubt.Id, "Doubt is Added.");
+         }
 
-
+        public async Task<List<DoubtComment>> GetDoubtComments()
+        {
+            try
+            {
+                var data = await _doubtCommentRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> InsertDoubtComment(DoubtComment doubtComment)
+        {
+            await _doubtCommentRepository.AddAsync(doubtComment);
+            return await Result<int>.SuccessAsync(doubtComment.Id, "Doubt is Added.");
+        }
 
     }
 }

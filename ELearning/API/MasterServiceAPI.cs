@@ -19,7 +19,9 @@ namespace ELearning.API
         public readonly IGenericRepository<MainMenu> _menuRepository;
         public readonly IGenericRepository<SubMenu> _subMenuRepository;
         public readonly IGenericRepository<Course> _courseRepository;
-        public MasterServiceAPI(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository)
+        public readonly IGenericRepository<Doubt> _doubtRepository;
+        public readonly IGenericRepository<DoubtComment> _doubtCommentRepository;
+        public MasterServiceAPI(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -30,6 +32,8 @@ namespace ELearning.API
             _menuRepository = menuRepository;
             _subMenuRepository = subMenuRepository;
             _courseRepository = courseRepository;
+            _doubtRepository = doubtRepository;
+            _doubtCommentRepository = doubtCommentRepository;
         }
 
         public async Task<Result<List<CourseResponse>>> GetCourseList()
@@ -71,6 +75,41 @@ namespace ELearning.API
             {
                 throw ex;
             }
+        }
+        public async Task<Result<List<Doubt>>> GetDoubtsList()
+        {
+            try
+            {
+              var data=  await _doubtRepository.GetAllAsync();
+                return await Result<List<Doubt>>.SuccessAsync(data.ToList());
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> InsertDoubt(Doubt doubt)
+        {
+            await _doubtRepository.AddAsync(doubt);
+            return await Result<int>.SuccessAsync(doubt.Id, "Doubt is Added.");
+        }
+
+        public async Task<Result<List<DoubtComment>>> GetDoubtComment()
+        {
+            try
+            {
+                var data=await _doubtCommentRepository.GetAllAsync();
+                return await Result<List<DoubtComment>>.SuccessAsync(data.ToList()); 
+            }
+
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> InsertDoubtComment(DoubtComment doubtComment)
+        {
+            await _doubtCommentRepository.AddAsync(doubtComment);
+            return await Result<int>.SuccessAsync(doubtComment.Id, "Doubt is Added.");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ELearning_Core.Core.Model;
+﻿using ELearning.Migrations;
+using ELearning_Core.Core.Model;
 using ELearning_Core.Model;
 using ELearning_Core.Model.City;
 using ELearning_Core.Model.Master;
@@ -86,6 +87,13 @@ namespace ELearning.Interface
         public Task<Result<int>> InsertPost(Post post);
         public Task<Result<int>> UpdatePost(Post post);
         public Task<Result<int>> DeletePost(int Id);
+
+
+        public Task<List<Doubt>> GetDoubts();
+        public Task<Result<int>> InsertDoubt(Doubt doubt);
+
+        public Task <List<DoubtComment>> GetDoubtComments();
+        public Task<Result<int>> InsertDoubtComment(DoubtComment doubtComment);
 
     }
 }

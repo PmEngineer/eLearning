@@ -31,6 +31,7 @@ namespace ELearning.Pages.Master
             if (data!=null)
             {
                 _notfy.Success("Login");
+                TempData["UserName"] = username;
                 return Redirect("/CompanyDashboard");
 
 
