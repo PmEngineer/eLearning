@@ -84,6 +84,41 @@ namespace ELearning.API
                 throw ex;
             }
         }
+        public async Task<Result<List<Doubt>>> GetDoubtsList()
+        {
+            try
+            {
+              var data=  await _doubtRepository.GetAllAsync();
+                return await Result<List<Doubt>>.SuccessAsync(data.ToList());
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> InsertDoubt(Doubt doubt)
+        {
+            await _doubtRepository.AddAsync(doubt);
+            return await Result<int>.SuccessAsync(doubt.Id, "Doubt is Added.");
+        }
+
+        public async Task<Result<List<DoubtComment>>> GetDoubtComment()
+        {
+            try
+            {
+                var data=await _doubtCommentRepository.GetAllAsync();
+                return await Result<List<DoubtComment>>.SuccessAsync(data.ToList()); 
+            }
+
+            catch (Exception ex) {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> InsertDoubtComment(DoubtComment doubtComment)
+        {
+            await _doubtCommentRepository.AddAsync(doubtComment);
+            return await Result<int>.SuccessAsync(doubtComment.Id, "Doubt is Added.");
+        }
 
         #endregion
 
