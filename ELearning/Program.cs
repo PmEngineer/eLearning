@@ -31,6 +31,7 @@ builder.Services.AddTransient<IFileUploadSerVice, FileUploadSerVice>();
 builder.Services.AddTransient<IFileUpLoadService,FileUpLoadService >();
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
@@ -56,3 +57,4 @@ app.UseEndpoints(endpoints =>
 app.MapRazorPages();
 
 app.Run();
+

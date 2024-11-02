@@ -13,7 +13,7 @@ namespace ELearning_Core.Model.Master
         public int SubjectId {  get; set; }
         [ForeignKey("SubjectId")]
         public virtual Subject? Subject { get; set; } 
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public int Filetype {  get; set; }
         public string? Solution { get; set; }
         public int TotalComment {  get; set; }

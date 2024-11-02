@@ -61,7 +61,7 @@ namespace ELearning_Core.Shared
             return new Result { Succeeded = true, Messages = new List<string> { message } };
         }
 
-        public static Task<IResult> SuccessAsync()
+        public static Task<IResult> SuccessAsync(List<Model.Master.Doubt> doubts)
         {
             return Task.FromResult(Success());
         }
