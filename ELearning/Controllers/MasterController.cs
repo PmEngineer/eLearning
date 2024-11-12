@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using ELearning.Response;
 using ELearning.Request;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ELearning.Controllers
 {
@@ -16,7 +17,8 @@ namespace ELearning.Controllers
     {
         public IMasterServiceAPI _masterService { get; set; }
 
-        public MasterController(IMasterServiceAPI masterService) {
+        public MasterController(IMasterServiceAPI masterService)
+        {
             _masterService = masterService;
 
         }
@@ -36,13 +38,23 @@ namespace ELearning.Controllers
             return Ok(data);
         }
 
+        #region Doubt
         [HttpGet]
         [Route("GetDoubtList")]
-        public async Task<IActionResult> GetDoubtList()
+        public async Task<IActionResult> GetDoubtList(int subjectId)
         {
-            var data = await _masterService.GetDoubtsList();
+            var data = await _masterService.GetDoubtsList(subjectId);
             return Ok(data);
         }
+
+        [HttpGet]
+        [Route("GetDoubts")]
+        public async Task<IActionResult> GetDoubts(string userName)
+        {
+            var data = await _masterService.GetDoubts(userName);
+            return Ok(data);
+        }
+
         [HttpPost]
         [Route("InsertDoubt")]
         public async Task<IActionResult> InsertDoubt(DoubtRequest doubt)
@@ -50,11 +62,30 @@ namespace ELearning.Controllers
             var data = await _masterService.InsertDoubt(doubt);
             return Ok(data);
         }
-        [HttpGet]
-        [Route("GetDoubtComment")]
-        public async Task<IActionResult> GetDoubtComment()
+
+        [HttpPut]
+        [Route("UpdateDoubt")]
+        public async Task<IActionResult> UpdateDoubt(DoubtRequest doubt)
         {
-            var data = await _masterService.GetDoubtComment();
+            var data = await _masterService.UpdateDoubt(doubt);
+            return Ok(data);
+        }
+        [HttpDelete]
+        [Route("DeleteDoubt")]
+        public async Task<IActionResult> DeleteDoubt(int Id)
+        {
+            var data = await _masterService.DeleteDoubt(Id);
+            return Ok(data);
+        }
+        #endregion
+
+
+        #region DoubtComment
+        [HttpGet]
+        [Route("GetAllDoubtComment")]
+        public async Task<IActionResult> GetAllDoubtComment(int Id)
+        {
+            var data = await _masterService.GetAllDoubtComment(Id);
             return Ok(data);
         }
         [HttpPost]
@@ -65,27 +96,28 @@ namespace ELearning.Controllers
             var data = await _masterService.InsertDoubtComment(doubtComment);
             return Ok(data);
         }
-        [HttpGet]
-        [Route("GetComment")]
-        public async Task<IActionResult> GetComment(int DoubtId)
-        {
-            var data = await _masterService.GetComment(DoubtId);
-            return Ok(data);
-        }
-        [HttpGet]
-        [Route("GetComments")]
-        public async Task<IActionResult> GetComments(string UserId, int DoubtId)
-        {
-            var data = await _masterService.GetComments(UserId, DoubtId);
-            return Ok(data);
-        }
+        //[HttpGet]
+        //[Route("GetComment")]
+        //public async Task<IActionResult> GetComment(int Id)
+        //{
+        //    var data = await _masterService.GetComment(Id);
+        //    return Ok(data);
+        //}
+       
         [HttpPut]
-        [Route("UpdateDoubt")]
-        public async Task<IActionResult> UpdateDoubt(DoubtRequest doubt)
+        [Route("UpdateDoubtComment")]
+        public async Task<IActionResult> UpdateDoubtComment(DoubtCommentRequest request)
         {
-            var data = await _masterService.UpdateDoubt(doubt);
+            var data = await _masterService.UpdateDoubtComment(request);
             return Ok(data);
         }
-
+        [HttpDelete]
+        [Route("DeleteDoubtComment")]
+        public async Task<IActionResult> DeleteDoubtComment(int Id)
+        {
+            var data =await _masterService.DeleteDoubtComment(Id);
+            return Ok(data);
+        }
+        #endregion
     }
 }

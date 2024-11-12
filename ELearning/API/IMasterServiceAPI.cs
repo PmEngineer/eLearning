@@ -13,17 +13,26 @@ namespace ELearning.API
         public Task<Result<List<CourseResponse>>> GetCourseList();
         public Task<Result<List<Lessons>>> GetLessonist(int Subid);
 
-        public Task<Result<List<DoubtResponse>>> GetDoubtsList();
+        #region Doubt
+        public Task<Result<List<DoubtResponse>>> GetDoubtsList(int subjectId);
+        public Task<Result<List<DoubtResponse>>> GetDoubts(string userName);
         public Task<Result<int>> InsertDoubt(DoubtRequest doubt);
         public Task<Result<int>> UpdateDoubt(DoubtRequest doubt);
+        public Task<Result<int>> DeleteDoubt(int Id);
+        #endregion
 
-        public Task<Result<List<DoubtCommentResponse>>> GetDoubtComment();
+        #region DoubtComment
+        public Task<Result<List<DoubtCommentResponse>>> GetAllDoubtComment(int Id);
         public Task<Result<int>> InsertDoubtComment(DoubtCommentResponse doubtComment);
-        public Task<Result<List<DoubtCommentResponse>>> GetComment(int DoubtId);
-        public Task<Result<List<DoubtCommentResponse>>> GetComments(string UserId, int DoubtId);
-      
+        public Task<Result<int>> UpdateDoubtComment(DoubtCommentRequest request);
 
-        
+        //public Task<Result<List<DoubtCommentResponse>>> GetComment(int Id);
+
+        public Task<Result<int>> DeleteDoubtComment(int Id);
+        #endregion
+
+
+
 
     }
 }

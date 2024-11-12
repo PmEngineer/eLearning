@@ -42,24 +42,25 @@ namespace ELearning.API
             _doubtCommentRepository = doubtCommentRepository;
             _mapper = mapper;
         }
+        #region Course Subject
 
         public async Task<Result<List<CourseResponse>>> GetCourseList()
         {
             try
             {
                 var data = await _courseRepository.GetAllAsync();
-                List<CourseResponse> courseList = new List<CourseResponse>();   
+                List<CourseResponse> courseList = new List<CourseResponse>();
                 foreach (var item in data)
                 {
-                    CourseResponse course  =   new CourseResponse();
+                    CourseResponse course = new CourseResponse();
                     course.Id = item.Id;
-                    course.Name = item.Name;    
+                    course.Name = item.Name;
                     courseList.Add(course);
                 }
                 return await Result<List<CourseResponse>>.SuccessAsync(courseList);
             }
             catch (Exception ex)
-            { 
+            {
                 throw;
             }
         }
@@ -83,23 +84,57 @@ namespace ELearning.API
                 throw ex;
             }
         }
-        public async Task<Result<List<DoubtResponse>>> GetDoubtsList()
+
+        #endregion
+
+        #region Doubt
+        public async Task<Result<List<DoubtResponse>>> GetDoubtsList(int subjectId)
         {
             try
             {
-              var data=  await _doubtRepository.GetAllAsync();
-                var mappedData = _mapper.Map<List<DoubtResponse>>(data.ToList());
+                if (subjectId == 0)
+                {
+                    var data = await _doubtRepository.GetAllAsync();
 
-                return await Result<List<DoubtResponse>>.SuccessAsync(mappedData);
+                    var mappedData = _mapper.Map<List<DoubtResponse>>(data.ToList());
+
+                    return await Result<List<DoubtResponse>>.SuccessAsync(mappedData);
+                }
+                else
+                {
+                    var data = await _doubtRepository.GetAllAsync(X=>X.SubjectId== subjectId);
+
+                    var mappedData = _mapper.Map<List<DoubtResponse>>(data.ToList());
+
+                    return await Result<List<DoubtResponse>>.SuccessAsync(mappedData);
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return await Result<List<DoubtResponse>>.FailAsync("DoubtResponse is failed. " + ex.Message);
             }
         }
+
+        public async Task<Result<List<DoubtResponse>>> GetDoubts(string userName)
+        {
+            try
+            {
+                var data = await _doubtRepository.GetAllAsync(x => x.CreatedBy ==userName);
+
+                    var mappedData = _mapper.Map<List<DoubtResponse>>(data.ToList());
+
+                    return await Result<List<DoubtResponse>>.SuccessAsync(mappedData);
+                
+            }
+            catch (Exception ex)
+            {
+                return await Result<List<DoubtResponse>>.FailAsync("DoubtResponse is failed. " + ex.Message);
+            }
+        }
+
         public async Task<Result<int>> InsertDoubt(DoubtRequest doubt)
         {
-           var data = _mapper.Map<Doubt>(doubt);
+            var data = _mapper.Map<Doubt>(doubt);
             try
             {
                 await _doubtRepository.AddAsync(data);
@@ -111,93 +146,161 @@ namespace ELearning.API
             }
         }
 
-        public async Task<Result<List<DoubtCommentResponse>>> GetDoubtComment()
+        public async Task<Result<int>> UpdateDoubt(DoubtRequest doubt)
+        {
+
+
+            try
+            {
+                var data = await _doubtRepository.GetByIdAsync(doubt.Id);
+
+                if (data != null)
+                {
+                    data.UpdatedDate = DateTime.Now;
+                    data.Solution = doubt.Solution;
+                    data.Description = doubt.Description;
+                    // var updateDoubt = _mapper.Map<Doubt>(doubt);
+                    await _doubtRepository.UpdateAsync(data);
+                    return await Result<int>.SuccessAsync(data.Id, "Doubt is Updated.");
+                }
+                else
+                {
+                    return await Result<int>.FailAsync("Doubt not found.");
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return await Result<int>.FailAsync("Doubt is failed to Updated." + ex.Message);
+
+            }
+
+        }
+
+        public async Task<Result<int>> DeleteDoubt(int Id)
+        {
+            var data = await _doubtRepository.GetByIdAsync(Id);
+
+            try
+            {
+                if (data == null)
+                {
+                    return await Result<int>.FailAsync("Doubt not Found.");
+                }
+                else
+                {
+                    await _doubtRepository.DeleteAsync(data);
+                    return await Result<int>.SuccessAsync("Doubt Deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return await Result<int>.FailAsync("Doubt is failed to Delete." + ex.Message);
+            }
+        }
+        #endregion
+
+        #region DoubtComment
+        public async Task<Result<List<DoubtCommentResponse>>> GetAllDoubtComment(int Id)
         {
             try
             {
-                var data = await _doubtCommentRepository.GetAllAsync();
+                var data = await _doubtCommentRepository.GetAllAsync(x=>x.DoubtId==Id);
                 var mappedData = _mapper.Map<List<DoubtCommentResponse>>(data.ToList());
 
                 return await Result<List<DoubtCommentResponse>>.SuccessAsync(mappedData);
             }
 
-            catch (Exception ex) {
-                return await Result<List<DoubtCommentResponse>>.FailAsync("DoubtComment failed to load" + ex.Message);
+            catch (Exception ex)
+            {
+                return await Result<List<DoubtCommentResponse>>.FailAsync("DoubtComment failed to load." + ex.Message);
             }
         }
         public async Task<Result<int>> InsertDoubtComment(DoubtCommentResponse doubtComment)
         {
             var data = _mapper.Map<DoubtComment>(doubtComment);
-            try { 
-            await _doubtCommentRepository.AddAsync(data);
-            return await Result<int>.SuccessAsync(data.Id, "DoubtComment is Added.");
+            try
+            {
+                await _doubtCommentRepository.AddAsync(data);
+                return await Result<int>.SuccessAsync(data.Id, "DoubtComment is Added.");
             }
             catch (Exception ex)
             {
-                return await Result<int>.FailAsync("DoubtComment is not Added."+ ex.Message);
+                return await Result<int>.FailAsync("DoubtComment is not Added." + ex.Message);
             }
         }
 
-        public async Task<Result<List<DoubtCommentResponse>>> GetComment(int DoubtId)
-        {
-            try
-            {
-                var data = await _doubtCommentRepository.GetAllAsync(x=>x.DoubtId==DoubtId);
-           var mappedData = _mapper.Map<List<DoubtCommentResponse>>(data.ToList());
-                return await Result<List<DoubtCommentResponse>>.SuccessAsync(mappedData);
-            }
+        //public async Task<Result<List<DoubtCommentResponse>>> GetComment(int Id)
+        //{
+        //    try
+        //    {
+        //        var data = await _doubtCommentRepository. (x => x.Id == Id);
+        //        var mappedData = _mapper.Map<List<DoubtCommentResponse>>(data.ToList());
+        //        return await Result<List<DoubtCommentResponse>>.SuccessAsync(mappedData);
+        //    }
 
-            catch (Exception ex)
-            {
-                return await Result<List<DoubtCommentResponse>>.FailAsync("Comment is failed to load By Id" + ex.Message);
-            }
-               
-        }
-        public async Task<Result<List<DoubtCommentResponse>>> GetComments(string UserId, int DoubtId)
-        {
-            try
-            {
-                var data = await _doubtCommentRepository.GetAllAsync(x=>x.DoubtId == DoubtId && x.CreatedBy==UserId);
-                var mappedData =_mapper.Map<List<DoubtCommentResponse>>(data.ToList());
-                return await Result<List<DoubtCommentResponse>>.SuccessAsync(mappedData);
-            }
+        //    catch (Exception ex)
+        //    {
+        //        return await Result<List<DoubtCommentResponse>>.FailAsync("Comment is failed to load By Id" + ex.Message);
+        //    }
 
-            catch (Exception ex)
-            {
-                return await Result<List<DoubtCommentResponse>>.FailAsync("Comment is failed to load by USer and Doubt Id" + ex.Message);
-            }
-        }
-        public async Task<Result<int>> UpdateDoubt(DoubtRequest doubt)
+        //}
+       
+      
+        public async Task<Result<int>> UpdateDoubtComment(DoubtCommentRequest request)
         {
-           
-            
+
+
             try
             {
-                var data = _doubtRepository.GetByIdAsync(doubt.Id);
+                var data =await _doubtCommentRepository.GetByIdAsync(request.Id);
 
                 if (data != null)
                 {
-          
-                    var updateDoubt = _mapper.Map<Doubt>(doubt);
-                    await _doubtRepository.UpdateAsync(updateDoubt);
-                    return await Result<int>.SuccessAsync(data.Id, "Doubt is Updated");
+                    data.UpdatedDate = DateTime.Now;
+                    data.Comment = request.Comment;
+                   // var updateDoubt = _mapper.Map<DoubtComment>(doubtComment);
+                    await _doubtCommentRepository.UpdateAsync(data);
+                    return await Result<int>.SuccessAsync(data.Id, "DoubtComment is Updated.");
                 }
                 else
                 {
-                    return await Result<int>.FailAsync("Doubt not found");
+                    return await Result<int>.FailAsync("DoubtComment not found.");
                 }
 
-                
+
 
             }
             catch (Exception ex)
             {
-                return await Result<int>.FailAsync("Doubt is failed to Updated" + ex.Message);
+                return await Result<int>.FailAsync("DoubtComment is failed to Updated." + ex.Message);
 
             }
 
         }
+        public async Task <Result<int>> DeleteDoubtComment(int Id)
+        {
+            var data = await _doubtCommentRepository.GetByIdAsync(Id);
+            try
+            {
+                if (data == null)
+                {
+                    return await Result<int>.FailAsync("DoubtComment not Found.");
+                }
+                else
+                {
+                    await _doubtCommentRepository.DeleteAsync(data);
+                    return await Result<int>.SuccessAsync("DoubtComment deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return await Result<int>.FailAsync("DoubtComment is failed to Delete." + ex.Message);
+            }
 
-
+        }
+        #endregion
     }
 }

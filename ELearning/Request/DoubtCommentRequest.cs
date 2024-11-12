@@ -1,13 +1,13 @@
 ﻿using ELearning_Core.Model.Master;
 
-namespace ELearning.Response
+namespace ELearning.Request
 {
-    public class DoubtCommentResponse
+    public class DoubtCommentRequest
     {
         public int Id { get; set; }
         public int DoubtId { get; set; }
         public virtual Doubt? Doubt { get; set; }
         public string Comment { get; set; }
-        public string CreatedBy { get; set; }
+        public string UpdatedBy { get; set; }
     }
 }
