@@ -1,0 +1,961 @@
+﻿@page "/StudentPaper"
+@model ELearning.Pages.Student_Exam.StudentPaperCreationModel
+@{
+}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header bg-primary mainh">
+
+            <h5 class="text-white">Paper Creation</h5>
+
+
+        </div>
+        <div class="card-body">
+            <div>
+                <form class="form" method="post">
+                    <div>
+                        <a href="" style="font-size:15px"> Add Course And Subject</a>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class=" did-floating-label-content col-3">
+                            <input type="hidden" id="txtsubPaperId" />
+                            <select class="did-floating-select select2" id="CourseId">
+
+                                <option value="0">Select Course</option>
+
+                                @foreach (var item in Model.courses)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                            <label class="did-floating-label" id="txtCourseIdlbl">Course</label>
+                        </div>
+                        <div class=" did-floating-label-content col-3">
+                            <input class="did-floating-input" type="text" id="TotalQuestion" onkeyup="MaxMArks()" />
+                            <label class="did-floating-label" id="txttotalQueslbl">Total Question</label>
+                        </div>
+                        <div class=" did-floating-label-content col-3">
+                            <input class="did-floating-input" type="text" id="MarksId" onkeyup="MaxMArks()" />
+                            <label class="did-floating-label" id="txtMarkslblId">Marks/Ques</label>
+                        </div>
+                        <div class=" did-floating-label-content col-3">
+                            <input class="did-floating-input" type="text" id="MaxMarkId" />
+                            <label class="did-floating-label" id="txtMaxmarkidlbl">Max.Marks</label>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class=" did-floating-label-content col-3">
+                            <select class="did-floating-select select2" id="languageId">
+                                <option value="0">Select Language</option>
+
+                                <option value="1">Hindi</option>
+                                <option value="2">English</option>
+                                <option value="3">Both</option>
+                            </select>
+                            <label class="did-floating-label" id="txtlanguageidlbl">Language</label>
+                        </div>
+                        <div class=" did-floating-label-content col-3">
+                            <input class="did-floating-input" type="text" id="NegativeId" value="0.25" />
+                            <label class="did-floating-label" id="txtNegativeIdlbl">Negative</label>
+                        </div>
+                        <div class=" did-floating-label-content col-3">
+                            <input class="did-floating-input" type="text" id="DurationId" />
+                            <label class="did-floating-label" id="txtDurationIdlbl">Duration(In Minuts)</label>
+                        </div>
+                        <div class=" did-floating-label-content col-2">
+                            <input class="did-floating-input" type="text" id="PassMId" value="40" />
+                            <label class="did-floating-label" id="txtPassMIdlbl">Pass Marks(%)</label>
+                        </div>
+                        <div class="col-1" style="margin-left: -14px;">
+                            <input type="button" value="Save Paper" class="btn shadow rounded " style="background: linear-gradient(75.7deg, rgb(34, 126, 34) 3.8%, rgb(99, 162, 17) 87.1%); color:white" onclick="SavePaper()" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="card" id="PaperCreation">
+        <div id="PaperCreationCard" class="txtPaperCreationCard">
+
+            <div class="card-header bg-primary mainh">
+
+                <div class="row">
+                    @*  <div class="col-3">
+                    <h6 class="text-center text-white">Paper Name</h6>
+                    </div>
+                    <div class="col-2">
+                    <h6 class="text-center text-white">Total Questions</h6>
+                    </div>
+                    <div class="col-2">
+                    <h6 class="text-center text-white" id="txtheadPart1">Part</h6>
+                    <h6 class="text-center text-white" id="txthead1"></h6>
+                    </div>
+                    <div class="col-2">
+                    <h6 class="text-center text-white">Sequence</h6>
+                    </div>
+                    <div class="col-2">
+                    <h6 class="text-center text-white">Pass(%)</h6>
+                    </div> *@
+                    <div class="col-1">
+                        <a class="btn shadow rounded" id="cardAppend1" style="background: linear-gradient(#ea0009, #c30008);color:white" onclick="PaperCreationAdd()">Add+</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" id="PaperCreationBody1">
+
+                <div class="row mt-3 txtPaperCreationCardchild" id="PaperCreationCardchild">
+                    <div class=" did-floating-label-content col-3">
+                        <select class="did-floating-select " id="subjectsId1" onchange="Subject(this.id)">
+                            <option value="0">Select Subject</option>
+
+                            @foreach (var item in Model.subjects)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                        <label class="did-floating-label" id="txtsubjectsIdlbl">Subject</label>
+                    </div>
+                    <div class="col-1" style="display:none" id="txtbtnLessonId1">
+                        <a class="btn shadow rounded" style="background: green; color:white" id="txtLessonLink1" onclick="LessonsBySubjectID(this.id)">Lesson</a>
+                    </div>
+                    <div class="did-floating-label-content col-2" id="txtPaperNameId1">
+                        <input type="hidden" id="number1" value="1" />
+                        <input class="did-floating-input" type="text" id="PaperNameId1" />
+                        <label class="did-floating-label" id="txtPamerNameIdlbl1">Paper Name</label>
+                    </div>
+                    <div class="col-2" id="txtSubjectLinkId1">
+
+
+                        <input type="button" value="SubjectLink" class="btn shadow rounded" style="background: linear-gradient(#ea0009, #c30008); color:white" id="txtSubLink1" onclick="subjectModal(this.id)" />
+                        @* <a class="btn shadow rounded" style="background: linear-gradient(#ea0009, #c30008);color:white" onclick="PaperCreationdata()">Add+</a>*@
+                    </div>
+
+                    <div class="did-floating-label-content col-2">
+                        <input type="text" class="did-floating-input input-box" id="totalQuestion1" onkeyup="totalQuestion()" />
+                        <label class="did-floating-label">Total Questions</label>
+
+                    </div>
+                    <div class=" did-floating-label-content col-1">
+                        <input class="did-floating-input" type="text" id="Part1" value="1" />
+                        <label class="did-floating-label">Part</label>
+
+                    </div>
+                    <div class=" did-floating-label-content col-1">
+                        <input class="did-floating-input" type="text" id="Sequence1" value="1" />
+                        <label class="did-floating-label">Sequence</label>
+
+                    </div>
+                    <div class=" did-floating-label-content col-1">
+                        <input class="did-floating-input" type="text" id="pass1" value="40" />
+                        <label class="did-floating-label">Pass(%)</label>
+                        <input class="did-floating-input" type="hidden" value="1" id="hidden1" />
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<!-- Button trigger modal -->
+<div class="modal fade" id="SubjectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header " style="background:green;">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6 ">
+                            <h6 class="text-white">Subject</h6>
+                        </div>
+                        <div class="col-6">
+                            <h6 class="text-white">Total Question</h6>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    @{
+                        var sr = 1;
+                    }
+                    @foreach (var item in Model.subjects)
+                    {
+                        <div class="row mt-3" id="textsubjectModel">
+                            <div class="col-6" id="txtSub">
+
+                                <input type="checkbox" id="@("isActive"+sr)" />
+                                &nbsp;<input type="hidden" value="@item.Id" id="@("SubjectId"+sr)"><span onclick="LessonBySubjectID(@item.Id,@sr)">@item.Name</span>
+
+                            </div>
+                            <div class="did-floating-label-content col-6">
+                                <input type="hidden" id="@("subSeqNumber"+@sr)">
+                                <input type="text" class="did-floating-input input-box" id="@("txttotalQuestion"+sr)" />
+                                <label class="did-floating-label">Total Questions</label>
+
+                            </div>
+
+                        </div>
+                        sr = sr + 1;
+                    }
+                    <div>
+                        <button class="btn btn-primery" style="background-color:green;float:right;margin-top:15px;color:white" onclick="UpdateSubject()">Update</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-lg" id="LessonModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header ">
+                @*<h5 class="modal-title fs-5 m-auto" id="exampleModalLabel">Total Question:<span style="color:green">100.00</span> Total Marks:<span style="color:green">200.00</span></h5><br />*@
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+            </div>
+            <div class="modal-body">
+                <h5 class="" id="" style="font-size:15px;"><b>Total Question(In subject): <span style="color:green" id="SubjectTQuestionId"></span>@*, Added Question(In subject): <span style="color:green">0</span>*@&nbsp &nbsp &nbsp Total Question(In Lesson):<span style="color:green" id="tQuesteninLesson"></span>@*, Added Marks:<span style="color:green">0</span>*@ </b></h5>
+                <hr />
+                <div id="Lesson">
+                </div>
+                <div>
+                    <button class="btn btn-primery" style="background-color:green;float:right;margin-top:15px;color:white" onclick="UpdateLession()">Update</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt-3">
+    <div class="card">
+        <div class="card-header">List</div>
+        <div class="card-body tbl">
+            <table class="table" id="dtdata">
+                <thead>
+                    <tr>
+                        <th>Course Name</th>
+
+                        <th>Total Question</th>
+                        <th>Max Marks</th>
+                        <th>Negative</th>
+                        <th>Duration(In Minuts)</th>
+                        <th>Pass Marks</th>
+                        <th>Language</th>
+
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var no = 1;
+                    }
+                @*    @foreach (var item in Model.papers)
+                    {
+                        <tr>
+                            <td><input type="hidden" value="@item.Id" id="@("Id"+@no)">@item.Course.Name</td>
+                            <td>@item.TotalQuestion</td>
+                            <td>@item.MaxMarks</td>
+                            <td>@item.Negative</td>
+                            <td>@item.Duration</td>
+                            <td>@item.PassMarks</td>
+                            @if (@item.Language == 1)
+                            {
+                                <td>Hindi</td>
+
+                            }
+                            else if (@item.Language == 2)
+                            {
+                                <td>English</td>
+                            }
+                            else
+                            {
+                                <td>Both</td>
+                            }
+                            <td>
+                                <span class="fa fa-pencil fs-4" onclick="Edit(@no)"></span>
+                                <button class="fa fa-trash-o fs-4 text-danger" asp-page="PaperCreation" asp-page-handler="Delete"
+                                        asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)"></button>
+                            </td>
+                        </tr>
+                        no = no + 1;
+                    }*@
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Do You really want to Delete??
+            </div>
+            <div class="modal-footer">
+                <form method="Post" asp-page-handler="Delete">
+                    <input type="hidden" id="idtoDelete" asp-for="@Model.Id" class="form-control" />
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    @*<a id="deletes" class="fa fa-trash-o fs-4 text-danger" asp-page="Country" asp-page-handler="Delete"
+                    asp-route-Id="" ></a>*@
+                    <button asp-page-handler="Delete" class="btn btn-danger  db">Delete</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var z = 1;
+    function PaperCreationAdd() {
+        // var Count = $('#PaperCreationCard #PaperCreationCardchild').length;
+
+        var Count = $('#PaperCreationCard #PaperCreationCardchild').length;
+        var d = $("#PaperCreationCardchild").clone();
+
+
+
+
+        $(d).find("#subjectsId1").attr("id", "subjectsId" + (Count + 1));
+        $(d).find("#PaperNameId1").attr("id", "PaperNameId" + (Count + 1));
+        $(d).find("#txtPamerNameIdlbl1").attr("id", "txtPamerNameIdlbl" + (Count + 1));
+        $(d).find("#number1").attr("id", "number" + (Count + 1));
+        $(d).find("#txtPaperNameId1").attr("id", "txtPaperNameId" + (Count + 1));
+        $(d).find("#txtSubjectLinkId1").attr("id", "txtSubjectLinkId" + (Count + 1));
+        $(d).find("#txtbtnLessonId1").attr("id", "txtbtnLessonId" + (Count + 1));
+        $(d).find("#txtLessonLink1").attr("id", "txtLessonLink" + (Count + 1));
+        $(d).find("#txtSubLink1").attr("id", "txtSubLink" + (Count + 1));
+
+        $(d).find("#totalQuestion1").attr("id", "totalQuestion" + (Count + 1));
+        $(d).find("#txtheadPart1").attr("id", "txtheadPart" + (Count + 1));
+        $(d).find("#Part1").attr("id", "Part" + (Count + 1));
+        $(d).find("#Sequence1").attr("id", "Sequence" + (Count + 1));
+        $(d).find("#pass1").attr("id", "pass" + (Count + 1));
+
+
+
+
+
+
+
+
+        d.insertAfter("div#PaperCreationCardchild:last");
+
+       // z = z + 1;
+        $('#number' + (Count + 1)).val((Count + 1));
+        $('#txtPaperNameId' + (Count + 1)).show();
+        $('#txtSubjectLinkId' + (Count + 1)).show();
+        $('#txtbtnLessonId' + (Count + 1)).hide();
+        $("#PaperNameId" + Count+1).val('');
+        $("#totalQuestion" + (Count+1)).val('');
+        $('#txtPaperNameId' + (Count + 1)).show();
+        $('#txtSubjectLinkId' + (Count + 1)).show();
+        $('#txtbtnLessonId' + (Count + 1)).hide();
+        $('#subjectsId' + (Count + 1)).val(0);
+
+
+
+    }
+    function subjectModal(id) {
+        var Count = $('#textsubjectModel #txtSub').length;
+
+        var d = id.slice(-1)
+        for (i = 1; i <= Count; i++) {
+            $('#subSeqNumber' + i).val(d);
+            $('#txttotalQuestion' + i).val('');
+            $('#isActive' + i).prop("checked", false);
+        }
+
+        var pId = $('#txtsubPaperId').val();
+        $.ajax({
+            type: "GET",
+            url: "/Student/GetPaperSubjectBypId?pid=" + pId + "&seqNo=" + d,
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                if (result.length > 0) {
+                    for (j = 0; j < result.length; j++) {
+                        for (k = 1; k <= Count; k++) {
+                            var seqNo = $('#subSeqNumber' + k).val();
+                            var subId = $('#SubjectId' + k).val();
+
+                            if (d == result[j].mainSeqNumber && subId == result[j].subjectID) {
+                                $('#txttotalQuestion' + k).val(result[j].totalQuestion);
+                                $('#isActive' + k).prop("checked", true);
+
+                            }
+                        }
+
+                    }
+                }
+                else{
+                    for (l = 1; l <= Count; l++) {
+                        $('#txttotalQuestion' + l).val('');
+                        $('#isActive' + l).prop("checked", false);
+                    }
+                }
+            }
+        });
+
+
+
+        $('#SubjectModal').modal('show');
+    }
+    function Subject(id) {
+
+        var d = id.slice(-1)
+
+        var data = $('#' + id).val();
+        if (data > 0) {
+            $('#txtPaperNameId' + d).hide();
+            $('#txtSubjectLinkId' + d).hide();
+            $('#txtbtnLessonId' + d).show();
+
+        }
+        else {
+            $('#txtPaperNameId' + d).show();
+            $('#txtSubjectLinkId' + d).show();
+            $('#txtbtnLessonId' + d).hide();
+        }
+
+    }
+    function LessonBySubjectID(id,no) {
+
+
+        var subId = id;
+        $('#Lesson').empty();
+        $('#tQuesteninLesson').text("");
+        $('#SubjectTQuestionId').text("");
+       var TQuestion = $('#txttotalQuestion' + no).val();
+        $('#SubjectTQuestionId').text(TQuestion);
+        var lesson = "";
+        var Lession = "";
+        $.ajax({
+            type: "POST",
+            url: "/Examination/GetLessonsBySubjectId?SubId=" + id,
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                for (i = 0; i < result.length; i++) {
+                    if (id == 11) {
+                        subname = result[i].hindiName;
+                    }
+                    else {
+                        subname = result[i].name;
+                    }
+                    Lession = Lession + '<h5 style="font-size:15px;margin-top:20px;"><input type="checkbox" style="height: 15px;width: 15px;" id="LessonActive' + i + '"/><input type="hidden" value="' + subId + '" id="SubjextId"><input type="hidden" value="' + result[i].id + '" id="LessonId' + i + '">&nbsp<b>' + subname + '<span style="color:green">(' + result[i].questionCount + ')</span></b></h5>'
+                        + '<table width="100%" id="lessionTable">'
+
+                        + '<tbody><tr style="background-color: green;color: white;  "><td style="padding: 10px;font-size:15px;">Single Choice/एकविकल्पी</td><td style="padding: 10px;font-size:15px;">Multiple Choice/बहुविकल्पी</td><td style="padding: 10px;font-size:15px;">Paragraph/अनुच्छेद</td></tr><tr style="margin-top:100px;">'
+                        + '<td class="text-center " ><span class="" style="font-size:15px;color:blue">Total Question:' + result[i].singleQuestionCount + '</span><br /> <input type="text" id="SingleChoiceId' + i + '"style="width:45%; padding:5px;margin-right:2%;" placeholder="Total Question"  class="input1" onkeyup="LTQuestion()"/><input type="text" id="SingleMarksId' + i + '"style="width:45%; padding:5px" value="" placeholder="Marks."/></td>'
+                        + '<td class="text-center "><span class="" style="font-size:15px;color:blue">Total Question:</span><br /><input type="text" style="width:45%; padding:5px;margin-right:2%;" id="MultipleChoiceId' + i + '" placeholder="Total Question"   class="input1" onkeyup="LTQuestion()"/><input type="text" style="width:45%; padding:5px;" id="MultipleMarksId' + i + '" value="" placeholder="Marks."/></td>'
+                        + '<td class="text-center "><span class="" style="font-size:15px;color:blue">Total Question:' + result[i].paragraphQuestionCount + '</span><br />  <input type="text" style="width:45%; padding:5px;margin-right:2%;" id="ParagraphId' + i + '" placeholder="Total Question"  class="input1" onkeyup="LTQuestion()"/><input type="text" style="width:45%; padding:5px;" id="ParagraphMarks' + i + '" value="" placeholder="Marks."/></td>'
+                        + '</tr></tbody> </table>'
+                }
+                $('#Lesson').append(Lession);
+
+
+
+            }
+        });
+        $('#LessonModal').modal('show');
+    }
+    var subject = [];
+
+    function UpdateSubject() {
+        var newubject = [];
+        var Count = $('#textsubjectModel #txtSub').length;
+        var mainSub = $('#subSeqNumber1').val();
+        //newubject = subject;
+        for (j = 0; j < subject.length; j++) {
+            if (subject[j].MainSeqNumber == mainSub) {
+            }
+            else{
+                newubject.push(subject[j]);
+            }
+        }
+       // console.log(newubject);
+        subject = newubject;
+        for (i = 1; i <= Count; i++) {
+            var isChecked = $('#isActive' + i).is(':checked');
+            if (isChecked == true) {
+                var SubVal = $('#SubjectId' + i).val();
+                var totalQuestion = $('#txttotalQuestion' + i).val();
+                var numberSub = $('#subSeqNumber' + i).val();
+                var obj1 = {
+                    "SubjectID": SubVal,
+
+                    "MainSeqNumber": numberSub,
+                    "TotalQuestion": totalQuestion,
+
+                }
+                subject.push(obj1);
+            }
+        }
+        $('#SubjectModal').modal('hide');
+        console.log(subject);
+
+    }
+    var paperLesson = [];
+    function UpdateLession() {
+
+        var Count = $('#lessionTable tbody ').length;
+        var newLesson = [];
+
+        var subjectid = $('#SubjextId').val();
+        //newubject = subject;
+        for (j = 0; j < paperLesson.length; j++) {
+            if (paperLesson[j].SubjectId == subjectid) {
+            }
+            else {
+                newLesson.push(paperLesson[j]);
+            }
+        }
+        // console.log(newubject);
+        paperLesson = newLesson;
+
+        for (i = 0; i < Count; i++) {
+            var LessonActive = $('#LessonActive' + i).is(':checked');
+            if (LessonActive == true) {
+                var LessonIdVal = $('#LessonId' + i).val();
+                var subjectvalue = $('#SubjextId').val();
+                var SingleChoiceVal = $('#SingleChoiceId' + i).val();
+                var SingleMarksVal = $('#SingleMarksId' + i).val();
+                var MultipleChoiceVal = $('#MultipleChoiceId' + i).val();
+                var MultipleMarksVal = $('#MultipleMarksId' + i).val();
+                var ParagraphVal = $('#ParagraphId' + i).val();
+                var ParagraphMarksVal = $('#ParagraphMarks' + i).val();
+                var obj1 = {
+                    "LessionId": LessonIdVal,
+                    "SingleChoice": SingleChoiceVal,
+                    "SubjectId": subjectvalue,
+                    "SingleMarks": SingleMarksVal,
+                    "MultipleChoice": MultipleChoiceVal,
+                    "MultipleMarks": MultipleMarksVal,
+                    "Paragraph": ParagraphVal,
+                    "ParagraphMarks": ParagraphMarksVal,
+                }
+                paperLesson.push(obj1);
+            }
+        }
+        $('#LessonModal').modal('hide');
+        console.log(paperLesson);
+
+    }
+    function SavePaper() {
+        var Count = $('#PaperCreationCard #PaperCreationCardchild').length;
+
+        var courseVal = $('#CourseId').val();
+
+        var totalQuestionVal = $('#TotalQuestion').val();
+
+        var marksVal = $('#MarksId').val();
+
+        var maxMarksVal = $('#MaxMarkId').val();
+
+        var languageVal = $('#languageId').val();
+
+        var NegativeVal = $('#NegativeId').val();
+
+        var DurationVal = $('#DurationId').val();
+
+        var passMarkVal = $('#PassMId').val();
+
+        var mainpaper = [];
+        for (i = 1; i <= Count; i++) {
+            var SubjectVal = $('#subjectsId' + i).val();
+            var PaperName = $('#PaperNameId' + i).val();
+            var tQuestionval = $('#totalQuestion' + i).val();
+            var partVal = $('#Part' + i).val();
+            var Seqval = $('#Sequence' + i).val();
+            var Passval = $('#pass' + i).val();
+            var Number = $('#number' + i).val();
+            var obj1 = {
+                "PaperName": PaperName,
+                "TotalQuestion": tQuestionval,
+                "Part": partVal,
+                "Sequence": Seqval,
+                "Pass": Passval,
+                "SeqNumber": Number,
+
+            }
+
+            mainpaper.push(obj1);
+            if (SubjectVal>0){
+                var obj2={
+                    "SubjectID": SubjectVal,
+
+                    "MainSeqNumber": Number,
+                    "TotalQuestion": tQuestionval,
+                }
+                subject.push(obj2);
+            }
+        }
+        console.log(subject);
+         var dataAll = {
+             "CourseId": courseVal,
+             "TotalQuestion": totalQuestionVal,
+             "Marks": marksVal,
+            "MaxMarks": maxMarksVal,
+             "Language": languageVal,
+             "Negative": NegativeVal,
+             "Duration": DurationVal,
+            "PassMarks": passMarkVal,
+             "paperMainSubjects": mainpaper,
+             "paperSubjects": subject,
+             "paperLessons": paperLesson,
+         }
+        $.ajax({
+            type: "POST",
+            url: "/Examination/InsertPaper",
+            data: dataAll,
+            dataType: "json",
+
+            success: function (result) {
+                console.log(result);
+                 alert(result.message);
+                 window.location.replace("/StudentPaper");
+
+            }
+        });
+
+    }
+    function Edit(no) {
+
+        var Id = $('#Id' + no).val();
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Examination/GetPaperById?id=" + Id,
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                $('#txtsubPaperId').val(result.paper.id);
+                $('#TotalQuestion').val(result.paper.totalQuestion);
+                $('#MarksId').val(result.paper.marks);
+                $('#MaxMarkId').val(result.paper.maxMarks);
+                $('#NegativeId').val(result.paper.negative);
+                $('#DurationId').val(result.paper.duration);
+                $('#PassMId').val(result.paper.passMarks);
+                $("#languageId").val(result.paper.language).trigger('change.select2');
+                $("#CourseId").val(result.paper.courseId).trigger('change.select2');
+                var paperCreation = "";
+                $("div.txtPaperCreationCardchild").remove();
+                for (i = 0; i < result.subjects.length; i++) {
+                    var paperName;
+
+                    if (result.subjects[i].paperName==null){
+                        paperName = "";
+                    }
+                    else{
+                        paperName = result.subjects[i].paperName;
+                    }
+                    paperCreation = paperCreation + '<div class="row mt-3 txtPaperCreationCardchild" id="PaperCreationCardchild"><div class=" did-floating-label-content col-3">'
+                        + '<select class="did-floating-select" id="subjectsId' + (i + 1) + '" onchange="Subject(this.id)"><option value="0">Select Subject</option> </select> <label class="did-floating-label" id="txtsubjectsIdlbl">Subject</label></div>'
+                        + '<div class="col-1"  style="display:none" id="txtbtnLessonId' + (i + 1) + '"><a class="btn shadow rounded" style = "background: green; color:white" id="txtLessonLink' + (i + 1) + '" onclick = "LessonsBySubjectID(this.id)"> Lesson </a></div>'
+
+
+                        + '<div class="did-floating-label-content col-2" id="txtPaperNameId' + (i + 1) + '"><input type="hidden" id="number' + (i + 1) + '" value="' + (i + 1) + '" /><input class="did-floating-input" type="text" id="PaperNameId' + (i + 1) + '" value="' + paperName + '"/> <label class="did-floating-label" id="txtPamerNameIdlbl' + (i + 1) + '">Paper Name</label>  </div>'
+                        + '<div class="col-2" id="txtSubjectLinkId' + (i + 1) + '"><input type="button" value="SubjectLink" class="btn shadow rounded" style="background: linear-gradient(#ea0009, #c30008);color:white" id="txtSubLink' + (i + 1) + '" onclick="subjectModal(this.id)" /></div>'
+                        + '<div class="did-floating-label-content col-2"><input type="text" class="did-floating-input input-box" id="totalQuestion' + (i + 1) + '" value="' + result.subjects[i].totalQuestion + '" " /> <label class="did-floating-label">Total Questions</label></div>'
+                        + '<div class=" did-floating-label-content col-1"><input class="did-floating-input" type="text" id="Part' + (i + 1) + '" value="' + result.subjects[i].part + '" /><label class="did-floating-label">Part</label> </div>'
+                        + '<div class=" did-floating-label-content col-1"><input class="did-floating-input" type="text" id="Sequence' + (i + 1) + '" value="' + result.subjects[i].sequence + '" /> <label class="did-floating-label">Sequence</label> </div>'
+                        + '<div class=" did-floating-label-content col-1"><input class="did-floating-input" type="text" id="pass' + (i + 1) + '"  value="' + result.subjects[i].pass + '" /><label class="did-floating-label">Pass(%)</label><input class="did-floating-input" type="hidden" value="1" id="hidden' + (i + 1) + '" /></div></div>'
+                    // SubjectUpdate("subjectsId" + (i + 1));
+
+                    }
+                $('#PaperCreationBody1').append(paperCreation);
+                var k = 1;
+                for (i = 0; i < result.subjects.length; i++) {
+
+
+                    for (j = 0; j < result.subjects[i].subSubjects.length; j++) {
+
+                       // $('#txtSubPaperId' + (i + 1)).val(result.subjects[i].subSubjects[j].paperId);
+                        if (result.subjects[i].paperName == null) {
+
+
+                            SubjectUpdate("subjectsId" + (i + 1), result.subjects[i].subSubjects[j].subjectID, result.subjects[i].paperName);
+
+
+                        }
+                        else{
+                            SubjectUpdate("subjectsId" + (i + 1), result.subjects[i].subSubjects[j].subjectID, result.subjects[i].paperName);
+
+                                var obj3 = {
+                               "SubjectID": result.subjects[i].subSubjects[j].subjectID,
+
+                                "MainSeqNumber": result.subjects[i].subSubjects[j].mainSeqNumber,
+                               "TotalQuestion": result.subjects[i].subSubjects[j].totalQuestion,
+                                }
+                                subject.push(obj3);
+
+
+                        }
+
+                    }
+                }
+                for (a = 0; a < result.paperLessons.length; a++) {
+                    var obj4 = {
+                        "LessionId": result.paperLessons[a].lessionId,
+                        "SingleChoice": result.paperLessons[a].singleChoice,
+                        "SubjectId": result.paperLessons[a].subjectId,
+                        "SingleMarks": result.paperLessons[a].singleMarks,
+                        "MultipleChoice": result.paperLessons[a].multipleChoice,
+                        "MultipleMarks": result.paperLessons[a].multipleMarks,
+                        "Paragraph": result.paperLessons[a].paragraph,
+                        "ParagraphMarks": result.paperLessons[a].paragraphMarks,
+                    }
+                    paperLesson.push(obj4);
+                }
+
+            }
+        });
+        console.log(subject)
+        console.log(paperLesson)
+
+    }
+    function SubjectUpdate(id,subId,paper) {
+
+        var d = id.slice(-1);
+
+
+        var subjectdata = "";
+
+        $.ajax({
+            type: "POST",
+            url: "/Examination/GetSubject",
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                for (i = 0; i < result.length; i++) {
+
+
+                    if ((subId == result[i].id && paper == null) || (subId == result[i].id && paper == 'null')) {
+
+
+
+                            subjectdata = subjectdata + '<option value="' + result[i].id + '" selected>' + result[i].name + '</option>'
+                            $('#txtPaperNameId' + d).hide();
+                            $('#txtSubjectLinkId' + d).hide();
+                             $('#txtbtnLessonId' + d).show();
+
+
+                    }
+
+
+                  else {
+                       subjectdata = subjectdata + '<option value="' + result[i].id + '">' + result[i].name + '</option>'
+                       // $('#txtbtnLessonId' + d).hide();
+                    }
+                }
+                $("#" + id).append(subjectdata);
+            }
+        });
+    }
+    function DisplayConfirmDeleteModal(Id) {
+
+        $("#idtoDelete").val(Id);
+        //$(".db").attr('asp-route-id', Id);
+
+    }
+    function MaxMArks() {
+
+        var tquestion = $('#TotalQuestion').val();
+        var marks = $('#MarksId').val();
+        if (tquestion > 0 && marks > 0) {
+            var totalmarks = parseFloat(tquestion) * parseFloat(marks);
+            $('#MaxMarkId').val(totalmarks);
+        }
+
+    }
+    var lessonData = [];
+    function LessonsBySubjectID(id){
+        var d = id.slice(-1);
+        $('#tQuesteninLesson').text("");
+        var subId = $('#subjectsId' + d).val();
+        var tQuestionVal = $('#totalQuestion' + d).val();
+        //var courseId = $('#CourseId' ).val();
+
+       $('#SubjectTQuestionId').text(tQuestionVal);
+
+        $('#Lesson').empty();
+        var lesson = "";
+        var Lession = "";
+        $.ajax({
+            type: "POST",
+            url: "/Paper/GetLessonBySubject?SubId=" + subId,
+            dataType: "json",
+            async:false,
+            success: function (result) {
+                getPaperLesson(d);
+                console.log(result);
+
+                //for (i = 0; i < result.length; i++) {
+                //    if (subId == 11) {
+                //        subname = result[i].hindiName;
+                //    }
+                //    else {
+                //        subname = result[i].name;
+                //    }
+                //    var checkdata = "";
+                //    var Ti = 0;
+                //    for (j = 0; j < lessonData.length; j++) {
+                //        if (lessonData[j].lessionId == result[i].id) {
+                //            checkdata = "checked";
+                //            Lession = Lession + '<h5 style="font-size:15px;margin-top:20px;"><input type="checkbox" ' + checkdata + ' style="height: 15px;width: 15px;" id="LessonActive' + i + '"/><input type="hidden" value="' + subId + '" id="SubjextId"><input type="hidden" value="' + result[i].id + '" id="LessonId' + i + '">&nbsp<b>' + subname + '<span style="color:green">(' + result[i].questionCount + ')</span></b></h5>'
+                //            + '<table width="100%" id="lessionTable">'
+
+                //            + '<tbody><tr style="background-color: green;color: white;  "><td style="padding: 10px;font-size:15px;">Single Choice/एकविकल्पी</td><td style="padding: 10px;font-size:15px;">Multiple Choice/बहुविकल्पी</td><td style="padding: 10px;font-size:15px;">Paragraph/अनुच्छेद</td></tr><tr style="margin-top:100px;">'
+                //                + '<td class="text-center " ><span class="" style="font-size:15px;color:blue">Total Question:' + result[i].singleQuestionCount + '</span><br /> <input type="text" id="SingleChoiceId' + i + '"style="width:45%; padding:5px;margin-right:2%;" placeholder="Total Question"  class="input1" onkeyup="LTQuestion()" value=' + lessonData[j].singleChoice + '><input type="text" id="SingleMarksId' + i + '"style="width:45%; padding:5px" value=' + lessonData[j].singleMarks + ' placeholder="Marks."/></td>'
+                //                + '<td class="text-center "><span class="" style="font-size:15px;color:blue">Total Question:</span><br /><input type="text" style="width:45%; padding:5px;margin-right:2%;" id="MultipleChoiceId' + i + '" placeholder="Total Question"   class="input1" onkeyup="LTQuestion()" value=' + lessonData[j].multipleChoice + '><input type="text" style="width:45%; padding:5px;" id="MultipleMarksId' + i + '" value="" placeholder="Marks." value=' + lessonData[j].multipleMarks + '></td>'
+                //                + '<td class="text-center "><span class="" style="font-size:15px;color:blue">Total Question:' + result[i].paragraphQuestionCount + '</span><br />  <input type="text" style="width:45%; padding:5px;margin-right:2%;" id="ParagraphId' + i + '" placeholder="Total Question"  class="input1" onkeyup="LTQuestion()" value=' + lessonData[j].paragraph + '><input type="text" style="width:45%; padding:5px;" id="ParagraphMarks' + i + '" value=' + lessonData[j].paragraphMarks + ' placeholder="Marks."/></td>'
+                //            + '</tr></tbody> </table>'
+                //            Ti = Ti + 1;
+                //        }
+
+
+                //    }
+                //    if (Ti == 0) {
+                //        Lession = Lession + '<h5 style="font-size:15px;margin-top:20px;"><input type="checkbox" style="height: 15px;width: 15px;" id="LessonActive' + i + '"/><input type="hidden" value="' + subId + '" id="SubjextId"><input type="hidden" value="' + result[i].id + '" id="LessonId' + i + '">&nbsp<b>' + subname + '<span style="color:green">(' + result[i].questionCount + ')</span></b></h5>'
+                //            + '<table width="100%" id="lessionTable">'
+
+                //            + '<tbody><tr style="background-color: green;color: white;  "><td style="padding: 10px;font-size:15px;">Single Choice/एकविकल्पी</td><td style="padding: 10px;font-size:15px;">Multiple Choice/बहुविकल्पी</td><td style="padding: 10px;font-size:15px;">Paragraph/अनुच्छेद</td></tr><tr style="margin-top:100px;">'
+                //            + '<td class="text-center " ><span class="" style="font-size:15px;color:blue">Total Question:' + result[i].singleQuestionCount + '</span><br /> <input type="text" id="SingleChoiceId' + i + '"style="width:45%; padding:5px;margin-right:2%;" placeholder="Total Question"  class="input1" onkeyup="LTQuestion()"/><input type="text" id="SingleMarksId' + i + '"style="width:45%; padding:5px" value="" placeholder="Marks."/></td>'
+                //            + '<td class="text-center "><span class="" style="font-size:15px;color:blue">Total Question:</span><br /><input type="text" style="width:45%; padding:5px;margin-right:2%;" id="MultipleChoiceId' + i + '" placeholder="Total Question"   class="input1" onkeyup="LTQuestion()"/><input type="text" style="width:45%; padding:5px;" id="MultipleMarksId' + i + '" value="" placeholder="Marks."/></td>'
+                //            + '<td class="text-center "><span class="" style="font-size:15px;color:blue">Total Question:' + result[i].paragraphQuestionCount + '</span><br />  <input type="text" style="width:45%; padding:5px;margin-right:2%;" id="ParagraphId' + i + '" placeholder="Total Question"  class="input1" onkeyup="LTQuestion()"/><input type="text" style="width:45%; padding:5px;" id="ParagraphMarks' + i + '" value="" placeholder="Marks."/></td>'
+                //            + '</tr></tbody> </table>'
+                //        Ti = Ti + 1;
+                //    }
+                //    Ti = 0;
+
+                //}
+                //$('#Lesson').append(Lession);
+                //var data = result.length;
+
+
+
+
+            }
+        });
+        $('#LessonModal').modal('show');
+
+
+
+
+    }
+    function getPaperLesson(d){
+
+        var subId = $('#subjectsId' + d).val();
+        var pId = $('#txtsubPaperId').val();
+        $.ajax({
+            type: "GET",
+            url: "/Student/GetPaperLessonBySubId?subID=" + subId + "&pid=" + pId,
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                lessonData = result;
+                console.log(result);
+                // for (j = 0; j < result.length; j++) {
+                //     for (k = 0; k < data; k++) {
+                //         var lId = $('#LessonId' + k).val();
+
+                //         if (lId == result[j].lessionId) {
+
+
+                //             $('#LessonActive' + k).prop("checked", true);
+                //             $('#SingleChoiceId' + k).val(result[j].singleChoice);
+                //             $('#SingleMarksId' + k).val(result[j].singleMarks);
+                //             $('#MultipleChoiceId' + k).val(result[j].multipleChoice);
+                //             $('#MultipleMarksId' + k).val(result[j].multipleMarks);
+                //             $('#ParagraphId' + k).val(result[j].paragraph);
+                //             $('#ParagraphMarks' + k).val(result[j].paragraphMarks);
+                //         }
+                //     }
+                // }
+            }
+        });
+    }
+    function LTQuestion(){
+        var tQuestion = $('#SubjectTQuestionId').text();
+
+        let total1 = 0;
+        $('.input1').each(function () {
+            const inputValue1 = parseFloat($(this).val());
+            if (!isNaN(inputValue1)) {
+                total1 += inputValue1;
+            }
+            if (total1 > tQuestion) {
+
+                parseFloat($(this).val(""));
+            }
+            else {
+                console.log('2');
+            }
+        });
+        var Count = $('#lessionTable tbody ').length;
+        var temp = 0;
+        for (i = 0; i < Count;i++){
+         var a =   $('#SingleChoiceId' + i).val();
+            var b = $('#MultipleChoiceId' + i).val();
+            var c = $('#ParagraphId' + i).val();
+            if (a == "") {
+
+            }
+            else {
+                temp = parseInt(a) + temp;
+            }
+            if(b==""){
+
+            }
+            else{
+                temp = parseInt(b) + temp;
+            }
+            if (c == "") {
+
+            }
+            else {
+                temp = parseInt(c) + temp;
+            }
+        }
+
+        $('#tQuesteninLesson').text(temp);
+    }
+    function totalQuestion() {
+
+        var targetValue = $('#TotalQuestion').val();
+
+        let total = 0;
+        $('.input-box').each(function () {
+            const inputValue = parseFloat($(this).val());
+            if (!isNaN(inputValue)) {
+                total += inputValue;
+            }
+            if (total > targetValue) {
+
+                parseFloat($(this).val(""));
+            }
+            else {
+                console.log('1');
+            }
+        });
+    }
+</script>

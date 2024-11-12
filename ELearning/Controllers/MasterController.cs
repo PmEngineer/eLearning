@@ -2,6 +2,7 @@
 using ELearning.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 
 namespace ELearning.Controllers
 {
@@ -28,5 +29,8 @@ namespace ELearning.Controllers
             var data = await _masterService.GetCourseList();
             return Ok(data);
         }
+      
+
+
     }
 }
