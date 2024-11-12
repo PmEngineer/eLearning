@@ -8,6 +8,7 @@ using AutoMapper;
 using ELearning.Response;
 using ELearning.Request;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using ELearning_Core.Shared;
 
 namespace ELearning.Controllers
 {
@@ -116,6 +117,16 @@ namespace ELearning.Controllers
         public async Task<IActionResult> DeleteDoubtComment(int Id)
         {
             var data =await _masterService.DeleteDoubtComment(Id);
+            return Ok(data);
+        }
+        #endregion
+
+        #region DoubtLike
+        [HttpPost]
+        [Route("IsLike")]
+        public async Task<IActionResult> IsLike(DoubtLikeRequest doubtLike)
+        {
+            var data = await _masterService.IsLike(doubtLike);
             return Ok(data);
         }
         #endregion

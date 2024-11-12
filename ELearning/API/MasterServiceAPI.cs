@@ -26,8 +26,9 @@ namespace ELearning.API
         public readonly IGenericRepository<Course> _courseRepository;
         public readonly IGenericRepository<Doubt> _doubtRepository;
         public readonly IGenericRepository<DoubtComment> _doubtCommentRepository;
+        public readonly IGenericRepository<DoubtLike> _doubtlikeRepository;
         public IMapper _mapper;
-        public MasterServiceAPI(IMapper mapper, IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository)
+        public MasterServiceAPI(IMapper mapper, IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository, IGenericRepository<DoubtLike> doubtlikeRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -41,6 +42,7 @@ namespace ELearning.API
             _doubtRepository = doubtRepository;
             _doubtCommentRepository = doubtCommentRepository;
             _mapper = mapper;
+            _doubtlikeRepository = doubtlikeRepository;
         }
         #region Course Subject
 
@@ -88,10 +90,10 @@ namespace ELearning.API
         {
             try
             {
-              var data=  await _doubtRepository.GetAllAsync();
+                var data = await _doubtRepository.GetAllAsync();
                 return await Result<List<Doubt>>.SuccessAsync(data.ToList());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -106,8 +108,8 @@ namespace ELearning.API
         {
             try
             {
-                var data=await _doubtCommentRepository.GetAllAsync();
-                return await Result<List<DoubtComment>>.SuccessAsync(data.ToList()); 
+                var data = await _doubtCommentRepository.GetAllAsync();
+                return await Result<List<DoubtComment>>.SuccessAsync(data.ToList());
             }
 
             catch (Exception ex) {
@@ -137,7 +139,7 @@ namespace ELearning.API
                 }
                 else
                 {
-                    var data = await _doubtRepository.GetAllAsync(X=>X.SubjectId== subjectId);
+                    var data = await _doubtRepository.GetAllAsync(X => X.SubjectId == subjectId);
 
                     var mappedData = _mapper.Map<List<DoubtResponse>>(data.ToList());
 
@@ -154,12 +156,12 @@ namespace ELearning.API
         {
             try
             {
-                var data = await _doubtRepository.GetAllAsync(x => x.CreatedBy ==userName);
+                var data = await _doubtRepository.GetAllAsync(x => x.CreatedBy == userName);
 
-                    var mappedData = _mapper.Map<List<DoubtResponse>>(data.ToList());
+                var mappedData = _mapper.Map<List<DoubtResponse>>(data.ToList());
 
-                    return await Result<List<DoubtResponse>>.SuccessAsync(mappedData);
-                
+                return await Result<List<DoubtResponse>>.SuccessAsync(mappedData);
+
             }
             catch (Exception ex)
             {
@@ -242,7 +244,7 @@ namespace ELearning.API
         {
             try
             {
-                var data = await _doubtCommentRepository.GetAllAsync(x=>x.DoubtId==Id);
+                var data = await _doubtCommentRepository.GetAllAsync(x => x.DoubtId == Id);
                 var mappedData = _mapper.Map<List<DoubtCommentResponse>>(data.ToList());
 
                 return await Result<List<DoubtCommentResponse>>.SuccessAsync(mappedData);
@@ -259,6 +261,9 @@ namespace ELearning.API
             try
             {
                 await _doubtCommentRepository.AddAsync(data);
+                var GetDoubt = await _doubtRepository.GetByIdAsync(doubtComment.DoubtId);
+                GetDoubt.TotalComment = GetDoubt.TotalComment + 1;
+                await _doubtRepository.UpdateAsync(GetDoubt);
                 return await Result<int>.SuccessAsync(data.Id, "DoubtComment is Added.");
             }
             catch (Exception ex)
@@ -267,6 +272,7 @@ namespace ELearning.API
             }
         }
 
+      
         //public async Task<Result<List<DoubtCommentResponse>>> GetComment(int Id)
         //{
         //    try
@@ -282,8 +288,8 @@ namespace ELearning.API
         //    }
 
         //}
-       
-      
+
+
         public async Task<Result<int>> UpdateDoubtComment(DoubtCommentRequest request)
         {
 
@@ -333,6 +339,40 @@ namespace ELearning.API
             catch (Exception ex)
             {
                 return await Result<int>.FailAsync("DoubtComment is failed to Delete." + ex.Message);
+            }
+
+        }
+        #endregion
+
+        #region isLike
+        public async Task<Result<int>> IsLike(DoubtLikeRequest doubtLike)
+
+        {
+            var data = _mapper.Map<DoubtLike>(doubtLike);
+            try 
+            {
+                if (doubtLike.isLike==1)
+                {
+                    await _doubtlikeRepository.AddAsync(data);
+                    var GetLike = await _doubtRepository.GetByIdAsync(doubtLike.DoubtId);
+                    GetLike.TotalLike = GetLike.TotalLike + 1;
+                    await _doubtRepository.UpdateAsync(GetLike);
+                    return await Result<int>.SuccessAsync(doubtLike.DoubtId, "Like is added.");
+                }
+                else
+                {
+                   
+                    var GetLike = await _doubtRepository.GetByIdAsync(doubtLike.DoubtId);
+                    GetLike.TotalLike = GetLike.TotalLike - 1;
+                    await _doubtRepository.UpdateAsync(GetLike);
+                    return await Result<int>.SuccessAsync(doubtLike.DoubtId, "Like is removed.");
+                }
+                
+            }
+            catch(Exception ex) 
+            {
+
+                return await Result<int>.FailAsync("Doubt Like is Failed." + ex.InnerException.Message);
             }
 
         }

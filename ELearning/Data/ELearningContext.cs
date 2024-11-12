@@ -45,4 +45,5 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
 
     public DbSet<DoubtComment> doubtsComment { get; set; }
 
+    public DbSet<DoubtLike> doubtLikes { get; set; }
 }
