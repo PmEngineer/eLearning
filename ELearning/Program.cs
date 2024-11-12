@@ -51,7 +51,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllers();
+
+    endpoints.MapControllerRoute(
+        name: "Home",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapRazorPages();
 });
 
 app.MapRazorPages();

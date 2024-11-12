@@ -17,7 +17,7 @@ namespace DCA.Core.DataBase
         {
             try
             {
-                connstr = "Server=162.215.230.14;Database=onlineELearning;User ID=agam;password=wcz6&91F0;Trusted_Connection=True;";
+                connstr = "Server=LAPTOP-1RFQ1DCD;Database=ELearning;Trusted_Connection=True;MultipleActiveResultSets=true";
                 con = new SqlConnection(connstr);
             }
             catch(Exception ex)
