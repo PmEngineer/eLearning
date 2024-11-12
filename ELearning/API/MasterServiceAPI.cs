@@ -7,6 +7,7 @@ using ELearning_Core.Core.Model;
 using ELearning_Core.Model;
 using ELearning_Core.Model.City;
 using ELearning_Core.Model.Master;
+using ELearning_Core.Model.Student;
 using ELearning_Core.Shared;
 using Humanizer;
 using System;
@@ -26,8 +27,10 @@ namespace ELearning.API
         public readonly IGenericRepository<Course> _courseRepository;
         public readonly IGenericRepository<Doubt> _doubtRepository;
         public readonly IGenericRepository<DoubtComment> _doubtCommentRepository;
+        
         public IMapper _mapper;
-        public MasterServiceAPI(IMapper mapper, IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository)
+        public MasterServiceAPI(IMapper mapper, IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository
+            )
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -40,6 +43,7 @@ namespace ELearning.API
             _courseRepository = courseRepository;
             _doubtRepository = doubtRepository;
             _doubtCommentRepository = doubtCommentRepository;
+           
             _mapper = mapper;
         }
         #region Course Subject
@@ -337,5 +341,7 @@ namespace ELearning.API
 
         }
         #endregion
+            
+
     }
 }

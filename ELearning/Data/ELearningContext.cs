@@ -3,6 +3,7 @@ using ELearning_Core.Core.Model;
 using ELearning_Core.Model;
 using ELearning_Core.Model.City;
 using ELearning_Core.Model.Master;
+using ELearning_Core.Model.Student;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -44,5 +45,6 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
     public DbSet<Doubt> doubts { get; set; }
 
     public DbSet<DoubtComment> doubtsComment { get; set; }
+    public DbSet<StudentInfo> StudentInfo { get; set; }
 
 }
