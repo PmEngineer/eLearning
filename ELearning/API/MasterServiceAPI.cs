@@ -7,6 +7,7 @@ using ELearning_Core.Core.Model;
 using ELearning_Core.Model;
 using ELearning_Core.Model.City;
 using ELearning_Core.Model.Master;
+using ELearning_Core.Model.Student;
 using ELearning_Core.Shared;
 using Humanizer;
 using System;
@@ -41,6 +42,7 @@ namespace ELearning.API
             _courseRepository = courseRepository;
             _doubtRepository = doubtRepository;
             _doubtCommentRepository = doubtCommentRepository;
+           
             _mapper = mapper;
             _doubtlikeRepository = doubtlikeRepository;
         }

@@ -4,6 +4,7 @@ using ELearning.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELearning.Migrations
 {
     [DbContext(typeof(ELearningContext))]
-    partial class ELearningContextModelSnapshot : ModelSnapshot
+    [Migration("20241112090911_tblStudentinfoupdate")]
+    partial class tblStudentinfoupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -511,38 +513,6 @@ namespace ELearning.Migrations
                     b.HasIndex("DoubtId");
 
                     b.ToTable("doubtsComment");
-                });
-
-            modelBuilder.Entity("ELearning_Core.Model.Master.DoubtLike", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DoubtId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("isLike")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("doubtLikes");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.Post", b =>

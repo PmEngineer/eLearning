@@ -24,6 +24,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddRazorPages();
 builder.Services.AddTransient(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
 builder.Services.AddTransient<IMasterService, MasterService>();
+builder.Services.AddTransient<IStudentServiceAPI, StudentServiceAPI>();
 builder.Services.AddTransient<IMasterServiceAPI, MasterServiceAPI>();
 builder.Services.AddTransient<ICompanyService,CompanyService>();
 builder.Services.AddTransient<IFileUplodeService, LocalFileUplodeService>();
