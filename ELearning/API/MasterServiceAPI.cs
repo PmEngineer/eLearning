@@ -378,6 +378,30 @@ namespace ELearning.API
             }
 
         }
+
+        public async Task<Result<DoubtResponse>> GetDoubtById(int Id)
+        {
+            var data = await _doubtRepository.GetByIdAsync(Id);
+            try
+            {
+
+             
+                if (data == null)
+                {
+                    return await Result<DoubtResponse>.FailAsync("Not found"+ Id);
+                }
+                else
+                {
+                    var response= _mapper.Map<DoubtResponse>(data);
+                    return await Result<DoubtResponse>.SuccessAsync(response);
+                }
+            }
+            catch (Exception e)
+            {
+                return await Result<DoubtResponse>.FailAsync("Not found" + e.InnerException.Message);
+            }
+
+        }
         #endregion
     }
 }

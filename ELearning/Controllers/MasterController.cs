@@ -64,18 +64,26 @@ namespace ELearning.Controllers
             return Ok(data);
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("UpdateDoubt")]
         public async Task<IActionResult> UpdateDoubt(DoubtRequest doubt)
         {
             var data = await _masterService.UpdateDoubt(doubt);
             return Ok(data);
         }
-        [HttpDelete]
+        [HttpGet]
         [Route("DeleteDoubt")]
         public async Task<IActionResult> DeleteDoubt(int Id)
         {
             var data = await _masterService.DeleteDoubt(Id);
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("GetDoubtById")]
+        public async Task<IActionResult> GetDoubtById(int Id)
+        {
+            var data= await _masterService.GetDoubtById(Id);
             return Ok(data);
         }
         #endregion
@@ -105,14 +113,14 @@ namespace ELearning.Controllers
         //    return Ok(data);
         //}
        
-        [HttpPut]
+        [HttpPost]
         [Route("UpdateDoubtComment")]
         public async Task<IActionResult> UpdateDoubtComment(DoubtCommentRequest request)
         {
             var data = await _masterService.UpdateDoubtComment(request);
             return Ok(data);
         }
-        [HttpDelete]
+        [HttpGet]
         [Route("DeleteDoubtComment")]
         public async Task<IActionResult> DeleteDoubtComment(int Id)
         {

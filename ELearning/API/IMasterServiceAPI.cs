@@ -16,6 +16,7 @@ namespace ELearning.API
         #region Doubt
         public Task<Result<List<DoubtResponse>>> GetDoubtsList(int subjectId);
         public Task<Result<List<DoubtResponse>>> GetDoubts(string userName);
+        public Task<Result<DoubtResponse>> GetDoubtById(int Id);
         public Task<Result<int>> InsertDoubt(DoubtRequest doubt);
         public Task<Result<int>> UpdateDoubt(DoubtRequest doubt);
         public Task<Result<int>> DeleteDoubt(int Id);
