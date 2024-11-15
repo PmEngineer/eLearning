@@ -34,12 +34,12 @@ namespace ELearning.API
                 return await Result<int>.FailAsync("StudentInfo is not Added." + ex.Message);
             }
         }
-        public async Task<Result<StudentInfoResponse>> GetStudentByNameAndPassword(StudentInfoResponse studentInfoResponse)
+        public async Task<Result<StudentInfoResponse>> GetStudentByNameAndPassword(StudentLoginRequest studentLoginRequest)
         {
             try
             {
 
-                var data = await _studentInfoRepository.GetAllAsync(x => x.Name == studentInfoResponse.Name && x.Password == studentInfoResponse.Password);
+                var data = await _studentInfoRepository.GetAllAsync(x => x.Email == studentLoginRequest.Email && x.Password == studentLoginRequest.Password);
                 var mappedData = _mapper.Map<StudentInfoResponse>(data.FirstOrDefault());
                 if (mappedData == null)
                 {

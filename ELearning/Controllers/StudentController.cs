@@ -32,9 +32,9 @@ namespace ELearning.Controllers
         }
         [HttpPost]
         [Route("StudentLogin")]
-        public async Task<IActionResult> StudentLogin(StudentInfoResponse studentInfoResponse)
+        public async Task<IActionResult> StudentLogin(StudentLoginRequest studentLoginRequest)
         {
-            var data = await _studentService.GetStudentByNameAndPassword(studentInfoResponse);
+            var data = await _studentService.GetStudentByNameAndPassword(studentLoginRequest);
             return Ok(data);
         }
     }

@@ -8,7 +8,7 @@ namespace ELearning.API
     {
         #region StudentInfo
         public Task<Result<int>> InsertStudentInfo(StudentInfoRequest studentInfoRequest);
-        public Task<Result<StudentInfoResponse>> GetStudentByNameAndPassword(StudentInfoResponse studentInfoResponse);
+        public Task<Result<StudentInfoResponse>> GetStudentByNameAndPassword(StudentLoginRequest studentLoginRequest);
 
         #endregion
 
