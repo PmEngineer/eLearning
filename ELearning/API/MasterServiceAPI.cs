@@ -334,7 +334,12 @@ namespace ELearning.API
                 }
                 else
                 {
+                  
+                    
+                    var GetDoubtComment = await _doubtRepository.GetByIdAsync(data.DoubtId);
                     await _doubtCommentRepository.DeleteAsync(data);
+                    GetDoubtComment.TotalComment = GetDoubtComment.TotalComment - 1;
+                    await _doubtRepository.UpdateAsync(GetDoubtComment);
                     return await Result<int>.SuccessAsync("DoubtComment deleted.");
                 }
             }
