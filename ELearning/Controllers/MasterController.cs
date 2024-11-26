@@ -83,7 +83,7 @@ namespace ELearning.Controllers
         [Route("GetDoubtById")]
         public async Task<IActionResult> GetDoubtById(int Id)
         {
-            var data= await _masterService.GetDoubtById(Id);
+            var data = await _masterService.GetDoubtById(Id);
             return Ok(data);
         }
         #endregion
@@ -112,7 +112,7 @@ namespace ELearning.Controllers
         //    var data = await _masterService.GetComment(Id);
         //    return Ok(data);
         //}
-       
+
         [HttpPost]
         [Route("UpdateDoubtComment")]
         public async Task<IActionResult> UpdateDoubtComment(DoubtCommentRequest request)
@@ -124,7 +124,7 @@ namespace ELearning.Controllers
         [Route("DeleteDoubtComment")]
         public async Task<IActionResult> DeleteDoubtComment(int Id)
         {
-            var data =await _masterService.DeleteDoubtComment(Id);
+            var data = await _masterService.DeleteDoubtComment(Id);
             return Ok(data);
         }
         #endregion
@@ -137,6 +137,29 @@ namespace ELearning.Controllers
             var data = await _masterService.IsLike(doubtLike);
             return Ok(data);
         }
+        #endregion
+
+        #region
+        [HttpGet]
+        [Route("GetPdfNotes")]
+        public async Task<IActionResult> GetPdfNotes(int Id)
+        {
+            var data = await _masterService.GetPdfNotes(Id);
+            return Ok(data);    
+        }
+
+        #endregion
+
+
+        #region
+        [HttpGet]
+        [Route("GetPapersPdf")]
+        public async Task<IActionResult> GetPapersPdf(int Id)
+        {
+            var data = await _masterService.GetPapersPdf(Id);
+            return Ok(data);
+        }
+
         #endregion
     }
 }

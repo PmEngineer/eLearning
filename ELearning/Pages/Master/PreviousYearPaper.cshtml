@@ -1,0 +1,203 @@
+﻿@page "/ /{Id?}"
+@model ELearning.Pages.Master.PreviousYearPaperModel
+@{
+}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="~/css/form.css" rel="stylesheet" type="text/css" />
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">*@
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+@*<link href="~/css/Fonts/Fonts.css" rel="stylesheet" />*@
+<style>
+    .tbl {
+        height: 100%;
+        overflow: none;
+    }
+</style>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header bg-primary mainh">Previous Year Paper</div>
+        <div class="card-body">
+            <div>
+                <form class="form row g-3" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="targetFolder" value="Paper_File" />
+                   <div class="row g-3">
+                        <div class="col-3 flex-fill">
+                            <div class="did-floating-label-content">
+                                <input type="hidden" asp-for="paper.Id" />
+                                <input type="hidden" asp-for="paper.CreatedBy" />
+                                <input type="hidden" asp-for="paper.CreatedDate" />
+                                <input type="hidden" asp-for="paper.Paperpdf" />
+                                <input class="did-floating-input" type="file" accept=".pdf" name="formFile" id="fileuplode" asp-for="paper.Paperpdf">
+                                    <label class="did-floating-label">Select Paper Pdf</label>
+                            </div>
+                        </div>
+
+                        <div class="col-3 flex-fill" style="text-align:center;">
+                            <input class="did-floating-input" type="text" asp-for="paper.NoteName" id="defaultCheck1" style="float:inherit;">
+                            <label class="did-floating-label" >
+                                    Paper Name
+                                </label>
+                        </div>
+                        <div class="col-2">
+                            <div class="did-floating-label-content">
+
+                                <select class=" did-floating-select select2" asp-for="paper.CourseId">
+
+                                    @foreach (var item in Model.GetCourses)
+                                    {
+
+                                        <option value="@item.Id">@item.Name</option>
+
+                                    }
+                                </select>
+                                <label class="did-floating-label">Course</label>
+                            </div>
+                        </div>
+
+                        <div class="col-1 flex-fill" style="text-align:center;">
+                            <input class="did-floating-input" type="text" asp-for="paper.Year" id="defaultCheck1" style="float:inherit;">
+                            <label class="did-floating-label">
+                                Paper Year
+                            </label>
+                        </div>
+                        <div class="col-1 flex-fill" style="text-align:center;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" asp-for="paper.IsPaid" id="defaultCheck1" style="float:inherit;">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    IsPaid
+                                </label>
+                            </div>
+                        </div>
+
+                        @{
+                            if (Model.paper.Id > 0)
+                            {
+                                <div class="flex-fill ">
+                                    <div class="form-check">
+                                        <label>Pdf File</label>
+                                        <br />
+                                        <a href="/Pdf_File/Documents/@Model.paper.Paperpdf" target="_blank" class="btn btn-link">@Model.paper.Paperpdf</a>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                        <div class="col-2 flex-fill" style="text-align:center;">
+                            <input type="submit" value="@Model.value" class="btn btn-primary shadow rounded" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="container-fluid mt-3">
+    <div class="card">
+        <div class="card-header">List</div>
+        <div class="card-body tbl">
+            <table class="table" id="dtdata">
+                <thead>
+                    <tr>
+                        <th>SrNo</th>
+                        <th>Course</th>
+                        <th>Paper Pdf</th>
+                        <th>Paper Name</th>
+                        <th>Year</th>
+                        <th>IsPaid</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var srno = 1;
+                    }
+                    @if(Model.papers !=null)
+                    {
+                    @foreach (var item in Model.papers)
+                    {
+                        <tr>
+
+                            <td>@srno</td>
+                            <td>@item.Course.Name</td>
+                            <td scope="row">
+                                    <a href="/Pdf_File/Documents/@item.Paperpdf" target="_blank" class="btn btn-link">@item.Paperpdf</a>
+                                </td>
+                            <td>@item.NoteName</td>
+                            <td>@item.Year</td>
+                            <td><input class="form-check-input" type="checkbox" asp-for="@item.IsPaid" id="defaultCheck1" style="margin: auto;" readonly></td>
+                            <td>
+                                <a href="/PreviousYearPaper/@item.Id" class="fas fa-edit text-success"></a>&nbsp;
+
+                                <button class="fa fa-trash-o fs-4 text-danger" asp-page="Course" asp-page-handler="Delete"
+                                        asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)">
+                                </button>
+
+                            </td>
+                        </tr>
+                        srno++;
+                    }
+                    }
+                </tbody>
+            </table>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Do You really want to Delete??
+                        </div>
+                        <div class="modal-footer">
+                            <form method="Post" asp-page-handler="Delete">
+                                <input type="hidden" id="idtoDelete" asp-for="@Model.Id" class="form-control" />
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                @*<a id="deletes" class="fa fa-trash-o fs-4 text-danger" asp-page="Country" asp-page-handler="Delete"
+                                asp-route-Id="" ></a>*@
+                                <button asp-page-handler="Delete" class="btn btn-danger db">Delete</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+    function DisplayConfirmDeleteModal(Id) {
+
+        $("#idtoDelete").val(Id);
+        //$(".db").attr('asp-route-id', Id);
+
+    }
+</script>
+<style>
+
+    button.fa.fa-trash-o.fs-4 {
+        border: none;
+    }
+
+    .card-header {
+        color: #fff;
+    }
+</style>
+

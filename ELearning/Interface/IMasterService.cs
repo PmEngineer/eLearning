@@ -95,5 +95,21 @@ namespace ELearning.Interface
         public Task <List<DoubtComment>> GetDoubtComments();
         public Task<Result<int>> InsertDoubtComment(DoubtComment doubtComment);
 
+        #region pdfnotes
+        public Task<List<PdfNote>> GetPdfNotes();
+        public Task<Result<int>> InsertPdfNote(PdfNote pdfnote);
+        public Task<Result<int>> UpdatePdfNote(PdfNote pdfnote);
+        public Task<Result<int>> DeletePdfNote(int Id);
+
+        #endregion
+
+        #region previuosYearNote
+
+        public Task<List<PreviousYearPaper>> GetPaperPdf();
+        public Task<Result<int>> InsertPaper(PreviousYearPaper paper);
+        public Task<Result<int>> UpdatePaper(PreviousYearPaper paper);
+        public Task<Result<int>> DeletePaper(int Id);
+
+        #endregion
     }
 }

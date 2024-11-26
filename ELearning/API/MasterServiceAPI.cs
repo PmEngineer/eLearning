@@ -28,8 +28,10 @@ namespace ELearning.API
         public readonly IGenericRepository<Doubt> _doubtRepository;
         public readonly IGenericRepository<DoubtComment> _doubtCommentRepository;
         public readonly IGenericRepository<DoubtLike> _doubtlikeRepository;
+        public readonly IGenericRepository<PdfNote> _pdfNotesRepository;
+        public readonly IGenericRepository<PreviousYearPaper> _paperRepository;
         public IMapper _mapper;
-        public MasterServiceAPI(IMapper mapper, IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository, IGenericRepository<DoubtLike> doubtlikeRepository)
+        public MasterServiceAPI(IMapper mapper, IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository, IGenericRepository<DoubtLike> doubtlikeRepository, IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -42,9 +44,10 @@ namespace ELearning.API
             _courseRepository = courseRepository;
             _doubtRepository = doubtRepository;
             _doubtCommentRepository = doubtCommentRepository;
-           
-            _mapper = mapper;
+            _pdfNotesRepository = pdfNotesRepository;
+             _mapper = mapper;
             _doubtlikeRepository = doubtlikeRepository;
+            _paperRepository = paperRepository;
         }
         #region Course Subject
 
@@ -407,6 +410,73 @@ namespace ELearning.API
             }
 
         }
+        #endregion
+
+        #region pdfnotes
+         public async Task<Result<List<PdfNotesRequest>>> GetPdfNotes(int Id)
+        {
+            try
+            {
+                if (Id == 0)
+                {
+                    var data = await _pdfNotesRepository.GetAllAsync();
+
+                    var mappedData = _mapper.Map<List<PdfNotesRequest>>(data.ToList());
+                    mappedData.Select(x => { x.PdfFile = "Pdf_File/Documents/"+x.PdfFile; return x; }).ToList();
+
+                    return await Result<List<PdfNotesRequest>>.SuccessAsync(mappedData);
+                }
+                else
+                {
+                    var data = await _pdfNotesRepository.GetAllAsync(X => X.CourseId == Id);
+
+                    var mappedData = _mapper.Map<List<PdfNotesRequest>>(data.ToList());
+                    mappedData.Select(x => { x.PdfFile = "Pdf_File/Documents/" + x.PdfFile; return x; }).ToList();
+                    return await Result<List<PdfNotesRequest>>.SuccessAsync(mappedData);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return await Result<List<PdfNotesRequest>>.FailAsync("Pdf failed to load... " + ex.Message);
+            }
+
+        }
+
+        #endregion
+
+        #region previousYearPaper
+        public async Task<Result<List<PreviousYearPaperRequest>>> GetPapersPdf(int Id)
+        {
+            try
+            {
+                if (Id == 0)
+                {
+                    var data = await _paperRepository.GetAllAsync();
+
+                    var mappedData = _mapper.Map<List<PreviousYearPaperRequest>>(data.ToList());
+                    mappedData.Select(x => { x.Paperpdf = "Paper_File/Documents/" + x.Paperpdf; return x; }).ToList();
+
+                    return await Result<List<PreviousYearPaperRequest>>.SuccessAsync(mappedData);
+                }
+                else
+                {
+                    var data = await _paperRepository.GetAllAsync(x=>x.CourseId==Id);
+
+                    var mappedData = _mapper.Map<List<PreviousYearPaperRequest>>(data.ToList());
+                    mappedData.Select(x => { x.Paperpdf = "Paper_File/Documents/" + x.Paperpdf; return x; }).ToList();
+
+                    return await Result<List<PreviousYearPaperRequest>>.SuccessAsync(mappedData);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return await Result<List<PreviousYearPaperRequest>>.FailAsync("Pdf failed to load... " + ex.Message);
+            }
+
+        }
+
         #endregion
     }
 }

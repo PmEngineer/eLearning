@@ -33,8 +33,15 @@ namespace ELearning.API
         
         public Task<Result<int>> DeleteDoubtComment(int Id);
         #endregion
-        
-        
+
+        #region pdfnotes
+        public Task<Result<List<PdfNotesRequest>>> GetPdfNotes(int Id);
+        #endregion
+
+        #region previousYearNote
+
+        public Task<Result<List<PreviousYearPaperRequest>>> GetPapersPdf(int Id);
+        #endregion
 
 
     }

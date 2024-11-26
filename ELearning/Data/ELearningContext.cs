@@ -48,4 +48,8 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
     public DbSet<StudentInfo> StudentInfo { get; set; }
 
     public DbSet<DoubtLike> doubtLikes { get; set; }
+
+    public DbSet<PdfNote>pdfNotes { get; set; }
+    public DbSet<PreviousYearPaper> previousYearPapers { get; set; }
+    public DbSet<PaperYear> paperYears  { get; set; }
 }

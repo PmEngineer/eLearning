@@ -7,6 +7,7 @@ using ELearning_Core.Model.Master;
 using ELearning_Core.Core.Model;
 using System.Collections.Generic;
 using Microsoft.Extensions.Hosting;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ELearning.Services
 {
@@ -28,8 +29,11 @@ namespace ELearning.Services
         public readonly IGenericRepository<Post> _postRepository;
         public readonly IGenericRepository<Doubt> _doubtRepository;
         public readonly IGenericRepository<DoubtComment> _doubtCommentRepository;
-    
-        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository , IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<Post> postRepository,IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository)
+        public readonly IGenericRepository<PdfNote> _pdfNotesRepository;
+        public readonly IGenericRepository<PreviousYearPaper> _paperRepository;
+
+
+        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository , IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<Post> postRepository,IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository , IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -47,6 +51,9 @@ namespace ELearning.Services
             _postRepository = postRepository;
             _doubtRepository = doubtRepository;
             _doubtCommentRepository = doubtCommentRepository;
+            _pdfNotesRepository = pdfNotesRepository;
+            _paperRepository = paperRepository;
+
 
         }
 
@@ -832,5 +839,117 @@ namespace ELearning.Services
             return await Result<int>.SuccessAsync(doubtComment.Id, "Doubt is Added.");
         }
 
+        #region pdfnotes
+        public async Task<List<PdfNote>> GetPdfNotes()
+        {
+            try
+            {
+                var data= await _pdfNotesRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> InsertPdfNote(PdfNote pdfnote)
+        {
+            try { 
+            await _pdfNotesRepository.AddAsync(pdfnote);
+            return await Result<int>.SuccessAsync(pdfnote.Id, "Notes Uploaded Successfully...");
+            }
+            catch (Exception ex) { 
+                throw ex; 
+            }
+        }
+
+        public async Task<Result<int>> UpdatePdfNote(PdfNote pdfNote)
+        {
+            try { 
+            await _pdfNotesRepository.UpdateAsync(pdfNote);
+                return await Result<int>.SuccessAsync(pdfNote.Id, "Notes Updated successfully...");
+        }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            }
+
+        public async Task<Result<int>> DeletePdfNote(int Id)
+        {
+            var data = await _pdfNotesRepository.GetByIdAsync(Id);
+            if (data == null)
+            {
+                return await Result<int>.FailAsync("Pdf not found.");
+            }
+            else
+            {
+                await _pdfNotesRepository.DeleteAsync(data);
+                return await Result<int>.SuccessAsync("Pdf is Deleted.");
+            }
+        }
+        #endregion
+
+        #region previousYearPaper
+        public async Task<List<PreviousYearPaper>> GetPaperPdf()
+        {
+            try { 
+            var data = await _paperRepository.GetAllAsync();
+            return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> InsertPaper(PreviousYearPaper paper)
+        {
+
+            try 
+            {
+                await _paperRepository.AddAsync(paper);
+                return await Result<int>.SuccessAsync(paper.Id,"Paper added Successfully..");
+            }
+            catch(Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> UpdatePaper(PreviousYearPaper paper)
+        {
+            try
+            {
+                await _paperRepository.UpdateAsync(paper);
+                return await Result<int>.SuccessAsync(paper.Id, "Paper Updated successfully..");
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> DeletePaper(int Id)
+        {
+            try
+            {
+                var data = await _paperRepository.GetByIdAsync(Id);
+                if (data == null)
+                {
+                    return await Result<int>.FailAsync("Pdf not found.");
+                }
+                else
+                {
+                    await _paperRepository .DeleteAsync(data);
+                    return await Result<int>.SuccessAsync("Pdf is Deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        #endregion
     }
 }
