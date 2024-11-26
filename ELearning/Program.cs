@@ -36,6 +36,7 @@ builder.Services.AddTransient<IFileUploadSerVices, FileUploadServices>();
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddTransient<IMailService, MailService>();
 
+builder.Services.AddTransient<IFileUploadSerVices, FileUploadServices>();
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 
 builder.Services.AddAutoMapper(typeof(Program));
