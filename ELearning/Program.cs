@@ -10,7 +10,7 @@ using ELearning.Post_Img_Service;
 using ELearning.AppNotify_Img_Service;
 using ELearning.API;
 using ELearning.SharedFileUpload;
-
+using ELearning_Core.Model.MailSettings;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ELearningContextConnection") ?? throw new InvalidOperationException("Connection string 'ELearningContextConnection' not found.");
@@ -32,6 +32,10 @@ builder.Services.AddTransient<IFileUplodeService, LocalFileUplodeService>();
 builder.Services.AddTransient<IFileUploadSerVice, FileUploadSerVice>();
 builder.Services.AddTransient<IFileUpLoadService,FileUpLoadService >();
 builder.Services.AddTransient<IFileUploadSerVices, FileUploadServices>();
+
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddTransient<IMailService, MailService>();
+
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 
 builder.Services.AddAutoMapper(typeof(Program));

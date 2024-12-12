@@ -19,6 +19,8 @@ namespace ELearning_Core.Model.Student
         [ForeignKey("CompanyId")]
         public virtual Company? Company { get; set; }
         public bool isActive { get; set; }
+        public string? OTP { get; set; }
+        public DateTime? OtpExpiryTime { get; set; }
 
     }
 }
