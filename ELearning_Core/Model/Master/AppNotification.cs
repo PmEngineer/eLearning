@@ -19,6 +19,7 @@ namespace ELearning_Core.Model.Master
 
         public string Image { get; set; }
 
+        public string Image1 { get; set; }
         public bool IsActive { get; set; }
 
     }
