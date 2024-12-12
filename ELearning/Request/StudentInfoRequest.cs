@@ -14,6 +14,8 @@ namespace ELearning.Request
         public int CompanyId { get; set; }
         public string? CreatedBY { get; set; }
         public string? UpdatedBY { get; set; }
+        public string? OTP { get; set; }
+        public DateTime? OtpExpiryTime { get; set; }
 
     }
 }

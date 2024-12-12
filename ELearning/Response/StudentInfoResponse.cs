@@ -11,6 +11,7 @@ namespace ELearning.Response
         public string PhoneNumber { get; set; }
       
         public int CompanyId { get; set; }
+        public string? OTP { get; set; }
 
 
     }

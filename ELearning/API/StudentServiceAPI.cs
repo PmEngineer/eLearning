@@ -56,6 +56,62 @@ namespace ELearning.API
                 return await Result<StudentInfoResponse>.FailAsync("StudentInfo failed to load." + ex.Message);
             }
         }
+        public async Task<StudentInfoRequest> FindByEmailAsync(ForgotPasswordRequest resetPasswordRequest)
+        {
+            try
+            {
+
+                var data = await _studentInfoRepository.GetAllAsync(x => x.Email == resetPasswordRequest.Email);
+                // var mappedData = _mapper.Map<StudentInfoRequest>(data.FirstOrDefault());
+
+                var mappedData = _mapper.Map<StudentInfoRequest>(data.FirstOrDefault());
+                if (mappedData == null)
+                {
+                    return mappedData;
+                }
+                else
+                {
+                    return mappedData;
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public async Task<Result<int>> UpdateStudentInfo(StudentInfoRequest studentInfoRequest)
+        {
+            try
+            {
+                var data = await _studentInfoRepository.GetByIdAsync(studentInfoRequest.Id);
+
+                if (data != null)
+                {
+                    data.UpdatedDate = DateTime.Now;
+                    data.OTP = studentInfoRequest.OTP;
+                    data.OtpExpiryTime = studentInfoRequest.OtpExpiryTime;
+             
+                    await _studentInfoRepository.UpdateAsync(data);
+                    return await Result<int>.SuccessAsync(data.Id, "Student is Updated.");
+                }
+                else
+                {
+                    return await Result<int>.FailAsync("Student not found.");
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return await Result<int>.FailAsync("Student is failed to Updated." + ex.Message);
+
+            }
+
+        }
+
 
     }
 }
