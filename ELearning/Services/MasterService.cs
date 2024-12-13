@@ -31,9 +31,9 @@ namespace ELearning.Services
         public readonly IGenericRepository<DoubtComment> _doubtCommentRepository;
         public readonly IGenericRepository<PdfNote> _pdfNotesRepository;
         public readonly IGenericRepository<PreviousYearPaper> _paperRepository;
+        public readonly IGenericRepository<Licence> _licenceRepository;
 
-
-        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository , IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<Post> postRepository,IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository , IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository)
+        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository , IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<Post> postRepository,IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository , IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository, IGenericRepository<Licence> licenceRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -53,7 +53,7 @@ namespace ELearning.Services
             _doubtCommentRepository = doubtCommentRepository;
             _pdfNotesRepository = pdfNotesRepository;
             _paperRepository = paperRepository;
-
+            _licenceRepository = licenceRepository;
 
         }
 
@@ -950,6 +950,67 @@ namespace ELearning.Services
                 throw ex;
             }
         }
+        #endregion
+
+        #region Licence
+
+        public async Task<List<Licence>> GetLicences()
+        {
+
+            try
+            {
+                var data = await _licenceRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+
+        }
+
+        public async Task<Result<int>> InsertLicence(Licence licence)
+        {
+            try
+            {
+                await _licenceRepository.AddAsync(licence);
+                return await Result<int>.SuccessAsync(licence.Id, "Licence Added Successfully...");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public async Task<Result<int>> UpdateLicence(Licence licence)
+        {
+
+            try
+            {
+                await _licenceRepository.UpdateAsync(licence);
+                return await Result<int>.SuccessAsync(licence.Id, "Licence Updated Successfully....");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> DeleteLicence(int Id)
+        {
+            var data = await _licenceRepository.GetByIdAsync(Id);
+            if (data == null)
+            {
+                return await Result<int>.FailAsync("Licence Id not Found...");
+            }
+            else
+            {
+                await _licenceRepository.DeleteAsync(data);
+                return await Result<int>.SuccessAsync("Licence Deleted Successfully...");
+            }
+
+        }
+
         #endregion
     }
 }

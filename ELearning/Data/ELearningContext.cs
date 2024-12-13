@@ -52,4 +52,5 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
     public DbSet<PdfNote>pdfNotes { get; set; }
     public DbSet<PreviousYearPaper> previousYearPapers { get; set; }
     public DbSet<PaperYear> paperYears  { get; set; }
+    public DbSet<Licence> Licences { get; set; }
 }

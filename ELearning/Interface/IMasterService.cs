@@ -111,5 +111,14 @@ namespace ELearning.Interface
         public Task<Result<int>> DeletePaper(int Id);
 
         #endregion
+
+        #region Licence
+
+        public Task<List<Licence>> GetLicences();
+        public Task<Result<int>> InsertLicence(Licence licence);
+        public Task<Result<int>> UpdateLicence(Licence licence);
+        public Task<Result<int>> DeleteLicence(int Id);
+
+        #endregion
     }
 }
