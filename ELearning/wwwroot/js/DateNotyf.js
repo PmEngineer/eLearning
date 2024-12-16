@@ -10,7 +10,7 @@ function calculateDuration() {
         var endDate = new Date(enddateInput);
         var duration = Math.abs(endDate - startDate);
         var durationInDays = Math.floor(duration / (1000 * 60 * 60 * 24));
-        document.getElementById("duration").value = durationInDays + " Days..";
+        document.getElementById("duration").value = durationInDays;
 
     } else if (!enddateInput) {
         notyf.error('Please Select End Date...');

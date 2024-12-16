@@ -25,60 +25,62 @@
 </style>
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header bg-primary mainh">AppNotification</div>
+        <div class="card-header bg-primary mainh">App Notification</div>
         <div class="card-body">
             <div>
                 <form class="form row g-3" method="post" enctype="multipart/form-data">
-
+                    <input type="hidden" name="targetFolder" value="App_Notification" />
                     <div class="dfelx">
                         <div class="flex-fill">
                             <div class="did-floating-label-content">
-                                <input type="hidden" asp-for="notification.Id" />
-                                <input type="hidden" asp-for="notification.CreatedBy" />
-                                <input type="hidden" asp-for="notification.CreatedDate" />
-                                <input type="hidden" asp-for="notification.Image" />
-                                <input class="did-floating-input" type="text" placeholder=" " asp-for="notification.Subject">
-                                <label class="did-floating-label">Subject</label>
+                                <select class="did-floating-select select2" asp-for="AppNotification.SubjectId">
+                                    @foreach (var item in Model.GetSubjects)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+
+
                             </div>
                         </div>
-                      
                         <div class="flex-fill">
                             <div class="did-floating-label-content">
-
-                                <input class="did-floating-input" type="file" placeholder=" " name="formFile" id="fileuplode" asp-for="notification.Image">
-
-                                <label class="did-floating-label">Image</label>
-                            </div>
-                        </div>
-
-                        <div class="flex-fill" style="text-align:center;">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" asp-for="notification.IsActive" id="defaultCheck1" style="float:inherit;">
-                                <label class="form-check-label" for="defaultCheck1">
-                                    IsActive
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="flex-fill textareas QuesEn">
-                            <div class="form-check">
-                                <label>Description</label>
-
-                                <textarea class="" id="EnglishSolution" asp-for="notification.Description"></textarea>
+                                <input type="hidden" asp-for="AppNotification.Id" />
+                                <input type="hidden" asp-for="AppNotification.CreatedBy" />
+                                <input type="hidden" asp-for="AppNotification.CreatedDate" />
+                                @*    <input type="hidden" asp-for="AppNotification.Image"/> *@
+                                <input class="did-floating-input" type="file" accept=".png, .jpg, .jpeg,.gif" name="formFile" id="fileuplode" asp-for="AppNotification.Image">
+                                <label class="did-floating-label">Select Image File</label>
                             </div>
                         </div>
                         @{
-                            if (Model.notification.Id > 0)
+                            if (Model.AppNotification.Id > 0)
                             {
                                 <div class="flex-fill ">
                                     <div class="form-check">
                                         <label>Image</label>
                                         <br />
-                                        <img src="/AppNotify_Img/@Model.notification.Image" height="200" width="170" alt="Alternamte Text" />
+                                        <img src="/App_Notification/Images/@Model.AppNotification.Image" height="40" width="40" alt="Lternate text" />
                                     </div>
                                 </div>
                             }
                         }
+                        <div class="flex-fill" style="text-align:center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="defaultCheck2" style="float:inherit;" asp-for="AppNotification.IsActive">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    IsActive
+                                </label>
+                            </div>
+                        </div>
+                        <div class="flex-fill textareas QuesEn">
+                            <div class="form-check">
+                                <label>Description</label>
+
+                                <textarea class="" id="EnglishSolution" asp-for="AppNotification.Description"></textarea>
+                            </div>
+                        </div>
+
 
                         <div class="flex-fill" style="text-align:center;">
                             <br />
@@ -103,7 +105,7 @@
                         <th>Subject</th>
                         <th>Image</th>
                         <th>IsActive</th>
-                        <th>Discription</th>
+                        <th>Description</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -111,20 +113,20 @@
                     @{
                         var srno = 1;
                     }
-                    @foreach (var item in Model.GetAppNotifications)
+                    @foreach (var item in Model.AppNotifications)
                     {
                         <tr>
 
                             <td>@srno</td>
-                            <td>@item.Subject</td>
-                            <td scope="row"><img src="/AppNotify_Img/@item.Image" height="20" width="20" alt="Alternamte Text" /></td>
-                            <td><input class="form-check-input" type="checkbox" asp-for="@item.IsActive" id="defaultCheck1" style="margin: auto;" readonly></td>
+                            <td>@item.Subject.Name</td>
+                            <td scope="row"><img src="/App_Notification/Images/@item.Image" height="40" width="40" alt="Lternate text" /></td>
+                            <td><input class="form-check-input" type="checkbox" asp-for="@item.IsActive" id="defaultCheck1" readonly style="margin: auto;"></td>
                             <td>@Html.Raw(item.Description)</td>
 
                             <td>
                                 <a href="/AppNotification/@item.Id" class="fas fa-edit text-success"></a>&nbsp;
 
-                                <button class="fa fa-trash-o fs-4 text-danger" asp-page="AppNotification" asp-page-handler="Delete"
+                                <button class="fa fa-trash-o fs-4 text-danger" asp-page="" asp-page-handler="Delete"
                                         asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)">
                                 </button>
 

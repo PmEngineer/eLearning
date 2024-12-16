@@ -1,128 +1,131 @@
 using AspNetCoreHero.ToastNotification.Abstractions;
 using ELearning.Interface;
+using ELearning.SharedFileUpload;
 using ELearning_Core.Model;
 using ELearning_Core.Model.Master;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ELearning.AppNotify_Img_Service;
 
 namespace ELearning.Pages.Master
 {
     public class AppNotificationModel : PageModel
     {
+
         public readonly IMasterService _MasterService;
-        private readonly INotyfService _notyf;
-        private UserManager<IdentityUser> _UserManager;
-        public readonly IFileUpLoadService _fileUplodeService;
-        public AppNotificationModel(IMasterService masterService, INotyfService notyf, UserManager<IdentityUser> userManager, IFileUpLoadService fileUplodeService)
+        private readonly INotyfService _notfy;
+        private readonly UserManager<IdentityUser> _UserManger;
+        public readonly IFileUploadSerVices _fileUploadSerVices;
+
+        public AppNotificationModel(IMasterService masterService, INotyfService notfy, UserManager<IdentityUser> userManger, IFileUploadSerVices fileUploadSerVices)
         {
             _MasterService = masterService;
-            _notyf = notyf;
-            _UserManager = userManager;
-            _fileUplodeService = fileUplodeService;
+            _notfy = notfy;
+            _UserManger = userManger;
+            _fileUploadSerVices = fileUploadSerVices;
         }
         [Parameter]
         public int Id { get; set; }
         public string FilePath { get; set; }
+
         public string userId { get; set; }
         public string value { get; set; } = "Save";
-        public string IMagePath { get; set; }
+        public string ImagePath { get; set; }
         [BindProperty]
-        public AppNotification notification { get; set; } = new();
+        public AppNotification AppNotification { get; set; } = new();
+        public List<AppNotification> AppNotifications { get; set; } = new();
+        public List<Subject> GetSubjects { get; set; } = new();
 
-        public List<AppNotification> GetAppNotifications { get; set; } = new();
+
         public async Task OnGetAsync(int Id)
         {
-            GetAppNotifications = await _MasterService.GetNotification();
+            await getSubjects();
+            AppNotifications = await _MasterService.GetNotification();
             if (Id > 0)
             {
-                var appNotificationdata = GetAppNotifications.Where(x => x.Id == Id).FirstOrDefault();
-
-                if (appNotificationdata != null)
+                var notficationData = AppNotifications.Where(x => x.Id == Id).FirstOrDefault();
+                if (notficationData != null)
                 {
-                    notification.Id = appNotificationdata.Id;
-                    notification.Subject = appNotificationdata.Subject;
-                    notification.Description = appNotificationdata.Description;
-                    notification.Image = appNotificationdata.Image;
-                    notification.IsActive = appNotificationdata.IsActive;
-                    notification.CreatedDate = appNotificationdata.CreatedDate;
-                    notification.CreatedBy = appNotificationdata.CreatedBy;
-                    notification.UpdatedBy =   appNotificationdata.UpdatedBy;
-                    notification.UpdatedDate = appNotificationdata.UpdatedDate;
-                    IMagePath = appNotificationdata.Image;
+                    AppNotification.Id = notficationData.Id;
+                    AppNotification.SubjectId = notficationData.SubjectId;
+                    AppNotification.Description = notficationData.Description;
+                    AppNotification.Image = notficationData.Image;
+                    AppNotification.IsActive = notficationData.IsActive;
+                    ImagePath = notficationData.Image;
+                    AppNotification.CreatedBy = notficationData.CreatedBy;
+                    AppNotification.CreatedDate = notficationData.CreatedDate;
+                    AppNotification.UpdatedBy = notficationData.UpdatedBy;
+                    AppNotification.UpdatedDate = notficationData.UpdatedDate;
 
                 }
                 value = "Update";
             }
-
         }
-
-        public async Task<IActionResult> OnPostAsync(IFormFile formFile)
+        public async Task getSubjects()
         {
-            if (formFile != null)
+            var subjectList = await _MasterService.GetSubjects();
+            GetSubjects = subjectList.Where(x => x.IsActive == true).ToList();
+        }
+        public async Task<IActionResult> OnPostAsync(IFormFile formfile, string targetFolder)
+        {
+            if (formfile != null)
             {
-                FilePath = await _fileUplodeService.UplodeFileAsync(formFile);
+                FilePath = await _fileUploadSerVices.UplodeFileAsync(formfile, targetFolder);
             }
-
-            var user = _UserManager.GetUserId(User);
+            var user = _UserManger.GetUserId(User);
             userId = user;
-
-            if (notification.Id == 0)
+            if (AppNotification.Id == 0)
             {
-                string fileName = Path.GetFileName(FilePath);
-                notification.CreatedBy = user;
-                notification.CreatedDate = DateTime.Now;
-                notification.Image = fileName;
-                var data = await _MasterService.InsertNotification(notification);
+                string filename = Path.GetFileName(FilePath);
+                AppNotification.CreatedBy = user;
+                AppNotification.CreatedDate = DateTime.Now;
+                AppNotification.Image = filename;
+                var data = await _MasterService.InsertNotification(AppNotification);
                 if (data.Succeeded)
                 {
-                    _notyf.Success(data.Messages[0]);
+                    _notfy.Success(data.Messages[0]);
                 }
                 else
                 {
-                    _notyf.Error(data.Messages[0]);
+                    _notfy.Error(data.Messages[0]);
                 }
-
             }
             else
             {
-                string fileName = Path.GetFileName(FilePath);
-                if (fileName != null)
+                string filename = Path.GetFileName(FilePath);
+                if (filename != null)
                 {
-                    notification.Image = fileName;
+                    AppNotification.Image = filename;
                 }
-
-                notification.UpdatedBy = user;
-                notification.UpdatedDate = DateTime.Now;
-                var data = await _MasterService.UpdateNotification(notification);
+                AppNotification.UpdatedBy = user;
+                AppNotification.UpdatedDate = DateTime.Now;
+                var data = await _MasterService.UpdateNotification(AppNotification);
                 if (data.Succeeded)
                 {
-                    _notyf.Success(data.Messages[0]);
+                    _notfy.Success(data.Messages[0]);
                 }
                 else
                 {
-                    _notyf.Error(data.Messages[0]);
+                    _notfy.Error(data.Messages[0]);
                 }
             }
 
             return Redirect("AppNotification");
         }
-
         public async Task<IActionResult> OnPostDelete(int Id)
         {
             var data = await _MasterService.DeleteNotification(Id);
             if (data.Succeeded)
             {
-                _notyf.Success(data.Messages[0]);
+                _notfy.Success(data.Messages[0]);
             }
             else
             {
-                _notyf.Error(data.Messages[0]);
+                _notfy.Error(data.Messages[0]);
             }
             return Redirect("AppNotification");
         }
+
     }
 }
