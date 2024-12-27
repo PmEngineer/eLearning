@@ -23,7 +23,7 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
         // Customize the ASP.NET Identity model and override the defaults if needed.
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
-        
+
     }
 
     public DbSet<Company> Company { get; set; }
@@ -35,12 +35,12 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
     public DbSet<Course> Course { get; set; }
     public DbSet<MainMenu> MainMenus { get; set; }
     public DbSet<SubMenu> SubMenus { get; set; }
-    public DbSet<AppNotification>Notifications  { get; set; }
-    public DbSet<Trade> Trades { get; set; }    
+    public DbSet<AppNotification> Notifications { get; set; }
+    public DbSet<Trade> Trades { get; set; }
     public DbSet<Category> categories { get; set; }
     public DbSet<SubCategory> subCategories { get; set; }
 
-    public DbSet<Post>posts { get; set; }
+    public DbSet<Post> posts { get; set; }
 
     public DbSet<Doubt> doubts { get; set; }
 
@@ -49,8 +49,9 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
 
     public DbSet<DoubtLike> doubtLikes { get; set; }
 
-    public DbSet<PdfNote>pdfNotes { get; set; }
+    public DbSet<PdfNote> pdfNotes { get; set; }
     public DbSet<PreviousYearPaper> previousYearPapers { get; set; }
-    public DbSet<PaperYear> paperYears  { get; set; }
+    public DbSet<PaperYear> paperYears { get; set; }
     public DbSet<Licence> Licences { get; set; }
+    public DbSet<Book> Books { get; set; }
 }

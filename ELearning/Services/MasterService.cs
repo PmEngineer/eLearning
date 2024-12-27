@@ -32,8 +32,9 @@ namespace ELearning.Services
         public readonly IGenericRepository<PdfNote> _pdfNotesRepository;
         public readonly IGenericRepository<PreviousYearPaper> _paperRepository;
         public readonly IGenericRepository<Licence> _licenceRepository;
+        public readonly IGenericRepository<Book> _bookRepository;
 
-        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository , IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<Post> postRepository,IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository , IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository, IGenericRepository<Licence> licenceRepository)
+        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository , IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<Post> postRepository,IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository , IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository, IGenericRepository<Licence> licenceRepository, IGenericRepository<Book> bookRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -54,6 +55,7 @@ namespace ELearning.Services
             _pdfNotesRepository = pdfNotesRepository;
             _paperRepository = paperRepository;
             _licenceRepository = licenceRepository;
+            _bookRepository = bookRepository;
 
         }
 
@@ -1011,6 +1013,58 @@ namespace ELearning.Services
 
         }
 
+        #endregion
+
+        #region Book
+        public async Task<List<Book>> GetBooks()
+        {
+            try
+            {
+                var data = await _bookRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> InsertBook(Book book)
+        {
+            try
+            {
+                await _bookRepository.AddAsync(book);
+                return await Result<int>.SuccessAsync(book.Id, "Book Inserted Successfully");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> UpdateBook(Book book)
+        {
+            try
+            {
+                await _bookRepository.UpdateAsync(book);
+                return await Result<int>.SuccessAsync(book.Id, "Book Updated Successfully");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> DeleteBook(int Id)
+        {
+            var data = await _bookRepository.GetByIdAsync(Id);
+            if(data==null)
+            {
+                return await Result<int>.FailAsync("Book id is not found....");
+            }
+            else
+            {
+                await _bookRepository.DeleteAsync(data);
+                return await Result<int>.SuccessAsync("Book deleted successfully....");
+            }
+        }
         #endregion
     }
 }

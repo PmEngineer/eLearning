@@ -30,8 +30,9 @@ namespace ELearning.API
         public readonly IGenericRepository<DoubtLike> _doubtlikeRepository;
         public readonly IGenericRepository<PdfNote> _pdfNotesRepository;
         public readonly IGenericRepository<PreviousYearPaper> _paperRepository;
+        public readonly IGenericRepository<Book> _bookRepository;
         public IMapper _mapper;
-        public MasterServiceAPI(IMapper mapper, IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository, IGenericRepository<DoubtLike> doubtlikeRepository, IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository)
+        public MasterServiceAPI(IMapper mapper, IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository, IGenericRepository<DoubtLike> doubtlikeRepository, IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository, IGenericRepository<Book> bookRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -48,6 +49,7 @@ namespace ELearning.API
              _mapper = mapper;
             _doubtlikeRepository = doubtlikeRepository;
             _paperRepository = paperRepository;
+            _bookRepository = bookRepository;
         }
         #region Course Subject
 
@@ -477,6 +479,37 @@ namespace ELearning.API
 
         }
 
+        #endregion
+
+        #region BookPdf
+        public async Task<Result<List<BookPdfRequest>>> GetBooks(int Cid, int Sid)
+        {
+            try
+            {
+                if (Cid==0 && Sid==0)
+                {
+                    var data = await _bookRepository.GetAllAsync();
+
+                    var mappedData = _mapper.Map<List<BookPdfRequest>>(data.ToList());
+                    mappedData.Select(x => { x.BookPdfFile = "Book_File/Documents/" + x.BookPdfFile; return x; }).ToList();
+
+                    return await Result<List<BookPdfRequest>>.SuccessAsync(mappedData);
+                }
+                else
+                {
+                    var data = await _bookRepository.GetAllAsync(x => x.CourseId==Cid && x.SubjectId==Sid);
+
+                    var mappedData = _mapper.Map<List<BookPdfRequest>>(data.ToList());
+                    mappedData.Select(x => { x.BookPdfFile = "Book_File/Documents/" + x.BookPdfFile; return x; }).ToList();
+
+                    return await Result<List<BookPdfRequest>>.SuccessAsync(mappedData);
+                }
+            }
+            catch (Exception ex)
+            {
+                return await Result<List<BookPdfRequest>>.FailAsync("Book Pdf Failed to load..." + ex.Message);
+            }
+        }
         #endregion
     }
 }

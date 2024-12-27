@@ -5,6 +5,8 @@ namespace ELearning.Interface
     public interface ICompanyService
     {
 
-        public Company CompanyLogin(string username, string password); 
+        public Task <Company> CompanyLogin(string username, string password);
+       
+
     }
 }

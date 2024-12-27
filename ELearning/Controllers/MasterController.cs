@@ -161,5 +161,14 @@ namespace ELearning.Controllers
         }
 
         #endregion
+        #region BookPdf
+        [HttpGet]
+        [Route("GetBooks")]
+        public async Task<IActionResult> GetBooks(int Cid, int Sid)
+        {
+            var data = await _masterService.GetBooks(Cid, Sid);
+            return Ok(data);
+        }
+        #endregion
     }
 }

@@ -1,28 +1,57 @@
 ﻿using ELearning.Interface;
 using ELearning_Core.Model;
+using ELearning_Core.Model.Master;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ELearning.Services
 {
     public class CompanyService : ICompanyService
     {
-        public readonly IGenericRepository<Company> _company;
+        private readonly IGenericRepository<Company> _companyRepository;
+        private readonly IGenericRepository<Licence> _licenceRepository;
 
-        public CompanyService(IGenericRepository<Company> company)
+        public CompanyService(IGenericRepository<Company> companyRepository, IGenericRepository<Licence> licenceRepository)
         {
-            _company = company;
+            _companyRepository = companyRepository;
+            _licenceRepository = licenceRepository;
         }
-        public Company CompanyLogin(string username, string password)
-        {
-            Company c = new Company();
-             var data = _company.GetAllAsync(x=>x.Password == password && x.EmailId == username);
-            if (data != null) {
-                c = data.Result.FirstOrDefault();
-                return c;
 
+        public async Task<Company> CompanyLogin(string username, string password)
+        {
+           
+            var companies = await _companyRepository.GetAllAsync(x => x.EmailId == username );
+
+          
+            if (companies == null || !companies.Any())
+            {
+                return null;
             }
-            else {
-                return c;
+            var loggedCompany = companies.FirstOrDefault();
+
+    
+            if (loggedCompany.Password != password) 
+            {
+                return null; 
             }
+
+        
+            var licences = await _licenceRepository.GetAllAsync(l => l.CompanyId == loggedCompany.Id);
+            if (licences == null || !licences.Any())
+            {
+                return null; 
+            }
+
+            var companyLicence = licences.FirstOrDefault();
+          
+            if (companyLicence.StartDate > DateTime.Now || companyLicence.EndDate < DateTime.Now)
+            {
+                return null;
+            }
+
+            
+            return loggedCompany;
         }
     }
 }

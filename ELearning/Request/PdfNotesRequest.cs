@@ -9,6 +9,7 @@ namespace ELearning.Request
             public string NoteName { get; set; }
         public bool IsPaid { get; set; }
 
-        public string PdfFile { get; set; } 
+        public string PdfFile { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

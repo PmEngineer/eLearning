@@ -7,7 +7,9 @@ namespace ELearning.Profiles
 
         public PdfNotesProfile() 
         {
-            CreateMap<ELearning_Core.Model.Master.PdfNote, ELearning.Request.PdfNotesRequest>().ReverseMap();
+            CreateMap<ELearning_Core.Model.Master.PdfNote, ELearning.Request.PdfNotesRequest>()
+               .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(src => src.CreatedDate))
+               .ReverseMap();
         }
     }
 }

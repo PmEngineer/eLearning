@@ -28,6 +28,23 @@
                 <form class="form row g-3" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="targetFolder" value="Pdf_File" />
                     <div class="row g-3">
+
+                        <div class="col-2">
+                            <div class="did-floating-label-content">
+
+                                <select class=" did-floating-select select2" asp-for="pdfNote.CourseId">
+
+                                    @foreach (var item in Model.GetCourses)
+                                    {
+
+                                        <option value="@item.Id">@item.Name</option>
+
+                                    }
+                                </select>
+                                <label class="did-floating-label">Course</label>
+                            </div>
+                        </div>
+
                         <div class="col-4 flex-fill">
                             <div class="did-floating-label-content">
                                 <input type="hidden" asp-for="pdfNote.Id" />
@@ -45,21 +62,7 @@
                                     Pdf Name
                                 </label>
                         </div>
-                        <div class="col-2">
-                            <div class="did-floating-label-content">
-
-                                <select class=" did-floating-select select2" asp-for="pdfNote.CourseId">
-
-                                    @foreach (var item in Model.GetCourses)
-                                    {
-
-                                        <option value="@item.Id">@item.Name</option>
-
-                                    }
-                                </select>
-                                <label class="did-floating-label">Course</label>
-                            </div>
-                        </div>
+                       
 
                         <div class="col-1 flex-fill" style="text-align:center;">
                             <div class="form-check">

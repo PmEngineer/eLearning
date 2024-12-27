@@ -120,5 +120,12 @@ namespace ELearning.Interface
         public Task<Result<int>> DeleteLicence(int Id);
 
         #endregion
+
+        #region Book
+        public Task<List<Book>> GetBooks();
+        public Task<Result<int>> InsertBook(Book book);
+        public Task<Result<int>> UpdateBook(Book book);
+        public Task<Result<int>> DeleteBook(int Id);
+        #endregion
     }
 }
