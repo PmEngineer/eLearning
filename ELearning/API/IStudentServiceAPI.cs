@@ -10,8 +10,9 @@ namespace ELearning.API
         #region StudentInfo
         public Task<Result<int>> InsertStudentInfo(StudentInfoRequest studentInfoRequest);
         public Task<Result<StudentInfoResponse>> GetStudentByNameAndPassword(StudentLoginRequest studentLoginRequest);
-        public Task<StudentInfoRequest> FindByEmailAsync(ForgotPasswordRequest resetPasswordRequest);
-        public Task<Result<int>> UpdateStudentInfo(StudentInfoRequest studentInfoRequest);
+        public Task<StudentInfoRequest> FindByEmailAsync(PasswordRequest resetPasswordRequest);
+        public Task<Result<int>> UpdateStudentInfoPassword(StudentInfoRequest studentInfoRequest);
+       
         #endregion
 
     }

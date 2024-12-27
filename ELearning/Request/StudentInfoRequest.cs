@@ -16,6 +16,7 @@ namespace ELearning.Request
         public string? UpdatedBY { get; set; }
         public string? OTP { get; set; }
         public DateTime? OtpExpiryTime { get; set; }
+        
 
     }
 }

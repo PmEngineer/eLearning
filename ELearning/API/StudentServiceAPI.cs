@@ -56,7 +56,7 @@ namespace ELearning.API
                 return await Result<StudentInfoResponse>.FailAsync("StudentInfo failed to load." + ex.Message);
             }
         }
-        public async Task<StudentInfoRequest> FindByEmailAsync(ForgotPasswordRequest resetPasswordRequest)
+        public async Task<StudentInfoRequest> FindByEmailAsync(PasswordRequest resetPasswordRequest)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace ELearning.API
                 throw;
             }
         }
-        public async Task<Result<int>> UpdateStudentInfo(StudentInfoRequest studentInfoRequest)
+        public async Task<Result<int>> UpdateStudentInfoPassword(StudentInfoRequest studentInfoRequest)
         {
             try
             {
@@ -92,9 +92,12 @@ namespace ELearning.API
                     data.UpdatedDate = DateTime.Now;
                     data.OTP = studentInfoRequest.OTP;
                     data.OtpExpiryTime = studentInfoRequest.OtpExpiryTime;
-             
-                    await _studentInfoRepository.UpdateAsync(data);
-                    return await Result<int>.SuccessAsync(data.Id, "Student is Updated.");
+                   
+                    data.Password = studentInfoRequest.Password;
+                    data.ConfirmPassword = studentInfoRequest.ConfirmPassword;
+                    
+                     await _studentInfoRepository.UpdateAsync(data);
+                    return await Result<int>.SuccessAsync("Student is Updated.");
                 }
                 else
                 {
@@ -105,13 +108,15 @@ namespace ELearning.API
 
             }
             catch (Exception ex)
+
             {
-                return await Result<int>.FailAsync("Student is failed to Updated." + ex.Message);
+                throw;
+               // return await Result<int>.FailAsync("Student is failed to Updated." + ex.Message);
 
             }
 
         }
 
-
+      
     }
 }

@@ -49,7 +49,7 @@ namespace ELearning.Controllers
         }
         [HttpPost]
         [Route("ForgotPassword")]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest model)
+        public async Task<IActionResult> ForgotPassword(PasswordRequest model)
         {
             if (string.IsNullOrEmpty(model.Email))
                 return BadRequest("Email is required.");
@@ -64,23 +64,31 @@ namespace ELearning.Controllers
             // Store OTP and expiry in the database
             user.OTP = otp;
             user.OtpExpiryTime = DateTime.UtcNow.AddMinutes(5); 
-            await _studentService.UpdateStudentInfo(user);
+            await _studentService.UpdateStudentInfoPassword(user);
 
             // Send OTP via Email
-            MailRequest request = new MailRequest();
-            request.Subject = "Login";
-            request.ToEmail = user.Email;
-            request.Body = "<table ><tr><b> <td>Email :" + user.Email + "</td></b> <td></td></tr> <tr> <b> <td>OTP:" + otp + "</td></b><td></td> </tr> </table> ";
-                        
+            try
+            {
+                MailRequest request = new MailRequest();
+                request.Subject = "Login";
+                request.ToEmail = user.Email;
+                request.Body = "<table ><tr><b> <td>Email :" + user.Email + "</td></b> <td></td></tr> <tr> <b> <td>OTP:" + otp + "</td></b><td></td> </tr> </table> ";
 
-            await _mailService.SendEmailAsync(request);
+
+                await _mailService.SendEmailAsync(request);
+            }
+            catch(Exception ex)
+            {
+           
+                return Ok(" email Failed");
+            }
           
 
             return Ok("OTP sent  to your email.");
         }
         [HttpPost]
         [Route("VerifyOtp")]
-        public async Task<IActionResult> VerifyOtp(ForgotPasswordRequest model)
+        public async Task<IActionResult> VerifyOtp(PasswordRequest model)
         {
             if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Otp))
                 return BadRequest("Email and OTP are required.");
@@ -103,8 +111,30 @@ namespace ELearning.Controllers
 
             return Ok("OTP verified and password sent to your email.");
         }
+        [HttpPost]
+        [Route("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(PasswordRequest passwordRequest)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
+            // Find the user
+            var user = await _studentService.FindByEmailAsync(passwordRequest);
+            if (user == null)
+                return NotFound("User not found");
 
+            // Validate current password
+            if (user.Password != passwordRequest.CurrentPassword)
+                return BadRequest("Current password is incorrect");
+
+            // Hash new password and update user
+            user.Password = passwordRequest.NewPassword;
+            user.ConfirmPassword = passwordRequest.NewPassword;
+            var data =  _studentService.UpdateStudentInfoPassword(user);
+          
+
+            return Ok(new { message = "Password changed successfully" });
+        }
 
     }
 }
