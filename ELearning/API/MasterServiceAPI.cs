@@ -6,6 +6,7 @@ using ELearning.Response;
 using ELearning_Core.Core.Model;
 using ELearning_Core.Model;
 using ELearning_Core.Model.City;
+using ELearning_Core.Model.Faculty;
 using ELearning_Core.Model.Master;
 using ELearning_Core.Model.Student;
 using ELearning_Core.Shared;
@@ -31,8 +32,9 @@ namespace ELearning.API
         public readonly IGenericRepository<PdfNote> _pdfNotesRepository;
         public readonly IGenericRepository<PreviousYearPaper> _paperRepository;
         public readonly IGenericRepository<Book> _bookRepository;
+        public readonly IGenericRepository<Faculty> _facultyRepository;
         public IMapper _mapper;
-        public MasterServiceAPI(IMapper mapper, IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository, IGenericRepository<DoubtLike> doubtlikeRepository, IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository, IGenericRepository<Book> bookRepository)
+        public MasterServiceAPI(IMapper mapper, IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository, IGenericRepository<DoubtLike> doubtlikeRepository, IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository, IGenericRepository<Book> bookRepository, IGenericRepository<Faculty> facultyRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -50,6 +52,7 @@ namespace ELearning.API
             _doubtlikeRepository = doubtlikeRepository;
             _paperRepository = paperRepository;
             _bookRepository = bookRepository;
+            _facultyRepository = facultyRepository;
         }
         #region Course Subject
 
@@ -511,5 +514,33 @@ namespace ELearning.API
             }
         }
         #endregion
+       
+        #region Faculty
+        public async Task<Result<List<FacultyResponse>>> GetFacultyList()
+        {
+            try
+            {
+                var data= await _facultyRepository.GetAllAsync();
+                List<FacultyResponse> FacultyList = new List<FacultyResponse>();
+                foreach (var item in data)
+                {
+                    FacultyResponse faculty = new FacultyResponse();
+                    faculty.Id = item.Id;
+                    faculty.Name = item.Name;
+                    faculty.Contact = item.Contact;
+                    faculty.Email = item.Email;
+                    faculty.Qualification = item.Qualification;
+                    faculty.Image =item.Image;
+                    FacultyList.Add(faculty);
+                }
+                return await Result<List<FacultyResponse>>.SuccessAsync(FacultyList);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            } 
+        }
+        #endregion
+
     }
 }

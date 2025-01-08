@@ -47,6 +47,13 @@ namespace ELearning.API
         public Task<Result<List<BookPdfRequest>>> GetBooks(int Cid, int Sid);
         #endregion
 
+        #region Faculty
+        public Task<Result<List<FacultyResponse>>> GetFacultyList();
+        #endregion
+
+        #region Batch
+       
+        #endregion
     }
 }
 

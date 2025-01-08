@@ -2,6 +2,7 @@
 using ELearning_Core.Core.Model;
 using ELearning_Core.Model;
 using ELearning_Core.Model.City;
+using ELearning_Core.Model.Faculty;
 using ELearning_Core.Model.Master;
 using ELearning_Core.Model.Student;
 using Microsoft.AspNetCore.Identity;
@@ -54,4 +55,6 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
     public DbSet<PaperYear> paperYears { get; set; }
     public DbSet<Licence> Licences { get; set; }
     public DbSet<Book> Books { get; set; }
+    public DbSet<Faculty> Faculties { get; set; }
+    public DbSet<Batch> Batches {  get; set; } 
 }

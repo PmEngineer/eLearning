@@ -170,5 +170,15 @@ namespace ELearning.Controllers
             return Ok(data);
         }
         #endregion
+
+        #region Faculty
+        [HttpGet]
+        [Route("GetFacultyList")]
+        public async Task<IActionResult> GetFacultyList()
+        {
+            var data= await _masterService.GetFacultyList();
+            return Ok(data);
+        }
+        #endregion
     }
 }

@@ -8,12 +8,13 @@ using ELearning_Core.Core.Model;
 using System.Collections.Generic;
 using Microsoft.Extensions.Hosting;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using ELearning_Core.Model.Faculty;
 
 namespace ELearning.Services
 {
     public class MasterService : IMasterService
     {
-       public readonly IGenericRepository<Company> _companyRepository;
+        public readonly IGenericRepository<Company> _companyRepository;
         public readonly IGenericRepository<Country> _countryRepository;
         public readonly IGenericRepository<State> _stateRepository;
         public readonly IGenericRepository<City> _cityRepository;
@@ -33,8 +34,10 @@ namespace ELearning.Services
         public readonly IGenericRepository<PreviousYearPaper> _paperRepository;
         public readonly IGenericRepository<Licence> _licenceRepository;
         public readonly IGenericRepository<Book> _bookRepository;
+        public readonly IGenericRepository<Faculty> _facultyRepository;
+        public readonly IGenericRepository<Batch> _batchRepository;
 
-        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository , IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository , IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<Post> postRepository,IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository , IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository, IGenericRepository<Licence> licenceRepository, IGenericRepository<Book> bookRepository)
+        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository, IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<Post> postRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository, IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository, IGenericRepository<Licence> licenceRepository, IGenericRepository<Book> bookRepository, IGenericRepository<Faculty> facultyRepository, IGenericRepository<Batch> batchRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -56,9 +59,11 @@ namespace ELearning.Services
             _paperRepository = paperRepository;
             _licenceRepository = licenceRepository;
             _bookRepository = bookRepository;
+            _facultyRepository = facultyRepository;
+            _batchRepository = batchRepository;
 
         }
-
+        #region Company
         public async Task<List<Company>> GetCompanies()
         {
             try
@@ -70,7 +75,7 @@ namespace ELearning.Services
             {
                 throw;
             }
-     
+
         }
 
         public async Task<Result<int>> InsertCompany(Company company)
@@ -80,13 +85,13 @@ namespace ELearning.Services
                 await _companyRepository.AddAsync(company);
                 return await Result<int>.SuccessAsync(company.Id, "Company added");
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
                 throw;
             }
         }
 
-        public async  Task<Result<int>> UpdateCompany(Company company)
+        public async Task<Result<int>> UpdateCompany(Company company)
         {
             try
             {
@@ -101,7 +106,7 @@ namespace ELearning.Services
         public async Task<Result<int>> DeleteCompany(int Id)
         {
             var data = await _companyRepository.GetByIdAsync(Id);
-            if(data != null)
+            if (data != null)
             {
                 await _companyRepository.DeleteAsync(data);
                 return await Result<int>.SuccessAsync("Compnay Deleted ");
@@ -111,7 +116,9 @@ namespace ELearning.Services
                 return await Result<int>.FailAsync("Data Not Found");
             }
         }
+        #endregion
 
+        #region Country
         public async Task<Result<int>> DeleteCountry(int Id)
         {
             var data = await _countryRepository.GetByIdAsync(Id);
@@ -136,8 +143,6 @@ namespace ELearning.Services
 
         }
 
-
-
         public async Task<Result<int>> InsertCountry(Country country)
         {
             await _countryRepository.AddAsync(country);
@@ -149,7 +154,9 @@ namespace ELearning.Services
             await _countryRepository.UpdateAsync(country);
             return await Result<int>.SuccessAsync(country.Id, "Country Update");
         }
+        #endregion
 
+        #region State
         public async Task<List<State>> GetStates()
         {
             try
@@ -188,6 +195,9 @@ namespace ELearning.Services
                 return await Result<int>.SuccessAsync("State Deleted");
             }
         }
+        #endregion
+
+        #region city
         public async Task<List<City>> GetCities()
         {
             try
@@ -227,7 +237,9 @@ namespace ELearning.Services
             }
 
         }
+        #endregion
 
+        #region Subject
         public async Task<List<Subject>> GetSubjects()
         {
             try
@@ -271,8 +283,8 @@ namespace ELearning.Services
         {
             try
             {
-                var data =await _subjectRepository.GetByIdAsync(Id);
-                if(data == null)
+                var data = await _subjectRepository.GetByIdAsync(Id);
+                if (data == null)
                 {
                     return await Result<int>.FailAsync("Data Not Found");
                 }
@@ -288,7 +300,9 @@ namespace ELearning.Services
                 throw ex;
             }
         }
+        #endregion
 
+        #region lesson
         public async Task<List<Lessons>> GetLessons()
         {
             try
@@ -319,7 +333,7 @@ namespace ELearning.Services
 
         public async Task<Result<int>> UpdateLessons(Lessons lessons)
         {
-           try
+            try
             {
                 await _lessonRepository.UpdateAsync(lessons);
                 return await Result<int>.SuccessAsync(lessons.Id, "Lesson Updated");
@@ -333,7 +347,7 @@ namespace ELearning.Services
 
         public async Task<Result<int>> DeleteLesson(int Id)
         {
-             try
+            try
             {
                 var data = await _lessonRepository.GetByIdAsync(Id);
                 if (data == null)
@@ -347,17 +361,19 @@ namespace ELearning.Services
                     return await Result<int>.SuccessAsync("Data Deleted");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
 
 
         }
+        #endregion
 
+        #region menu
         public async Task<List<MainMenu>> GetMenu()
         {
-           try
+            try
             {
                 var data = await _menuRepository.GetAllAsync();
                 return data.ToList();
@@ -372,7 +388,7 @@ namespace ELearning.Services
         {
             try
             {
-                await  _menuRepository.AddAsync(mainMenu);
+                await _menuRepository.AddAsync(mainMenu);
                 return await Result<int>.SuccessAsync(mainMenu.Id, "Menu Added");
             }
             catch (Exception ex)
@@ -389,7 +405,7 @@ namespace ELearning.Services
                 return await Result<int>.SuccessAsync(mainMenu.Id, "Menu Updated");
 
             }
-                
+
             catch (Exception ex)
             {
                 throw ex;
@@ -401,7 +417,7 @@ namespace ELearning.Services
             try
             {
                 var data = await _menuRepository.GetByIdAsync(Id);
-                if(data == null)
+                if (data == null)
                 {
                     return await Result<int>.FailAsync("Data Not Found");
                 }
@@ -412,14 +428,16 @@ namespace ELearning.Services
                 }
             }
 
-        catch(Exception ex) 
+            catch (Exception ex)
             {
 
                 throw ex;
             }
 
         }
+        #endregion
 
+        #region submenu
         public async Task<List<SubMenu>> GetSubMenu()
         {
             try
@@ -427,7 +445,7 @@ namespace ELearning.Services
                 var data = await _subMenuRepository.GetAllAsync();
                 return data.ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -435,12 +453,12 @@ namespace ELearning.Services
 
         public async Task<Result<int>> InsertSubMenu(SubMenu subMenu)
         {
-           try
+            try
             {
                 await _subMenuRepository.AddAsync(subMenu);
                 return await Result<int>.SuccessAsync(subMenu.Id, "SubMenu Added");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -453,7 +471,7 @@ namespace ELearning.Services
                 await _subMenuRepository.UpdateAsync(subMenu);
                 return await Result<int>.SuccessAsync(subMenu.Id, "SubMenu Updated");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -464,7 +482,7 @@ namespace ELearning.Services
             try
             {
                 var data = await _subMenuRepository.GetByIdAsync(Id);
-                if(data == null)
+                if (data == null)
                 {
                     return await Result<int>.FailAsync("Data Not Found");
                 }
@@ -474,20 +492,22 @@ namespace ELearning.Services
                     return await Result<int>.SuccessAsync("Data Deleted");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
+        #endregion
 
+        #region course
         public async Task<List<Course>> GetCourse()
         {
             try
             {
-                var data = await _courseRepository.GetAllAsync();   
+                var data = await _courseRepository.GetAllAsync();
                 return data.ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
 
@@ -501,7 +521,7 @@ namespace ELearning.Services
                 await _courseRepository.AddAsync(course);
                 return await Result<int>.SuccessAsync(course.Id, "Course Added");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -512,9 +532,9 @@ namespace ELearning.Services
             try
             {
                 await _courseRepository.UpdateAsync(course);
-                return await Result<int>.SuccessAsync(course.Id,"Course Updated");
+                return await Result<int>.SuccessAsync(course.Id, "Course Updated");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -525,7 +545,7 @@ namespace ELearning.Services
             try
             {
                 var data = await _courseRepository.GetByIdAsync(Id);
-                if(data == null)
+                if (data == null)
                 {
                     return await Result<int>.FailAsync("Data Not Found");
                 }
@@ -535,12 +555,14 @@ namespace ELearning.Services
                     return await Result<int>.SuccessAsync("Data Deleted");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
+        #endregion
 
+        #region Notification
         public async Task<List<AppNotification>> GetNotification()
         {
             try
@@ -601,9 +623,9 @@ namespace ELearning.Services
                 throw ex;
             }
         }
+        #endregion
 
-
-
+        #region Trades
         public async Task<List<Trade>> GetTrades()
         {
             try
@@ -664,8 +686,9 @@ namespace ELearning.Services
                 throw ex;
             }
         }
+        #endregion
 
-
+        #region category
         public async Task<List<Category>> GetCategories()
         {
             try
@@ -726,6 +749,9 @@ namespace ELearning.Services
                 throw ex;
             }
         }
+        #endregion
+
+        #region SubCategory
         public async Task<List<SubCategory>> GetSubCategories()
         {
             try
@@ -764,8 +790,9 @@ namespace ELearning.Services
                 return await Result<int>.SuccessAsync("SubCategory Deleted");
             }
         }
+        #endregion
 
-
+        #region post
         public async Task<List<Post>> GetPosts()
         {
             try
@@ -804,7 +831,9 @@ namespace ELearning.Services
                 return await Result<int>.SuccessAsync("Post is Deleted");
             }
         }
+        #endregion
 
+        #region Doubt
         public async Task<List<Doubt>> GetDoubts()
         {
             try
@@ -821,8 +850,10 @@ namespace ELearning.Services
         {
             await _doubtRepository.AddAsync(doubt);
             return await Result<int>.SuccessAsync(doubt.Id, "Doubt is Added.");
-         }
+        }
+        #endregion
 
+        #region DoubtComment
         public async Task<List<DoubtComment>> GetDoubtComments()
         {
             try
@@ -840,13 +871,14 @@ namespace ELearning.Services
             await _doubtCommentRepository.AddAsync(doubtComment);
             return await Result<int>.SuccessAsync(doubtComment.Id, "Doubt is Added.");
         }
+        #endregion
 
         #region pdfnotes
         public async Task<List<PdfNote>> GetPdfNotes()
         {
             try
             {
-                var data= await _pdfNotesRepository.GetAllAsync();
+                var data = await _pdfNotesRepository.GetAllAsync();
                 return data.ToList();
             }
             catch (Exception ex)
@@ -856,26 +888,29 @@ namespace ELearning.Services
         }
         public async Task<Result<int>> InsertPdfNote(PdfNote pdfnote)
         {
-            try { 
-            await _pdfNotesRepository.AddAsync(pdfnote);
-            return await Result<int>.SuccessAsync(pdfnote.Id, "Notes Uploaded Successfully...");
+            try
+            {
+                await _pdfNotesRepository.AddAsync(pdfnote);
+                return await Result<int>.SuccessAsync(pdfnote.Id, "Notes Uploaded Successfully...");
             }
-            catch (Exception ex) { 
-                throw ex; 
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
         public async Task<Result<int>> UpdatePdfNote(PdfNote pdfNote)
         {
-            try { 
-            await _pdfNotesRepository.UpdateAsync(pdfNote);
+            try
+            {
+                await _pdfNotesRepository.UpdateAsync(pdfNote);
                 return await Result<int>.SuccessAsync(pdfNote.Id, "Notes Updated successfully...");
-        }
+            }
             catch (Exception ex)
             {
                 throw ex;
             }
-            }
+        }
 
         public async Task<Result<int>> DeletePdfNote(int Id)
         {
@@ -895,9 +930,10 @@ namespace ELearning.Services
         #region previousYearPaper
         public async Task<List<PreviousYearPaper>> GetPaperPdf()
         {
-            try { 
-            var data = await _paperRepository.GetAllAsync();
-            return data.ToList();
+            try
+            {
+                var data = await _paperRepository.GetAllAsync();
+                return data.ToList();
             }
             catch (Exception ex)
             {
@@ -907,12 +943,12 @@ namespace ELearning.Services
         public async Task<Result<int>> InsertPaper(PreviousYearPaper paper)
         {
 
-            try 
+            try
             {
                 await _paperRepository.AddAsync(paper);
-                return await Result<int>.SuccessAsync(paper.Id,"Paper added Successfully..");
+                return await Result<int>.SuccessAsync(paper.Id, "Paper added Successfully..");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
                 throw ex;
@@ -942,7 +978,7 @@ namespace ELearning.Services
                 }
                 else
                 {
-                    await _paperRepository .DeleteAsync(data);
+                    await _paperRepository.DeleteAsync(data);
                     return await Result<int>.SuccessAsync("Pdf is Deleted.");
                 }
             }
@@ -1055,7 +1091,7 @@ namespace ELearning.Services
         public async Task<Result<int>> DeleteBook(int Id)
         {
             var data = await _bookRepository.GetByIdAsync(Id);
-            if(data==null)
+            if (data == null)
             {
                 return await Result<int>.FailAsync("Book id is not found....");
             }
@@ -1065,6 +1101,114 @@ namespace ELearning.Services
                 return await Result<int>.SuccessAsync("Book deleted successfully....");
             }
         }
+        #endregion
+
+        #region faculty
+        public async Task<List<Faculty>> GetFaculties()
+        {
+            try
+            {
+                var data = await _facultyRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> InsertFaculty(Faculty faculty)
+        {
+            try
+            {
+                await _facultyRepository.AddAsync(faculty);
+                return await Result<int>.SuccessAsync(faculty.Id, "Faculty Added Succesfully...");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public async Task<Result<int>> UpdateFaculty(Faculty faculty)
+        {
+            try
+            {
+                await _facultyRepository.UpdateAsync(faculty);
+                return await Result<int>.SuccessAsync(faculty.Id, "Faculty Updated Successfully...");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> DeleteFaculty(int Id)
+        {
+            var data = await _facultyRepository.GetByIdAsync(Id);
+            if (data == null)
+            {
+                return await Result<int>.FailAsync("Faculty not Found...");
+            }
+            else
+            {
+                await _facultyRepository.DeleteAsync(data);
+                return await Result<int>.SuccessAsync("Faculty Deleted Successfully...");
+            }
+        }
+        #endregion
+       
+        #region batch
+        public async Task<List<Batch>> GetBatches()
+        {
+            try
+            {
+                var data = await _batchRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public async Task<Result<int>> InsertBatch(Batch batch)
+        {
+
+            try
+            {
+                await _batchRepository.AddAsync(batch);
+                return await Result<int>.SuccessAsync(batch.Id, "Batch Added Successfully...");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> UpdateBatch(Batch batch)
+        {
+            try
+            {
+                await _batchRepository.UpdateAsync(batch);
+                return await Result<int>.SuccessAsync(batch.Id, "Batch Updated Successfully...");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> DeleteBatch(int Id)
+        {
+            var data = await _batchRepository.GetByIdAsync(Id);
+            if(data == null)
+            {
+                return await Result<int>.FailAsync("Batch Id is not Found");
+            }
+      else
+            {
+                await _batchRepository.DeleteAsync(data);
+                return await Result<int>.SuccessAsync("Batch Deleted Succesfully..");
+            }
+        }
+
         #endregion
     }
 }
