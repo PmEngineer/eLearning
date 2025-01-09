@@ -57,4 +57,5 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
     public DbSet<Book> Books { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<Batch> Batches {  get; set; } 
+    public DbSet<BatchSubject> BatchSubjects { get; set; }
 }
