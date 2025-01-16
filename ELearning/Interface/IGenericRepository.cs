@@ -9,10 +9,11 @@ namespace ELearning.Interface
             #region GetAll Methods
 
             Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> Where = null);
+        Task<IEnumerable<T>> GetAllWithChildEntitiesAsync(Expression<Func<T, bool>> Where, params Expression<Func<T, object>>[] navigationProperties);
 
+        #endregion
 
-            #endregion
-            Task<IReadOnlyList<T>> GetPagedReponseAsync(int pageNumber, int pageSize, Expression<Func<T, bool>> Where = null);
+        Task<IReadOnlyList<T>> GetPagedReponseAsync(int pageNumber, int pageSize, Expression<Func<T, bool>> Where = null);
             Task<T> AddAsync(T entity);
             Task UpdateAsync(T entity);
             Task DeleteAsync(T entity);

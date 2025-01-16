@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Hosting;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ELearning_Core.Model.Faculty;
+using ELearning.Request;
+using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 
 namespace ELearning.Services
 {
@@ -36,8 +39,13 @@ namespace ELearning.Services
         public readonly IGenericRepository<Book> _bookRepository;
         public readonly IGenericRepository<Faculty> _facultyRepository;
         public readonly IGenericRepository<Batch> _batchRepository;
+        public readonly IGenericRepository<BatchSubject> _batchSubjectRepository;
+        public readonly IGenericRepository<HelpDesk> _helpDeskRepository;
+       
+        public IMapper _mapper;
 
-        public MasterService(IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository, IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<Post> postRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository, IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository, IGenericRepository<Licence> licenceRepository, IGenericRepository<Book> bookRepository, IGenericRepository<Faculty> facultyRepository, IGenericRepository<Batch> batchRepository)
+        public MasterService(IMapper mapper,IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<AppNotification> notificationRepository, IGenericRepository<Trade> tradeRepository, IGenericRepository<Category> categoryRepository, IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<Post> postRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository, IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository, IGenericRepository<Licence> licenceRepository, IGenericRepository<Book> bookRepository, IGenericRepository<Faculty> facultyRepository, IGenericRepository<Batch> batchRepository,
+            IGenericRepository<BatchSubject> batchSubjectRepository, IGenericRepository<HelpDesk> helpDeskRepository)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -61,6 +69,10 @@ namespace ELearning.Services
             _bookRepository = bookRepository;
             _facultyRepository = facultyRepository;
             _batchRepository = batchRepository;
+            _batchSubjectRepository = batchSubjectRepository;
+            _helpDeskRepository = helpDeskRepository;
+           
+            _mapper = mapper;
 
         }
         #region Company
@@ -1170,13 +1182,23 @@ namespace ELearning.Services
             }
 
         }
-        public async Task<Result<int>> InsertBatch(Batch batch)
+        public async Task<Result<int>> InsertBatch(BatchRequest batch)
         {
-
+            
             try
             {
-                await _batchRepository.AddAsync(batch);
-                return await Result<int>.SuccessAsync(batch.Id, "Batch Added Successfully...");
+              
+
+                var data = _mapper.Map<Batch>(batch);
+                data.CreatedDate = DateTime.Now;
+                var batchData =  await _batchRepository.AddAsync(data);
+
+                var batchSubject = _mapper.Map<List<BatchSubject>>(batch.BatchSubjects);
+                batchSubject.Select(x => { x.CreatedDate = DateTime.Now; return x; }).ToList();
+                batchSubject.Select(x => { x.BatchId = batchData.Id; return x; }).ToList();
+
+                await _batchSubjectRepository.BulkAddAsync(batchSubject);   
+                return await Result<int>.SuccessAsync(data.Id, "Batch Added Successfully...");
             }
             catch (Exception ex)
             {
@@ -1209,6 +1231,115 @@ namespace ELearning.Services
             }
         }
 
+        #endregion
+
+        #region Assign Batch Subject
+        public async Task<List<BatchSubject>> GetBatchSubjects()
+        {
+            try
+            {
+                var data=  await _batchSubjectRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public async Task<Result<int>> InsertBatchSubjects(BatchSubject batchSubject)
+        {
+            try
+            {
+                await _batchSubjectRepository.AddAsync(batchSubject);
+                return await Result<int>.SuccessAsync(batchSubject.Id,"Subject Assign To Batch Successfully... ");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> UpdateBatchSubjects(BatchSubject batchSubject)
+        {
+            try
+            {
+                await _batchSubjectRepository.UpdateAsync(batchSubject);
+                return await Result<int>.SuccessAsync(batchSubject.Id, "Assign Subject Updated Succesfully...");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> DeleteBatchSubject(int Id)
+        {
+var data= await _batchSubjectRepository.GetByIdAsync(Id);
+            if (data == null)
+            {
+                return await Result<int>.FailAsync("Batch Subject is not Found");
+            }
+            else
+            {
+                await _batchSubjectRepository.DeleteAsync(data);
+                return await Result<int>.SuccessAsync("Batch Subject Deleted Successfully...");
+            }
+        }
+        #endregion
+
+        #region Help desk
+        public async Task<Result<List<HelpDesk>>> GetAllProblems()
+        {
+            try
+            {
+
+                var data = await _helpDeskRepository.GetAllAsync();
+
+                return await Result<List<HelpDesk>>.SuccessAsync(data.ToList());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Result<List<HelpDesk>>> GetProblemsByStdId(int Id)
+        {
+            try
+            {
+                var data = await _helpDeskRepository.GetAllAsync(x => x.StudentId == Id);
+                return await Result<List<HelpDesk>>.SuccessAsync(data.ToList());
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<Result<int>> InsertProblems(HelpDesk helpDesk)
+        {
+            try
+            {
+                await _helpDeskRepository.AddAsync(helpDesk);
+                return await Result<int>.SuccessAsync(helpDesk.Id, "helpDesk is Added.");
+            }
+            catch (Exception e)
+            {
+                return await Result<int>.FailAsync("helpDesk is Not Added. " + e.Message);
+            }
+        }
+
+        public async Task<Result<int>> Updateproblems(HelpDesk helpDesk)
+        {
+            try
+            {
+                await _helpDeskRepository.UpdateAsync(helpDesk);
+                return await Result<int>.SuccessAsync("helpDesk Update");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
         #endregion
     }
 }

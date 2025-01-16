@@ -17,10 +17,13 @@ namespace ELearning.Controllers
     public class MasterController : ControllerBase
     {
         public IMasterServiceAPI _masterService { get; set; }
+        public IBatchServiceAPI _batchService { get; set; }
 
-        public MasterController(IMasterServiceAPI masterService)
+        public MasterController(IMasterServiceAPI masterService, IBatchServiceAPI batchService)
         {
             _masterService = masterService;
+            _batchService = batchService;
+
 
         }
         [HttpGet]
@@ -31,6 +34,7 @@ namespace ELearning.Controllers
 
             return Ok(data);
         }
+
         [HttpGet]
         [Route("GetCourseList")]
         public async Task<IActionResult> GetCourseList()
@@ -88,7 +92,6 @@ namespace ELearning.Controllers
         }
         #endregion
 
-
         #region DoubtComment
         [HttpGet]
         [Route("GetAllDoubtComment")]
@@ -139,19 +142,18 @@ namespace ELearning.Controllers
         }
         #endregion
 
-        #region
+        #region PdfNotes
         [HttpGet]
         [Route("GetPdfNotes")]
         public async Task<IActionResult> GetPdfNotes(int Id)
         {
             var data = await _masterService.GetPdfNotes(Id);
-            return Ok(data);    
+            return Ok(data);
         }
 
         #endregion
 
-
-        #region
+        #region PaperPdf
         [HttpGet]
         [Route("GetPapersPdf")]
         public async Task<IActionResult> GetPapersPdf(int Id)
@@ -161,6 +163,7 @@ namespace ELearning.Controllers
         }
 
         #endregion
+
         #region BookPdf
         [HttpGet]
         [Route("GetBooks")]
@@ -176,8 +179,98 @@ namespace ELearning.Controllers
         [Route("GetFacultyList")]
         public async Task<IActionResult> GetFacultyList()
         {
-            var data= await _masterService.GetFacultyList();
+            var data = await _masterService.GetFacultyList();
             return Ok(data);
+        }
+        #endregion
+
+        #region Help Desk Response 
+        [HttpGet]
+        [Route("GetAllProblems")]
+        public async Task<IActionResult> GetAllProblems()
+        {
+            var data = await _masterService.GetAllProblems();
+            return Ok(data);
+        }
+        [HttpGet]
+        [Route("GetProblemsByStdId")]
+        public async Task<IActionResult> GetProblemsByStdId(int Id)
+        {
+            var data = await _masterService.GetProblemsByStdId(Id);
+            return Ok(data);
+        }
+        #endregion
+
+        #region Help Desk Request 
+        [HttpPost]
+        [Route("InsertProblems")]
+        public async Task<IActionResult> InsertProblems(HelpDesk_Request helpDesk)
+        {
+            var data = await _masterService.InsertProblems(helpDesk);
+            return Ok(data);
+        }
+        [HttpPost]
+        [Route("Updateproblems")]
+        public async Task<IActionResult> Updateproblems(HelpDesk_Request helpDesk)
+        {
+            var data = await _masterService.Updateproblems(helpDesk);
+            return Ok(data);
+        }
+        #endregion
+
+        #region Category
+        [HttpGet]
+        [Route("GetAllCategory")]
+        public async Task<IActionResult> GetAllCategory()
+        {
+            var data = await _masterService.GetAllCategory();
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("GetCategoryById")]
+        public async Task<IActionResult> GetCategoryById(int Id)
+        {
+            var data = await _masterService.GetCategoryById(Id);
+            return Ok(data);
+        }
+        #endregion
+
+        #region SubCategory
+        [HttpGet]
+        [Route("GetAllSubCategory")]
+        public async Task<IActionResult> GetAllSubCategory(int Id)
+        {
+            var data = await _masterService.GetAllSubCategory(Id);
+            return Ok(data);
+        }
+        [HttpGet]
+        [Route("GetSubCategoryById")]
+        public async Task<IActionResult> GetSubCategoryById(int Cid, int Sid)
+        {
+            var data = await _masterService.GetSubCategoryById(Cid, Sid);
+            return Ok(data);
+        }
+        #endregion
+
+        #region BatchList
+
+        [HttpGet]
+        [Route("GetBatchById")]
+        public async Task<IActionResult> GetBatchById(int Id)
+        {
+            var data = await _masterService.GetBatchById(Id);
+            return Ok(data);
+        }
+        #endregion
+
+        #region BatchSubject
+        [HttpGet]
+        [Route("GetBatchSubject")]
+        public async Task<IActionResult> GetBatchSubject(int Id)
+        {
+            var data=await _batchService.GetBatchSubject(Id);
+            return Ok(data);    
         }
         #endregion
     }

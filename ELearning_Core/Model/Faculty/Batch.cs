@@ -22,5 +22,6 @@ namespace ELearning_Core.Model.Faculty
         public DateTime? EndDate { get; set; }
         public string Duration { get; set; }
         public string Validity {  get; set; }
+        public List<BatchSubject> batchSubjects { get; set; }
     }
 }

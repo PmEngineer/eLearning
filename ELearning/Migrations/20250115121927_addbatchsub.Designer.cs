@@ -4,6 +4,7 @@ using ELearning.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELearning.Migrations
 {
     [DbContext(typeof(ELearningContext))]
-    partial class ELearningContextModelSnapshot : ModelSnapshot
+    [Migration("20250115121927_addbatchsub")]
+    partial class addbatchsub
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1454,7 +1456,7 @@ namespace ELearning.Migrations
             modelBuilder.Entity("ELearning_Core.Model.Faculty.BatchSubject", b =>
                 {
                     b.HasOne("ELearning_Core.Model.Faculty.Batch", "Batch")
-                        .WithMany("batchSubjects")
+                        .WithMany()
                         .HasForeignKey("BatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1694,11 +1696,6 @@ namespace ELearning.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ELearning_Core.Model.Faculty.Batch", b =>
-                {
-                    b.Navigation("batchSubjects");
                 });
 #pragma warning restore 612, 618
         }

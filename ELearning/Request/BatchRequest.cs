@@ -1,12 +1,10 @@
-﻿using ELearning.Request;
-
-namespace ELearning.Response
+﻿namespace ELearning.Request
 {
-    public class BatchResponse
+    public class BatchRequest
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         public int CourseId { get; set; }
+        public string Name { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string Duration { get; set; }
@@ -14,6 +12,7 @@ namespace ELearning.Response
         public string CreatedBy { get; set; }
         public string? UpdatedBy { get; set; }
 
-        public List<BatchSubjectResponse> BatchSubjects { get; set; }
+        public List<BatchSubjectRequest> BatchSubjects { get; set; }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using ELearning_Core.Procedure;
+﻿using ELearning.Request;
+using ELearning_Core.Procedure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ELearning.Controllers
@@ -12,8 +13,9 @@ namespace ELearning.Controllers
         public async Task<JsonResult> GetLessonBySubject(int SubId)
         {
             GetLessonsBySubject obj = new GetLessonsBySubject();
-            var data =  obj.getLessonsBySubject(SubId);
+            var data = obj.getLessonsBySubject(SubId);
             return Json("");
         }
     }
+
 }

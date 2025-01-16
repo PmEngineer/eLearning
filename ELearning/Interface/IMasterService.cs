@@ -1,4 +1,5 @@
 ﻿using ELearning.Migrations;
+using ELearning.Request;
 using ELearning_Core.Core.Model;
 using ELearning_Core.Model;
 using ELearning_Core.Model.City;
@@ -163,9 +164,23 @@ namespace ELearning.Interface
 
         #region Batch
         public Task<List<Batch>> GetBatches();
-        public Task<Result<int>> InsertBatch(Batch batch);
+        public Task<Result<int>> InsertBatch(BatchRequest batch);
         public Task<Result<int>> UpdateBatch(Batch batch);
         public Task<Result<int>> DeleteBatch(int Id);
+        #endregion
+
+        #region Assign Batch Subject
+        public Task<List<BatchSubject>> GetBatchSubjects(); 
+        public Task<Result<int>> InsertBatchSubjects(BatchSubject batchSubject);
+        public Task<Result<int>> UpdateBatchSubjects(   BatchSubject batchSubject); 
+        public Task<Result<int>> DeleteBatchSubject(int Id);
+        #endregion
+       
+        #region HelpDesk
+        public Task<Result<List<HelpDesk>>> GetAllProblems();
+        public Task<Result<List<HelpDesk>>> GetProblemsByStdId(int Id);
+        public Task<Result<int>> InsertProblems(HelpDesk helpDesk);
+        public Task<Result<int>> Updateproblems(HelpDesk helpDesk);
         #endregion
     }
 }

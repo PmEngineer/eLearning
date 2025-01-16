@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ELearning.Data;
 using ELearning.Interface;
 using ELearning.Migrations;
 using ELearning.Request;
@@ -11,7 +12,9 @@ using ELearning_Core.Model.Master;
 using ELearning_Core.Model.Student;
 using ELearning_Core.Shared;
 using Humanizer;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq.Expressions;
 
 namespace ELearning.API
 {
@@ -33,8 +36,15 @@ namespace ELearning.API
         public readonly IGenericRepository<PreviousYearPaper> _paperRepository;
         public readonly IGenericRepository<Book> _bookRepository;
         public readonly IGenericRepository<Faculty> _facultyRepository;
+        public readonly IGenericRepository<Category> _categoryRepository;
+        public readonly IGenericRepository<SubCategory> _subcategoryRepository;
+        public readonly IGenericRepository<HelpDesk> _helpDeskRepository;
+        public readonly IGenericRepository<Batch> _batchRepositry;
+        public readonly IGenericRepository<BatchSubject> _batchsubjectRepository;
+        protected readonly ELearningContext _context;
         public IMapper _mapper;
-        public MasterServiceAPI(IMapper mapper, IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository, IGenericRepository<DoubtLike> doubtlikeRepository, IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository, IGenericRepository<Book> bookRepository, IGenericRepository<Faculty> facultyRepository)
+        public MasterServiceAPI(IMapper mapper, IGenericRepository<Company> companyRepository, IGenericRepository<Country> countryRepository, IGenericRepository<State> stateRepository, IGenericRepository<City> cityRepository, IGenericRepository<Subject> subjectRepository, IGenericRepository<Lessons> lessonRepository, IGenericRepository<MainMenu> menuRepository, IGenericRepository<SubMenu> subMenuRepository, IGenericRepository<Course> courseRepository, IGenericRepository<Doubt> doubtRepository, IGenericRepository<DoubtComment> doubtCommentRepository, IGenericRepository<DoubtLike> doubtlikeRepository, IGenericRepository<PdfNote> pdfNotesRepository, IGenericRepository<PreviousYearPaper> paperRepository, IGenericRepository<Book> bookRepository, IGenericRepository<Faculty> facultyRepository, IGenericRepository<Category> categoryRepository, 
+            IGenericRepository<SubCategory> subcategoryRepository, IGenericRepository<HelpDesk> helpDeskRepository,IGenericRepository<Batch> batchRepository, IGenericRepository<BatchSubject> batchsubjectRepository,    ELearningContext context)
         {
             _companyRepository = companyRepository;
             _countryRepository = countryRepository;
@@ -53,6 +63,12 @@ namespace ELearning.API
             _paperRepository = paperRepository;
             _bookRepository = bookRepository;
             _facultyRepository = facultyRepository;
+            _categoryRepository = categoryRepository;
+            _subcategoryRepository = subcategoryRepository;
+            _helpDeskRepository = helpDeskRepository;
+            _batchRepositry = batchRepository;
+            _batchsubjectRepository = batchsubjectRepository;
+            _context = context;
         }
         #region Course Subject
 
@@ -110,6 +126,7 @@ namespace ELearning.API
         }
         public async Task<Result<int>> InsertDoubt(Doubt doubt)
         {
+            doubt.CreatedDate = DateTime.Now;
             await _doubtRepository.AddAsync(doubt);
             return await Result<int>.SuccessAsync(doubt.Id, "Doubt is Added.");
         }
@@ -128,6 +145,7 @@ namespace ELearning.API
         }
         public async Task<Result<int>> InsertDoubtComment(DoubtComment doubtComment)
         {
+            doubtComment.CreatedDate = DateTime.Now;
             await _doubtCommentRepository.AddAsync(doubtComment);
             return await Result<int>.SuccessAsync(doubtComment.Id, "Doubt is Added.");
         }
@@ -270,6 +288,7 @@ namespace ELearning.API
             var data = _mapper.Map<DoubtComment>(doubtComment);
             try
             {
+                data.CreatedDate = DateTime.Now;
                 await _doubtCommentRepository.AddAsync(data);
                 var GetDoubt = await _doubtRepository.GetByIdAsync(doubtComment.DoubtId);
                 GetDoubt.TotalComment = GetDoubt.TotalComment + 1;
@@ -541,6 +560,205 @@ namespace ELearning.API
             } 
         }
         #endregion
+       
+        #region category
+        public async Task<Result<List<CategoryResponse>>> GetAllCategory()
+        {
 
+            try
+            {
+                var data = await _categoryRepository.GetAllAsync(x=>x.IsActive==true);
+                var mappedData = _mapper.Map<List<CategoryResponse>>(data.ToList());
+                return await Result<List<CategoryResponse>>.SuccessAsync(mappedData);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<CategoryResponse>> GetCategoryById(int Id)
+        {
+            var data = await _categoryRepository.GetByIdAsync(Id);
+            try
+            {
+                if(data==null)
+                {
+                    return await Result<CategoryResponse>.FailAsync("Not found" + Id);
+                }
+                else
+                {
+
+                var mappedData = _mapper.Map<CategoryResponse>(data);
+                return await Result<CategoryResponse>.SuccessAsync(mappedData);
+
+                }
+
+            }
+            catch(Exception ex)
+            {
+                return await Result<CategoryResponse>.FailAsync("Not found" + ex.InnerException.Message);
+            }
+        }
+        #endregion
+
+
+        #region SubCategory
+        public async Task<Result<List<SubcategoryResponse>>> GetAllSubCategory(int Id)
+        {
+            try
+            {
+                var data = await _subcategoryRepository.GetAllAsync(x=>x.CategoryId==Id && x.IsActive==true);
+                var mappedData = _mapper.Map<List<SubcategoryResponse>>(data.ToList());
+                return await Result<List<SubcategoryResponse>>.SuccessAsync(mappedData);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<Result<SubcategoryResponse>> GetSubCategoryById(int Cid, int Sid)
+        {
+            var data = await _subcategoryRepository.GetAllAsync(x => x.CategoryId == Cid);
+            try
+            {
+                if (data == null)
+                {
+                    return await Result<SubcategoryResponse>.FailAsync("Not found");
+                }
+                else
+                {
+                    var data1 = await _subcategoryRepository.GetByIdAsync(Sid);
+                    if(data1==null)
+                    {
+                        return await Result<SubcategoryResponse>.FailAsync("Not found");
+                    }
+                   else 
+                   {
+                        var mappedData = _mapper.Map<SubcategoryResponse>(data1);
+                        return await Result<SubcategoryResponse>.SuccessAsync(mappedData);
+
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return await Result<SubcategoryResponse>.FailAsync("Not found" + ex.InnerException.Message);
+            }
+        }
+
+        #endregion
+
+
+        #region HelpDesk Response
+        public async Task<Result<List<HelpDesk_Response>>> GetAllProblems()
+        {
+            try
+            {
+                Expression<Func<HelpDesk, bool>> Where=null;
+                Expression<Func<HelpDesk, object>>[] navigationProperties = new Expression<Func<HelpDesk, object>>[] { x => x.SubCategory,y=>y.Category };
+              //  var data = await _helpDeskRepository.GetAllAsync();
+                var data= await _helpDeskRepository.GetAllWithChildEntitiesAsync(Where,navigationProperties);
+                var mappedData = _mapper.Map<List<HelpDesk_Response>>(data.ToList());
+
+                return await Result<List<HelpDesk_Response>>.SuccessAsync(mappedData);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<List<HelpDesk_Response>>> GetProblemsByStdId(int Id)
+        {
+            try
+            {
+                Expression<Func<HelpDesk, bool>> Where = (x => x.StudentId == Id);
+                Expression<Func<HelpDesk, object>>[] navigationProperties = new Expression<Func<HelpDesk, object>>[] { x => x.SubCategory, y => y.Category };
+                var data= await _helpDeskRepository.GetAllWithChildEntitiesAsync(Where,navigationProperties);
+                var mappedData = _mapper.Map<List<HelpDesk_Response>>(data.ToList());
+
+                return await Result<List<HelpDesk_Response>>.SuccessAsync(mappedData);
+            }
+            catch (Exception ex)
+            {
+                return await Result<List<HelpDesk_Response>>.FailAsync("Help Desk Is failed to load..." + ex.Message);
+            }
+        }
+        #endregion
+
+        #region HelpDesk Request
+        public async Task<Result<int>> InsertProblems(HelpDesk_Request helpDesk)
+            {
+            var data = _mapper.Map<HelpDesk>(helpDesk);
+            try
+            {
+                data.CreatedDate = DateTime.Now;
+                await _helpDeskRepository.AddAsync(data);
+                return await Result<int>.SuccessAsync(data.Id, "Problem inserted Successfully..");
+            }
+            catch (Exception ex)
+            {
+                return await Result<int>.FailAsync("Problem is not Added..." + ex.Message);
+            }
+        }
+        public async Task<Result<int>> Updateproblems(HelpDesk_Request helpDesk)
+        {
+            try
+            {
+                var data = await _helpDeskRepository.GetByIdAsync(helpDesk.Id);
+                if (data != null)
+                {
+                    data.UpdatedDate = DateTime.Now;
+                    data.UpdatedBy = helpDesk.UpdatedBY;
+                    data.ProblemDescription = helpDesk.ProblemDescription;
+                    await _helpDeskRepository.UpdateAsync(data);
+                    return await Result<int>.SuccessAsync(data.Id, "Problem is updated Succesfully..");
+                }
+                else
+                {
+                    return await Result<int>.FailAsync("Problem is not Found");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region Batch
+        public async Task<Result<List<BatchResponse>>> GetBatchById(int Id)
+        {
+            try
+            {
+                if (Id == 0)
+                {
+                   var batchdata = await _batchRepositry.GetAllAsync();
+
+                    var mappedBatchdata = _mapper.Map<List<BatchResponse>>(batchdata);
+
+
+
+                    return await Result<List<BatchResponse>>.SuccessAsync(mappedBatchdata);
+                   
+                }
+                else
+                {
+                    var data = await _batchRepositry.GetAllAsync(x => x.CourseId == Id);
+                    var mappedBatchdata = _mapper.Map<List<BatchResponse>>(data);
+
+                    
+                    return await Result<List<BatchResponse>>.SuccessAsync(mappedBatchdata);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return await Result<List<BatchResponse>>.FailAsync("Batch Failed to load.." + ex.Message);
+            }
+        }
+        #endregion
     }
 }

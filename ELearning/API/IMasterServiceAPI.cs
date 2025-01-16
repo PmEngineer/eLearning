@@ -52,7 +52,28 @@ namespace ELearning.API
         #endregion
 
         #region Batch
-       
+
+        #endregion
+
+        #region category
+        public Task<Result<List<CategoryResponse>>> GetAllCategory();
+        public Task<Result<CategoryResponse>> GetCategoryById(int Id);
+        #endregion
+
+        #region SubCategory
+        public Task<Result<List<SubcategoryResponse>>> GetAllSubCategory(int Id);
+        public Task<Result<SubcategoryResponse>> GetSubCategoryById(int Cid,int Sid );
+        #endregion
+
+        #region HelpDesk
+        public Task<Result<List<HelpDesk_Response>>> GetAllProblems();
+        public Task<Result<List<HelpDesk_Response>>> GetProblemsByStdId(int Id);
+        public Task<Result<int>> InsertProblems(HelpDesk_Request helpDesk);
+        public Task<Result<int>> Updateproblems(HelpDesk_Request helpDesk);
+        #endregion
+
+        #region Batch
+        public Task<Result<List<BatchResponse>>> GetBatchById(int Id);
         #endregion
     }
 }

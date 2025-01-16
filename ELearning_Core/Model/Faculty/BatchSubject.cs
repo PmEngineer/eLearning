@@ -10,6 +10,9 @@ namespace ELearning_Core.Model.Faculty
 {
     public class BatchSubject:BaseEntity
     {
+        public int BatchId { get; set; }
+        [ForeignKey("BatchId")]
+        public virtual Batch? Batch { get; set; }   
         public int SubjectId { get; set; }
         [ForeignKey("SubjectId")]
         public virtual Subject? Subject { get; set; }
