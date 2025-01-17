@@ -281,6 +281,7 @@ namespace ELearning.Controllers
         {
             var data = await _batchService.GetBatchClass(Bid, Sid);
             return Ok(data);
+
         }
         #endregion
     }
