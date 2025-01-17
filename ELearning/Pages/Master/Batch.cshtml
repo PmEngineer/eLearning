@@ -93,7 +93,29 @@
                                 <label class="did-floating-label">Batch Duration</label>
                             </div>
                         </div>
-                        <div class="flex-fill" style="text-align:center;">
+                        <div class="flex-fill" style="text-align:center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="isPaid" style="float:inherit;">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    IsPaid
+                                </label>
+                            </div>
+                        </div>
+                        <div class="flex-fill col-3">
+                            <div class="did-floating-label-content">
+
+                                <input class="did-floating-input" type="text" placeholder=" " id="batchFee" >
+                                <label class="did-floating-label">Batch Fee</label>
+                            </div>
+                        </div>
+                        <div class="flex-fill col-3">
+                            <div class="did-floating-label-content">
+
+                                <input class="did-floating-input" type="text" placeholder=" " id="discountFee">
+                                <label class="did-floating-label">Discounted Fee</label>
+                            </div>
+                        </div>
+                        <div class="flex-fill col-1" style="text-align:center;">
                             <input type="button" value="@Model.value" class="btn btn-primary shadow rounded" id="save"/>
                         </div>
                     </div>
@@ -236,24 +258,24 @@
             var EndDate = $("#enddate").val();
             var Validity = $("#validity").val();
             var Duration = $("#duration").val();
+            var IsPaid = $("#isPaid").is(':checked');
+            var BatchFee = $("#batchFee").val();
+            var DiscountFee = $("#discountFee").val();
+      
 
           
             let subjects = [];
 
             $('#subjectsTable tbody tr').each(function () {
-               // let subjectName = $(this).find('td:eq(0)').text().trim();
                 let subjectId = $(this).find('input[name*="subjectId"]').val();
                 let facultyId = $(this).find('input[name*="facultyId"]').val();
-               // let facultyName = $(this).find('td:eq(1)').text().trim();
                 let startTime = $(this).find('td:eq(2)').text().trim();
                 let endTime = $(this).find('td:eq(3)').text().trim();
 
               
                 subjects.push({
-                    //subjectName: subjectName,
                     SubjectId: subjectId,
                     FacultyId: facultyId,
-                    //facultyName: facultyName,
                     StartTiming: startTime,
                     EndTiming: endTime
                 });
@@ -267,9 +289,12 @@
                 EndDate: EndDate,
                 Duration: Duration,
                 Validity: Validity,
+                IsPaid: IsPaid,
+                BatchFee: BatchFee,
+                Discount: DiscountFee,
                 BatchSubjects: subjects
             };
-
+            console.log(batchData);
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("AddBatch", "MasterBatch")',
@@ -283,6 +308,9 @@
                     $("#enddate").val('');
                     $("#validity").val('');
                     $("#duration").val('');
+                    $("#isPaid").val('');
+                    $("#batchFee").val('');
+                    $("#discountFee").val('');
 
                     // Clear subjects table
                     $('#subjectsTable tbody').empty();

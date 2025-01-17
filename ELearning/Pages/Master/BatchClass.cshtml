@@ -1,0 +1,215 @@
+﻿@page "/BatchClass/{Id?}/"
+@model ELearning.Pages.Master.BatchClassModel
+@{
+}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="~/css/form.css" rel="stylesheet" type="text/css" />
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">*@
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+@*<link href="~/css/Fonts/Fonts.css" rel="stylesheet" />*@
+<script src="~/js/ckeditor_full_nightly/ckeditor/ckeditor.js"></script>
+<script src="~/js/Questions/Questions.js"></script>
+<link rel="stylesheet" href="~/ckeditor/KrutiDev070/stylesheet.css" />
+<style>
+    .tbl {
+        height: 100%;
+        overflow: none;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header bg-primary mainh">App Notification</div>
+        <div class="card-body">
+            <div>
+                <form class="form row g-3" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="targetFolder" value="BatchClass" />
+                    <div class="dfelx">
+
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+                                <select class="did-floating-select select2" asp-for="BatchClass.BatchId">
+                                    @foreach (var item in Model.GetBatches)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+
+
+                            </div>
+                        </div>
+
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+                                <select class="did-floating-select select2" asp-for="BatchClass.SubjectId">
+                                    @foreach (var item in Model.GetSubjects)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+
+
+                            </div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+                                <input type="hidden" asp-for="BatchClass.Id" />
+                                <input type="hidden" asp-for="BatchClass.CreatedBy" />
+                                <input type="hidden" asp-for="BatchClass.CreatedDate" />
+                                @*    <input type="hidden" asp-for="AppNotification.Image"/> *@
+                                <input class="did-floating-input" type="file" accept=".png, .jpg, .jpeg,.gif" name="formFile" id="fileuplode" asp-for="BatchClass.Image">
+                                <label class="did-floating-label">Select Image File</label>
+                            </div>
+                        </div>
+                        @{
+                            if (Model.BatchClass.Id > 0)
+                            {
+                                <div class="flex-fill ">
+                                    <div class="form-check">
+                                        <label>Image</label>
+                                        <br />
+                                        <img src="/BatchClass/Images/@Model.BatchClass.Image" height="40" width="40" alt="Lternate text" />
+                                    </div>
+                                </div>
+                            }
+                        }
+                       
+                      <div class="flex-fill">
+                          <div class="did-floating-label-content">
+                              <input class="did-floating-input" type="text" placeholder="" asp-for="BatchClass.ClassName">
+                                <label class="did-floating-label">Class Name</label>
+                          </div>
+                      </div>
+                        <div class="flex-fill" style="text-align:center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="isPaid" style="float:inherit;" asp-for="BatchClass.IsPaid">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    IsPaid
+                                </label>
+                            </div>
+                        </div>
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+                                <input class="did-floating-input" type="url" placeholder="" asp-for="BatchClass.YouTubeLink">
+                                <label class="did-floating-label">YouTube Link</label>
+                            </div>
+                        </div>
+
+                        <div class="flex-fill" style="text-align:center;">
+                            <input type="submit" value="@Model.value" class="btn btn-primary shadow rounded" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="container-fluid mt-3">
+    <div class="card">
+        <div class="card-header">List</div>
+        <div class="card-body tbl">
+            <table class="table" id="dtdata">
+                <thead>
+                    <tr>
+                        <th>SrNo</th>
+                        <th>Batch</th>
+                        <th>Subject</th>
+                        <th>Class Name</th>
+                        <th>YouTube LInk</th>
+                        <th>IsPaid</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var srno = 1;
+                    }
+                    @foreach (var item in Model.BatchClasses)
+                    {
+                        <tr>
+
+                            <td>@srno</td>
+                            <td>@item.Batch.Name</td>
+                            <td>@item.Subject.Name</td>
+                            <td>@item.ClassName</td>
+                            <td>@item.YouTubeLink</td>
+                            <td><input class="form-check-input" type="checkbox" asp-for="@item.IsPaid" id="defaultCheck1" style="margin: auto;" readonly></td>
+                            <td scope="row"><img src="/BatchClass/Images/@item.Image" height="40" width="40" alt="Lternate text" /></td>
+                            <td>
+                                <a href="/BatchClass/@item.Id" class="fas fa-edit text-success"></a>&nbsp;
+
+                                <button class="fa fa-trash-o fs-4 text-danger" asp-page="" asp-page-handler="Delete"
+                                        asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)">
+                                </button>
+
+                            </td>
+
+                        </tr>
+                        srno++;
+                    }
+
+                </tbody>
+            </table>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Do You really want to Delete??
+                        </div>
+                        <div class="modal-footer">
+                            <form method="Post" asp-page-handler="Delete">
+                                <input type="hidden" id="idtoDelete" asp-for="@Model.Id" class="form-control" />
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                @*<a id="deletes" class="fa fa-trash-o fs-4 text-danger" asp-page="Country" asp-page-handler="Delete"
+                                asp-route-Id="" ></a>*@
+                                <button asp-page-handler="Delete" class="btn btn-danger db">Delete</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+    function DisplayConfirmDeleteModal(Id) {
+
+        $("#idtoDelete").val(Id);
+        //$(".db").attr('asp-route-id', Id);
+
+    }
+</script>
+<style>
+
+    button.fa.fa-trash-o.fs-4 {
+        border: none;
+    }
+
+    .card-header {
+        color: #fff;
+    }
+</style>

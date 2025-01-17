@@ -182,5 +182,7 @@ namespace ELearning.Interface
         public Task<Result<int>> InsertProblems(HelpDesk helpDesk);
         public Task<Result<int>> Updateproblems(HelpDesk helpDesk);
         #endregion
+
+
     }
 }

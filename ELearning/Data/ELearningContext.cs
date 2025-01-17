@@ -59,4 +59,5 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
     public DbSet<Batch> Batches {  get; set; } 
     public DbSet<BatchSubject> BatchSubjects { get; set; }
     public DbSet<HelpDesk> HelpDesks { get; set; }
+    public DbSet<BatchClass> BatchClass { get; set; }
 }

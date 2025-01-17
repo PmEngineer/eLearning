@@ -33,6 +33,7 @@ builder.Services.AddTransient<IFileUploadSerVice, FileUploadSerVice>();
 builder.Services.AddTransient<IFileUpLoadService,FileUpLoadService >();
 builder.Services.AddTransient<IBatchServiceAPI,BatchServiceAPI >();
 builder.Services.AddTransient<IFileUploadSerVices, FileUploadServices>();
+builder.Services.AddTransient<IBatchService,BatchService>();
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddTransient<IMailService, MailService>();

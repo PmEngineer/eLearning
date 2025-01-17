@@ -1,6 +1,5 @@
 ﻿using ELearning.Interface;
 using ELearning.Request;
-using ELearning_Core.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

@@ -4,6 +4,7 @@ using ELearning.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELearning.Migrations
 {
     [DbContext(typeof(ELearningContext))]
-    partial class ELearningContextModelSnapshot : ModelSnapshot
+    [Migration("20250117093526_addbatchee")]
+    partial class addbatchee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,9 +247,6 @@ namespace ELearning.Migrations
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");

@@ -4,6 +4,7 @@ using ELearning.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELearning.Migrations
 {
     [DbContext(typeof(ELearningContext))]
-    partial class ELearningContextModelSnapshot : ModelSnapshot
+    [Migration("20250117085036_addBatche")]
+    partial class addBatche
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,8 +172,9 @@ namespace ELearning.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<decimal>("BatchFee")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("BatchFee")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
@@ -183,8 +186,8 @@ namespace ELearning.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal?>("Discount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Discount")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Duration")
                         .IsRequired()
@@ -245,9 +248,6 @@ namespace ELearning.Migrations
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");

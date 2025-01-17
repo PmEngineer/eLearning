@@ -9,6 +9,9 @@
         public DateTime? EndDate { get; set; }
         public string Duration { get; set; }
         public string Validity { get; set; }
+        public bool IsPaid { get; set; }
+        public decimal BatchFee { get; set; }
+        public decimal? Discount { get; set; }
         public string CreatedBy { get; set; }
         public string? UpdatedBy { get; set; }
 

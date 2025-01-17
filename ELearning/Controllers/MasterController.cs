@@ -273,5 +273,15 @@ namespace ELearning.Controllers
             return Ok(data);    
         }
         #endregion
+
+        #region BatchSubject
+        [HttpGet]
+        [Route("GetBatchClass")]
+        public async Task<IActionResult> GetBatchClass(int Bid, int Sid)
+        {
+            var data = await _batchService.GetBatchClass(Bid, Sid);
+            return Ok(data);
+        }
+        #endregion
     }
 }
