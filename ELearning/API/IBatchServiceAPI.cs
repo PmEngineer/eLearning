@@ -8,5 +8,10 @@ namespace ELearning.API
         #region BatchSubject
         public Task<Result<List<BatchSubjectResponse>>> GetBatchSubject(int Id);
         #endregion
+
+        #region BatchNote
+        public Task<Result<List<BatchNoteResponse>>> GetBatchNotes(int Id);
+
+        #endregion
     }
 }

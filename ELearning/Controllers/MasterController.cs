@@ -273,5 +273,18 @@ namespace ELearning.Controllers
             return Ok(data);    
         }
         #endregion
+
+
+
+        #region BatchNote
+        [HttpGet]
+        [Route("GetBatchNotes")]
+        public async Task<IActionResult> GetBatchNotes(int Id)
+        {
+            var data = await _batchService.GetBatchNotes(Id);
+            return Ok(data);
+        }
+
+        #endregion
     }
 }
