@@ -283,6 +283,7 @@ namespace ELearning.Controllers
         {
             var data = await _batchService.GetBatchNotes(Id);
             return Ok(data);
+
         }
 
         #endregion
