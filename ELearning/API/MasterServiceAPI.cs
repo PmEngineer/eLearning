@@ -729,13 +729,22 @@ namespace ELearning.API
         #endregion
 
         #region Batch
-        public async Task<Result<List<BatchResponse>>> GetBatchById(int Id)
+        public async Task<Result<List<BatchResponse>>> GetBatchById(int Id, int type)
         {
             try
             {
                 if (Id == 0)
                 {
+
                    var batchdata = await _batchRepositry.GetAllAsync();
+                    if(type==1)
+                    {
+                        batchdata = batchdata.Where(x => x.IsPaid == true);
+                    }
+                    else if(type==2)
+                    {
+                        batchdata = batchdata.Where(x => x.IsPaid == false);
+                    }
 
                     var mappedBatchdata = _mapper.Map<List<BatchResponse>>(batchdata);
 
@@ -747,6 +756,15 @@ namespace ELearning.API
                 else
                 {
                     var data = await _batchRepositry.GetAllAsync(x => x.CourseId == Id);
+
+                        if(type==1)
+                    {
+                        data = data.Where(x => x.IsPaid == true);
+                    }
+                        else if (type==2)
+                    {
+                        data = data.Where(x => x.IsPaid == false);
+                    }
                     var mappedBatchdata = _mapper.Map<List<BatchResponse>>(data);
 
                     

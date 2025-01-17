@@ -73,7 +73,7 @@ namespace ELearning.API
         #endregion
 
         #region Batch
-        public Task<Result<List<BatchResponse>>> GetBatchById(int Id);
+        public Task<Result<List<BatchResponse>>> GetBatchById(int Id,int type);
         #endregion
     }
 }

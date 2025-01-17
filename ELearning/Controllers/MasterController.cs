@@ -257,9 +257,9 @@ namespace ELearning.Controllers
 
         [HttpGet]
         [Route("GetBatchById")]
-        public async Task<IActionResult> GetBatchById(int Id)
+        public async Task<IActionResult> GetBatchById(int Id,int type)
         {
-            var data = await _masterService.GetBatchById(Id);
+            var data = await _masterService.GetBatchById(Id,type);
             return Ok(data);
         }
         #endregion
