@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ELearning_Core.Shared;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ELearning_Core.Model.Faculty
 {
-    public class BatchNote
+    public class BatchNote:BaseEntity
     {
         public String Notes { get; set; }
 
@@ -17,6 +18,7 @@ namespace ELearning_Core.Model.Faculty
         public int SubjectId { get; set; }
         [ForeignKey("SubjectId")]
         public virtual Subject? Subject { get; set; }
+        public string NoteFile { get; set; }
 
 
     }

@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public int CourseId { get; set; }
         public string Name { get; set; }
+        public bool Syllabus { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string Duration { get; set; }
@@ -14,7 +15,8 @@
         public decimal? Discount { get; set; }
         public string CreatedBy { get; set; }
         public string? UpdatedBy { get; set; }
-
+        public  IFormFile SyllabusPath { get; set; }
+        public string? SyllabusFile { get; set; }
         public List<BatchSubjectRequest> BatchSubjects { get; set; }
 
     }

@@ -18,6 +18,7 @@ namespace ELearning_Core.Model.Faculty
         [ForeignKey("CourseId")]
         public virtual Course Course { get; set; }
         public string Name { get; set; }
+        public bool Syllabus { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string Duration { get; set; }
@@ -25,5 +26,7 @@ namespace ELearning_Core.Model.Faculty
         public bool IsPaid { get; set; }
         public decimal BatchFee { get; set; }
         public decimal? Discount { get; set; }
+        public string? SyllabusFile { get; set; }
+
     }
 }

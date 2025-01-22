@@ -21,17 +21,36 @@ namespace ELearning.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> AddBatch(BatchRequest request)
+        public async Task<JsonResult> AddBatch([FromForm] BatchRequest request)
         {
             var userID = _userManger.GetUserId(User);
             request.CreatedBy = userID;
-            request.BatchSubjects.Select(x => { x.CreatedBy = userID; return x; }).ToList();   
-            
 
-            var data = await _masterService.InsertBatch(request);
+
+           
+            if (request.SyllabusPath != null && request.SyllabusPath.Length > 0)
+            {
+                var fileName = Path.GetFileName(request.SyllabusPath.FileName);
+                var filePath = Path.Combine("wwwroot", "BatchFiles", fileName);
+
+                var directoryPath = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.SyllabusPath.CopyToAsync(stream);
+                }
+
+               
+                request.SyllabusFile = fileName; 
+            }
+
+            await _masterService.InsertBatch(request);
             return Json(new { message = "Batch added successfully" });
         }
-        
-        
+
     }
 }

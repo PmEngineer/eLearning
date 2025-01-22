@@ -28,6 +28,10 @@
     .card-header {
         color: #fff;
     }
+
+    #fileinput {
+        display: none; 
+    }
 </style>
 <div class="container-fluid">
     <div class="card">
@@ -35,7 +39,7 @@
         <div class="card-body">
             <div>
                 <form class="form row g-3" method="post" enctype="multipart/form-data">
-
+                    <input type="hidden" name="targetFolder" value="BatchFile" />
                     <div class="dfelx">
 
                         <div class="col-2 flex-fill">
@@ -93,14 +97,7 @@
                                 <label class="did-floating-label">Batch Duration</label>
                             </div>
                         </div>
-                        <div class="flex-fill" style="text-align:center">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="isPaid" style="float:inherit;">
-                                <label class="form-check-label" for="defaultCheck1">
-                                    IsPaid
-                                </label>
-                            </div>
-                        </div>
+                        
                         <div class="flex-fill col-3">
                             <div class="did-floating-label-content">
 
@@ -115,6 +112,24 @@
                                 <label class="did-floating-label">Discounted Fee</label>
                             </div>
                         </div>
+                        <div class="flex-fill col-2" style="text-align:center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="Syllabus" style="float:inherit;">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    IsSyllabus
+                                </label>
+                                <input class="did-floating-input" type="file" id="fileinput" accept=".pdf, .jpg, .jpeg, .png, .gif" name="fileinput" />
+                            </div>
+                        </div>
+                        <div class="flex-fill col-2" style="text-align:center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="isPaid" style="float:inherit;">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    IsPaid
+                                </label>
+                            </div>
+                        </div>
+                       
                         <div class="flex-fill col-1" style="text-align:center;">
                             <input type="button" value="@Model.value" class="btn btn-primary shadow rounded" id="save"/>
                         </div>
@@ -250,7 +265,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-       
+
         $("#save").click(function () {
             var Course = $("#courseSelect").val();
             var Batch = $("#batchName").val();
@@ -259,72 +274,83 @@
             var Validity = $("#validity").val();
             var Duration = $("#duration").val();
             var IsPaid = $("#isPaid").is(':checked');
+            var Syllabus = $("#Syllabus").is(':checked');
             var BatchFee = $("#batchFee").val();
             var DiscountFee = $("#discountFee").val();
-      
+            var SyllabusFile = $("#fileinput")[0].files[0];
 
+            
+            var formData = new FormData();
+
+           
+            formData.append("request.CourseId", Course);
+            formData.append("request.Name", Batch);
+            formData.append("request.Syllabus", Syllabus);
+            formData.append("request.StartDate", StartDate);
+            formData.append("request.EndDate", EndDate);
+            formData.append("request.Duration", Duration);
+            formData.append("request.Validity", Validity);
+            formData.append("request.IsPaid", IsPaid);
+            formData.append("request.BatchFee", BatchFee);
+            formData.append("request.Discount", DiscountFee);
           
-            let subjects = [];
 
-            $('#subjectsTable tbody tr').each(function () {
+            if (SyllabusFile) {
+                formData.append("request.SyllabusPath", SyllabusFile);
+            }
+            else {
+                formData.append("request.SyllabusPath", null);
+            }
+            $('#subjectsTable tbody tr').each(function (index) {
                 let subjectId = $(this).find('input[name*="subjectId"]').val();
                 let facultyId = $(this).find('input[name*="facultyId"]').val();
                 let startTime = $(this).find('td:eq(2)').text().trim();
                 let endTime = $(this).find('td:eq(3)').text().trim();
 
-              
-                subjects.push({
-                    SubjectId: subjectId,
-                    FacultyId: facultyId,
-                    StartTiming: startTime,
-                    EndTiming: endTime
-                });
+                formData.append(`request.BatchSubjects[${index}].SubjectId`, subjectId);
+                formData.append(`request.BatchSubjects[${index}].FacultyId`, facultyId);
+                formData.append(`request.BatchSubjects[${index}].StartTiming`, startTime);
+                formData.append(`request.BatchSubjects[${index}].EndTiming`, endTime);
             });
 
-           
-            const batchData = {
-                CourseId: Course,
-                Name: Batch,
-                StartDate: StartDate,
-                EndDate: EndDate,
-                Duration: Duration,
-                Validity: Validity,
-                IsPaid: IsPaid,
-                BatchFee: BatchFee,
-                Discount: DiscountFee,
-                BatchSubjects: subjects
-            };
-            console.log(batchData);
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("AddBatch", "MasterBatch")',
-              
-                data: batchData,
+                data: formData,
+                processData: false,
+                contentType: false,
                 success: function (response) {
                     $('#result').html(response.message);
-                    $("#courseSelect").val('').trigger('change');
+                    // Clear form fields, handle success...
+                    $("#courseSelect").val('');
                     $("#batchName").val('');
                     $("#startdate").val('');
                     $("#enddate").val('');
                     $("#validity").val('');
                     $("#duration").val('');
-                    $("#isPaid").val('');
                     $("#batchFee").val('');
                     $("#discountFee").val('');
-
-                    // Clear subjects table
+                    $("#isPaid").prop('checked', false);
+                    $("#Syllabus").prop('checked', false);
+                    $('#fileinput').val('');  // Clear the file input
                     $('#subjectsTable tbody').empty();
                 },
                 error: function (xhr, status, error) {
                     console.error("AJAX Error: ", status, error);
-                    console.log(xhr.responseText);
                 }
-
-            })
-             
-           
+            });
         });
-       
           
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#Syllabus').change(function () {
+            if ($(this).is(':checked')) {
+                $('#fileinput').show();
+            } else {
+                $('#fileinput').hide(); 
+            }
+        });
     });
 </script>

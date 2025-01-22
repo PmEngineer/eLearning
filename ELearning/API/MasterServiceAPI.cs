@@ -747,6 +747,7 @@ namespace ELearning.API
                     }
 
                     var mappedBatchdata = _mapper.Map<List<BatchResponse>>(batchdata);
+                    mappedBatchdata.Select(x => { x.SyllabusFile = "BatchFiles/" + x.SyllabusFile; return x; }).ToList();
 
 
 
@@ -766,8 +767,8 @@ namespace ELearning.API
                         data = data.Where(x => x.IsPaid == false);
                     }
                     var mappedBatchdata = _mapper.Map<List<BatchResponse>>(data);
+                    mappedBatchdata.Select(x => { x.SyllabusFile = "BatchFiles/" + x.SyllabusFile; return x; }).ToList();
 
-                    
                     return await Result<List<BatchResponse>>.SuccessAsync(mappedBatchdata);
                 }
 

@@ -4,6 +4,7 @@ using ELearning.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELearning.Migrations
 {
     [DbContext(typeof(ELearningContext))]
-    partial class ELearningContextModelSnapshot : ModelSnapshot
+    [Migration("20250120113003_addBatccch")]
+    partial class addBatccch
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -206,9 +208,6 @@ namespace ELearning.Migrations
                     b.Property<bool>("Syllabus")
                         .HasColumnType("bit");
 
-                    b.Property<string>("SyllabusFile")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -294,10 +293,6 @@ namespace ELearning.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("NoteFile")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Notes")
                         .IsRequired()
@@ -1274,48 +1269,6 @@ namespace ELearning.Migrations
                     b.ToTable("BatchQuiz");
                 });
 
-            modelBuilder.Entity("ELearning_Core.Model.Quiz.QuizOption", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("BatchQuizId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Eoption")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Hoption")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BatchQuizId");
-
-                    b.ToTable("QuizOptions");
-                });
-
             modelBuilder.Entity("ELearning_Core.Model.Student.StudentInfo", b =>
                 {
                     b.Property<int>("Id")
@@ -1888,17 +1841,6 @@ namespace ELearning.Migrations
                     b.Navigation("Batch");
 
                     b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("ELearning_Core.Model.Quiz.QuizOption", b =>
-                {
-                    b.HasOne("ELearning_Core.Model.Quiz.BatchQuiz", "BatchQuiz")
-                        .WithMany()
-                        .HasForeignKey("BatchQuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BatchQuiz");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Student.StudentInfo", b =>

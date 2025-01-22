@@ -4,6 +4,7 @@ using ELearning_Core.Model;
 using ELearning_Core.Model.City;
 using ELearning_Core.Model.Faculty;
 using ELearning_Core.Model.Master;
+using ELearning_Core.Model.Quiz;
 using ELearning_Core.Model.Student;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -40,16 +41,11 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
     public DbSet<Trade> Trades { get; set; }
     public DbSet<Category> categories { get; set; }
     public DbSet<SubCategory> subCategories { get; set; }
-
     public DbSet<Post> posts { get; set; }
-
     public DbSet<Doubt> doubts { get; set; }
-
     public DbSet<DoubtComment> doubtsComment { get; set; }
     public DbSet<StudentInfo> StudentInfo { get; set; }
-
     public DbSet<DoubtLike> doubtLikes { get; set; }
-
     public DbSet<PdfNote> pdfNotes { get; set; }
     public DbSet<PreviousYearPaper> previousYearPapers { get; set; }
     public DbSet<PaperYear> paperYears { get; set; }
@@ -60,4 +56,7 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
     public DbSet<BatchSubject> BatchSubjects { get; set; }
     public DbSet<HelpDesk> HelpDesks { get; set; }
     public DbSet<BatchClass> BatchClass { get; set; }
+    public DbSet<BatchNote> BatchNotes { get; set; }
+    public DbSet<BatchQuiz> BatchQuiz { get; set; }
+    public DbSet<QuizOption> QuizOptions { get; set; }
 }

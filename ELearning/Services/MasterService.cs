@@ -1194,6 +1194,7 @@ namespace ELearning.Services
                 var batchData =  await _batchRepository.AddAsync(data);
 
                 var batchSubject = _mapper.Map<List<BatchSubject>>(batch.BatchSubjects);
+                batchSubject.Select(x => { x.CreatedBy = batchData.CreatedBy; return x; }).ToList();
                 batchSubject.Select(x => { x.CreatedDate = DateTime.Now; return x; }).ToList();
                 batchSubject.Select(x => { x.BatchId = batchData.Id; return x; }).ToList();
 

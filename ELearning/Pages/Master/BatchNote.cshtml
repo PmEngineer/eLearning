@@ -1,5 +1,5 @@
-﻿@page "/Faculty/{Id?}"
-@model ELearning.Pages.Master.FacultyModel
+﻿@page "/BatchNote/{Id?}/"
+@model ELearning.Pages.Master.BatchNoteModel
 @{
 }
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -29,94 +29,59 @@
         color: #fff;
     }
 </style>
+
+
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header bg-primary mainh">Faculty</div>
+        <div class="card-header bg-primary mainh">Batch Note</div>
         <div class="card-body">
             <div>
                 <form class="form row g-3" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="targetFolder" value="Faculty_Image"/>
+                    <input type="hidden" name="targetFolder" value="BatchNote" />
                     <div class="dfelx">
 
                         <div class="flex-fill">
                             <div class="did-floating-label-content">
-
-                                <select class=" did-floating-select select2" asp-for="Faculty.CompanyId">
-
-                                    @foreach (var item in Model.getCompanies)
+                                <select class="did-floating-select select2" asp-for="BatchNote.BatchId">
+                                    @foreach (var item in Model.GetBatches)
                                     {
-
                                         <option value="@item.Id">@item.Name</option>
-
                                     }
                                 </select>
-                                <label class="did-floating-label">Company Name</label>
-                            </div>
-                        </div>
-                        <div class="flex-fill">
-                            <div class="did-floating-label-content">
-                                <input type="hidden" asp-for="Faculty.Id" />
-                                <input type="hidden" asp-for="Faculty.CreatedBy" />
-                                <input type="hidden" asp-for="Faculty.CreatedDate" />
-                                <input class="did-floating-input" type="text" placeholder=" " asp-for="Faculty.Name">
-                                <label class="did-floating-label">Name</label>
-                            </div>
-                        </div>
-                        <div class="flex-fill">
-                            <div class="did-floating-label-content">
 
-                                <input class="did-floating-input" type="file" accept=".png,.jpg,.jpeg,.gif" name="formFile" id="fileuplode" placeholder=" " asp-for="Faculty.Image">
-                                <label class="did-floating-label">Select Image File</label>
-                            </div>
-                        </div>
-                        @{
-                            if(Model.Faculty.Id>0)
-                            {
-                                <div class="flex-fill">
-                                  <div class="form-check">
-                                        <label>Image</label>
-                                        <br />
-                                        <img src="/Faculty_Image/Images/@Model.Faculty.Image" height="40" width="40" alt="Lternate text" />
-                                    </div>
-                                </div>
-                            }
-                        }
-                        <div class="flex-fill">
-                            <div class="did-floating-label-content">
 
-                                <input class="did-floating-input" type="text" placeholder=" " asp-for="Faculty.Email">
-                                <label class="did-floating-label">Email</label>
-                            </div>
-                        </div>
-                        <div class="flex-fill">
-                            <div class="did-floating-label-content">
-
-                                <input class="did-floating-input" type="text" placeholder=" " asp-for="Faculty.Contact">
-                                <label class="did-floating-label">Contact</label>
                             </div>
                         </div>
 
                         <div class="flex-fill">
                             <div class="did-floating-label-content">
+                                <select class="did-floating-select select2" asp-for="BatchNote.SubjectId">
+                                    @foreach (var item in Model.GetSubjects)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
 
-                                <input class="did-floating-input" type="text" placeholder=" " asp-for="Faculty.Address">
-                                <label class="did-floating-label">Address</label>
+
                             </div>
                         </div>
-
-                        <div class="flex-fill col-4">
+                        <div class="flex-fill">
                             <div class="did-floating-label-content">
-
-                                <input class="did-floating-input" type="text" placeholder=" "  asp-for="Faculty.Qualification">
-                                <label class="did-floating-label">Qualification</label>
+                                <input type="hidden" asp-for="BatchNote.Id" />
+                                <input type="hidden" asp-for="BatchNote.CreatedBy" />
+                                <input type="hidden" asp-for="BatchNote.CreatedDate" />
+                                <input class="did-floating-input" type="text" placeholder="" asp-for="BatchNote.Notes">
+                                <label class="did-floating-label">Note's' Name</label>
                             </div>
                         </div>
-
-                       
-
-
-
-                        <div class="flex-fill col-1" style="text-align:center;">
+                        <div class="flex-fill">
+                            <div class="did-floating-label-content">
+                                <input class="did-floating-input" type="file" accept=".pdf" name="formFile" id="fileuplode" asp-for="BatchNote.NoteFile">
+                                <label class="did-floating-label">Select Pdf File</label>
+                            </div>
+                        </div>
+                      
+                        <div class="flex-fill" style="text-align:center;">
                             <input type="submit" value="@Model.value" class="btn btn-primary shadow rounded" />
                         </div>
                     </div>
@@ -135,13 +100,10 @@
                 <thead>
                     <tr>
                         <th>SrNo</th>
-                        <th>Company Name</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Email</th>
-                        <th>Contact</th>
-                        <th>Address</th>
-                        <th>Qualification</th>
+                        <th>Batch</th>
+                        <th>Subject</th>
+                        <th>Note's Name</th>
+                        <th>Note Pdf</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -149,35 +111,30 @@
                     @{
                         var srno = 1;
                     }
-                    @if (Model.Faculty != null)
+                    @foreach (var item in Model.BatchNotes)
                     {
-                        @foreach (var item in Model.Faculties)
-                        {
-                            <tr>
+                        <tr>
 
-                                <td>@srno</td>
-                                <td>@item.Company.Name</td>
-                                <td>@item.Name</td>
-                                <td scope="row"><img src="/Faculty_Image/Images/@item.Image" height="40" width="40" alt="Lternate text" /></td>
-                                <td>@item.Email</td>
-                                <td>@item.Contact</td>
-                                <td>@item.Address</td>
-                                <td>@item.Qualification</td>
+                            <td>@srno</td>
+                            <td>@item.Batch.Name</td>
+                            <td>@item.Subject.Name</td>
+                            <td>@item.Notes</td>
+                            <td scope="row">
+                                <a href="/BatchNote/Documents/@item.NoteFile" target="_blank" class="btn btn-link">@item.NoteFile</a>
+                            </td>
+                            <td>
+                                <a href="/BatchNote/@item.Id" class="fas fa-edit text-success"></a>&nbsp;
 
+                                <button class="fa fa-trash-o fs-4 text-danger" asp-page="" asp-page-handler="Delete"
+                                        asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)">
+                                </button>
 
-                                <td>
-                                    <a href="/Faculty/@item.Id" class="fas fa-edit text-success"></a>&nbsp;
+                            </td>
 
-                                    <button class="fa fa-trash-o fs-4 text-danger" asp-page="Course" asp-page-handler="Delete"
-                                            asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)">
-                                    </button>
-
-                                </td>
-
-                            </tr>
-                            srno++;
-                        }
+                        </tr>
+                        srno++;
                     }
+
                 </tbody>
             </table>
 
@@ -211,7 +168,11 @@
     </div>
 </div>
 
+
+
 <script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<script type="text/javascript" src="~/js/DateNotyf.js"></script>
+<script type="text/javascript" src="~/js/RestrictPreviousDate.js"></script>
 <script type="text/javascript">
     function DisplayConfirmDeleteModal(Id) {
         $("#idtoDelete").val(Id);

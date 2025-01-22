@@ -26,6 +26,7 @@ namespace ELearning.Controllers
 
 
         }
+        #region Subject
         [HttpGet]
         [Route("GetSubject")]
         public async Task<IActionResult> GetSubject()
@@ -34,7 +35,9 @@ namespace ELearning.Controllers
 
             return Ok(data);
         }
+        #endregion
 
+        #region Course
         [HttpGet]
         [Route("GetCourseList")]
         public async Task<IActionResult> GetCourseList()
@@ -43,6 +46,8 @@ namespace ELearning.Controllers
             return Ok(data);
         }
 
+        #endregion
+       
         #region Doubt
         [HttpGet]
         [Route("GetDoubtList")]
@@ -274,12 +279,34 @@ namespace ELearning.Controllers
         }
         #endregion
 
-        #region BatchSubject
+        #region Batchclass
         [HttpGet]
         [Route("GetBatchClass")]
         public async Task<IActionResult> GetBatchClass(int Bid, int Sid)
         {
             var data = await _batchService.GetBatchClass(Bid, Sid);
+            return Ok(data);
+        }
+        #endregion
+
+        #region BatchNote
+        [HttpGet]
+        [Route("GetBatchNotes")]
+        public async Task<IActionResult> GetBatchNotes(int Bid, int Sid)
+        {
+            var data = await _batchService.GetBatchNotes(Bid,Sid);
+            return Ok(data);
+
+        }
+
+        #endregion
+
+        #region BatchQuiz
+        [HttpGet]
+        [Route("GetQuizResponses")]
+        public async Task<IActionResult> GetQuizResponses(int Bid, int Sid)
+        {
+            var data=await _batchService.GetQuizResponses(Bid, Sid);
             return Ok(data);
         }
         #endregion

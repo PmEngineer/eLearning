@@ -8,7 +8,9 @@ namespace ELearning.Profiles
         {
             CreateMap<ELearning_Core.Model.Faculty.Batch, ELearning.Response.BatchResponse>()
                  .ForMember(dest => dest.Name,
-                           opt => opt.MapFrom(src => src.Name)).ReverseMap();
+                           opt => opt.MapFrom(src => src.Name)).ReverseMap()
+                            .ForMember(dest => dest.Syllabus,
+                           opt => opt.MapFrom(src => src.Syllabus)).ReverseMap();
             CreateMap<ELearning_Core.Model.Faculty.BatchSubject, ELearning.Response.BatchSubjectResponse>().ReverseMap();
         }
 

@@ -8,7 +8,10 @@ namespace ELearning.Response
     {
         public String Notes { get; set; }
         public int BatchId { get; set; }
+        public string BatchName { get; set; }
+        public string SubjectName { get; set; }
         
         public int SubjectId { get; set; }
+        public string NoteFile { get; set; }
     }
 }
