@@ -2,6 +2,7 @@
 using ELearning.Interface;
 using ELearning.Response;
 using ELearning_Core.Model.Faculty;
+using ELearning_Core.Model.Quiz;
 using ELearning_Core.Shared;
 
 namespace ELearning.Services
@@ -9,13 +10,15 @@ namespace ELearning.Services
     public class BatchService : IBatchService
     {
         public readonly IGenericRepository<BatchClass> _batchclassRepository;
-        public readonly IGenericRepository<BatchNote>  _batchnoteRespository;
+        public readonly IGenericRepository<BatchNote>  _batchnoteRepository;
+        public readonly IGenericRepository<BatchQuiz>  _batchquizRepository;
         IMapper _mapper;
-        public BatchService(IGenericRepository<BatchClass> batchclassRepository, IMapper mapper, IGenericRepository<BatchNote> batchnoteRespository)
+        public BatchService(IGenericRepository<BatchClass> batchclassRepository, IMapper mapper, IGenericRepository<BatchNote> batchnoteRepository, IGenericRepository<BatchQuiz> batchquizRepository)
         {
             _batchclassRepository = batchclassRepository;
             _mapper = mapper;
-            _batchnoteRespository = batchnoteRespository;   
+            _batchnoteRepository = batchnoteRepository;
+            _batchquizRepository = batchquizRepository;
         }
         #region Batch Class
         public async Task<List<BatchClass>> GetBatcheClasses()
@@ -76,7 +79,7 @@ namespace ELearning.Services
         {
             try
             {
-                var data=await _batchnoteRespository.GetAllAsync();
+                var data=await _batchnoteRepository.GetAllAsync();
                 return data.ToList();
             }
             catch (Exception ex)
@@ -88,7 +91,7 @@ namespace ELearning.Services
         {
             try
             {
-                await _batchnoteRespository.AddAsync(batchnote);
+                await _batchnoteRepository.AddAsync(batchnote);
                 return await Result<int>.SuccessAsync(batchnote.Id, "Batch's Note added Succesfully...");
             }
             catch (Exception ex)
@@ -100,7 +103,7 @@ namespace ELearning.Services
         {
             try
             {
-                await _batchnoteRespository.UpdateAsync(batchnote);
+                await _batchnoteRepository.UpdateAsync(batchnote);
                 return await Result<int>.SuccessAsync(batchnote.Id, "Batch's Note Updated Successfully..");
             }
             catch (Exception ex)
@@ -110,7 +113,7 @@ namespace ELearning.Services
         }
         public async Task<Result<int>> DeleteBatchNote(int Id)
         {
-            var data = await _batchnoteRespository.GetByIdAsync(Id);
+            var data = await _batchnoteRepository.GetByIdAsync(Id);
                 if (data == null)
             {
                
@@ -118,10 +121,66 @@ namespace ELearning.Services
             }
             else
             {
-                await _batchnoteRespository.DeleteAsync(data);
+                await _batchnoteRepository.DeleteAsync(data);
                 return await Result<int>.SuccessAsync("Batch's Note deleted succesfully... ");
             }
 
+        }
+        #endregion
+
+        #region BatchQuiz
+        public async Task<List<BatchQuiz>> GetQuizzes()
+        {
+            try
+            {
+                var data = await _batchquizRepository.GetAllAsync();
+                return data.ToList();
+            }
+            catch (Exception ex) 
+            
+            {
+                throw ex;   
+            }
+
+         
+        }
+        public async Task<Result<int>> InsertQuiz(BatchQuiz batchquiz)
+        {
+            try
+            {
+                await _batchquizRepository.AddAsync(batchquiz);
+                return await Result<int>.SuccessAsync(batchquiz.Id,"Quiz Question Added Successfully...");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<Result<int>> UpdateQuiz(BatchQuiz batchquiz)
+        {
+            try
+            {
+                await _batchquizRepository.UpdateAsync(batchquiz);
+                return await Result<int>.SuccessAsync(batchquiz.Id, "Quiz Question Updated Successfuuly...");
+            }
+            catch (Exception ex) 
+            {
+                throw ex;
+            }
+
+        }
+        public async Task<Result<int>> DeleteQuiz(int Id)
+        {
+            var data=await _batchquizRepository.GetByIdAsync(Id);
+            if (data == null)
+            {
+                return await Result<int>.FailAsync("Quiz Not Found...");
+            }
+            else
+            {
+                await _batchquizRepository.DeleteAsync(data);
+                return await Result<int>.SuccessAsync("Quiz Deleted Successfully...");
+            }
         }
         #endregion
     }

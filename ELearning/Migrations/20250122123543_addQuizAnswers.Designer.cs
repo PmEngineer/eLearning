@@ -4,6 +4,7 @@ using ELearning.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ELearning.Migrations
 {
     [DbContext(typeof(ELearningContext))]
-    partial class ELearningContextModelSnapshot : ModelSnapshot
+    [Migration("20250122123543_addQuizAnswers")]
+    partial class addQuizAnswers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,7 +70,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("MainMenuId");
 
-                    b.ToTable("SubMenus", (string)null);
+                    b.ToTable("SubMenus");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.City.City", b =>
@@ -107,7 +109,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("StateId");
 
-                    b.ToTable("City", (string)null);
+                    b.ToTable("City");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Company", b =>
@@ -159,7 +161,7 @@ namespace ELearning.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Company", (string)null);
+                    b.ToTable("Company");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Faculty.Batch", b =>
@@ -223,7 +225,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Batches", (string)null);
+                    b.ToTable("Batches");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Faculty.BatchClass", b =>
@@ -274,7 +276,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("BatchClass", (string)null);
+                    b.ToTable("BatchClass");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Faculty.BatchNote", b =>
@@ -318,7 +320,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("BatchNotes", (string)null);
+                    b.ToTable("BatchNotes");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Faculty.BatchSubject", b =>
@@ -365,7 +367,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("BatchSubjects", (string)null);
+                    b.ToTable("BatchSubjects");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Faculty.Faculty", b =>
@@ -421,7 +423,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Faculties", (string)null);
+                    b.ToTable("Faculties");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Lessons", b =>
@@ -469,7 +471,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Lessons", (string)null);
+                    b.ToTable("Lessons");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.MainMenu", b =>
@@ -513,7 +515,7 @@ namespace ELearning.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MainMenus", (string)null);
+                    b.ToTable("MainMenus");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.AppNotification", b =>
@@ -555,7 +557,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Notifications", (string)null);
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.Book", b =>
@@ -602,7 +604,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.Category", b =>
@@ -636,7 +638,7 @@ namespace ELearning.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("categories", (string)null);
+                    b.ToTable("categories");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.Country", b =>
@@ -670,7 +672,7 @@ namespace ELearning.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Country", (string)null);
+                    b.ToTable("Country");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.Course", b =>
@@ -732,7 +734,7 @@ namespace ELearning.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Course", (string)null);
+                    b.ToTable("Course");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.Doubt", b =>
@@ -781,7 +783,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("doubts", (string)null);
+                    b.ToTable("doubts");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.DoubtComment", b =>
@@ -819,7 +821,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("DoubtId");
 
-                    b.ToTable("doubtsComment", (string)null);
+                    b.ToTable("doubtsComment");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.DoubtLike", b =>
@@ -851,7 +853,7 @@ namespace ELearning.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("doubtLikes", (string)null);
+                    b.ToTable("doubtLikes");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.HelpDesk", b =>
@@ -902,7 +904,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("SubCategoryId");
 
-                    b.ToTable("HelpDesks", (string)null);
+                    b.ToTable("HelpDesks");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.Licence", b =>
@@ -947,7 +949,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Licences", (string)null);
+                    b.ToTable("Licences");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.PaperYear", b =>
@@ -977,7 +979,7 @@ namespace ELearning.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("paperYears", (string)null);
+                    b.ToTable("paperYears");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.PdfNote", b =>
@@ -1019,7 +1021,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("pdfNotes", (string)null);
+                    b.ToTable("pdfNotes");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.Post", b =>
@@ -1067,7 +1069,7 @@ namespace ELearning.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("posts", (string)null);
+                    b.ToTable("posts");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.PreviousYearPaper", b =>
@@ -1112,7 +1114,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("previousYearPapers", (string)null);
+                    b.ToTable("previousYearPapers");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.State", b =>
@@ -1151,7 +1153,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("State", (string)null);
+                    b.ToTable("State");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.SubCategory", b =>
@@ -1190,7 +1192,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("subCategories", (string)null);
+                    b.ToTable("subCategories");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Master.Trade", b =>
@@ -1224,7 +1226,7 @@ namespace ELearning.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Trades", (string)null);
+                    b.ToTable("Trades");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Quiz.BatchQuiz", b =>
@@ -1271,7 +1273,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("BatchQuiz", (string)null);
+                    b.ToTable("BatchQuiz");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Quiz.QuizAnswer", b =>
@@ -1322,7 +1324,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("QuizAnswers", (string)null);
+                    b.ToTable("QuizAnswers");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Quiz.QuizOption", b =>
@@ -1364,7 +1366,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("BatchQuizId");
 
-                    b.ToTable("QuizOptions", (string)null);
+                    b.ToTable("QuizOptions");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Student.StudentInfo", b =>
@@ -1424,7 +1426,7 @@ namespace ELearning.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("StudentInfo", (string)null);
+                    b.ToTable("StudentInfo");
                 });
 
             modelBuilder.Entity("ELearning_Core.Model.Subject", b =>
@@ -1463,7 +1465,7 @@ namespace ELearning.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subjects", (string)null);
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

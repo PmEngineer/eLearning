@@ -71,7 +71,6 @@ namespace ELearning.API
             _context = context;
         }
         #region Course Subject
-
         public async Task<Result<List<CourseResponse>>> GetCourseList()
         {
             try
@@ -601,7 +600,6 @@ namespace ELearning.API
         }
         #endregion
 
-
         #region SubCategory
         public async Task<Result<List<SubcategoryResponse>>> GetAllSubCategory(int Id)
         {
@@ -650,7 +648,6 @@ namespace ELearning.API
         }
 
         #endregion
-
 
         #region HelpDesk Response
         public async Task<Result<List<HelpDesk_Response>>> GetAllProblems()

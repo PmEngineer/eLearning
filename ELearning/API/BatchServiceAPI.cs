@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using ELearning.Interface;
+using ELearning.Request;
 using ELearning.Response;
 using ELearning_Core.Model.Faculty;
 using ELearning_Core.Model.Master;
 using ELearning_Core.Model.Quiz;
 using ELearning_Core.Shared;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ELearning.API
 {
@@ -16,6 +18,7 @@ namespace ELearning.API
         public readonly IGenericRepository<BatchNote> _batchNotesRepository;
         public readonly IGenericRepository<BatchQuiz> _batchquizRepository;
         public readonly IGenericRepository<QuizOption> _quizOptionRepository;
+        public readonly IGenericRepository<QuizAnswer> _quizAnswerRepositor;
         IMapper _mapper;
         public BatchServiceAPI
             (
@@ -24,7 +27,8 @@ namespace ELearning.API
             IGenericRepository<BatchClass> batchclassRepository,
             IGenericRepository<BatchNote> batchNotesRepository,
             IGenericRepository<BatchQuiz> batchquizRepository,
-            IGenericRepository<QuizOption> quizOptionRepository
+            IGenericRepository<QuizOption> quizOptionRepository,
+            IGenericRepository<QuizAnswer> quizAnswerRepository
             )
         {
 
@@ -34,6 +38,7 @@ namespace ELearning.API
             _batchNotesRepository = batchNotesRepository;
             _batchquizRepository = batchquizRepository;
             _quizOptionRepository = quizOptionRepository;
+            _quizAnswerRepositor = quizAnswerRepository;
         }
 
         #region BatchSubject
@@ -160,7 +165,57 @@ namespace ELearning.API
                 return await Result<List<BatchQuizResponse>>.FailAsync("Note not Found Data");
             }
         }
+        #endregion
+
+        #region QuizAnswer
+        public async Task<Result<int>> InsertQuizAnswer(QuizAnswerRequest request)
+        {
+            var data = _mapper.Map<QuizAnswer>(request);
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+
+            }
+            if (request.QuestionType == 1 || request.QuestionType == 2)
+            {
+                if (request.OptionId == null)
+                {
+                    List<int> ids = new List<int>();
+                    return await Result<int>.FailAsync(request.StudentId + "Answer is Not Selected. Please Select the Answer...");
+
+                }
+                else
+                {
+                    try
+                    {
+                        data.CreatedDate = DateTime.Now;
+                        await _quizAnswerRepositor.AddAsync(data);
+                        return await Result<int>.SuccessAsync(data.Id, "Answer for this Question saved Successfully..");
+                    }
+                    catch (Exception ex)
+                    {
+                        return await Result<int>.FailAsync("Answer is not saved." + ex.Message);
+                    }
+                }
+            }
+            else if (request.QuestionType == 3)
+            {
+                if (string.IsNullOrWhiteSpace(request.Answer))
+                {
+                    return await Result<int>.FailAsync(request.StudentId + "Answer is Not Filled. Please Fill the Answer...");
+                }
+                else
+                {
+                    data.CreatedDate = DateTime.Now;
+                    await _quizAnswerRepositor.AddAsync(data);
+                    return await Result<int>.SuccessAsync(data.Id, "Answer for this Question saved Successfully..");
+                }
+
+            }
+
+            return await Result<int>.SuccessAsync(request.StudentId + "Answer Saved Successfully...");
+        }
+        #endregion
     }
-    #endregion
 }
 

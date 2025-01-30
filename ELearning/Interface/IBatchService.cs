@@ -1,5 +1,6 @@
 ﻿using ELearning.Request;
 using ELearning_Core.Model.Faculty;
+using ELearning_Core.Model.Quiz;
 using ELearning_Core.Shared;
 
 namespace ELearning.Interface
@@ -18,6 +19,13 @@ namespace ELearning.Interface
         public Task<Result<int>> InsertBatchNote(BatchNote batchnote);
         public Task<Result<int>> UpdateBatchNote(BatchNote batchnote);
         public Task<Result<int>> DeleteBatchNote(int Id);
+        #endregion
+
+        #region BatchQuiz
+        public Task<List<BatchQuiz>> GetQuizzes();
+        public Task<Result<int>> InsertQuiz(BatchQuiz batchquiz);   
+        public Task<Result<int>> UpdateQuiz(BatchQuiz batchquiz);   
+        public Task<Result<int>> DeleteQuiz(int Id);    
         #endregion
     }
 }

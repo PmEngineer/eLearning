@@ -59,4 +59,5 @@ public class ELearningContext : IdentityDbContext<IdentityUser>
     public DbSet<BatchNote> BatchNotes { get; set; }
     public DbSet<BatchQuiz> BatchQuiz { get; set; }
     public DbSet<QuizOption> QuizOptions { get; set; }
+    public DbSet<QuizAnswer> QuizAnswers { get; set; }
 }

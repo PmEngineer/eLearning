@@ -1,0 +1,318 @@
+﻿@page "/BatchQuiz/{Id?}"
+@model ELearning.Pages.Master.BatchQuizModel
+@{
+}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="~/css/form.css" rel="stylesheet" type="text/css" />
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf/notyf.min.css">
+<script src="https://cdn.jsdelivr.net/npm/notyf/notyf.min.js"></script>
+<style>
+    .tbl {
+        height: 100%;
+        overflow: none;
+    }
+
+    button.fa.fa-trash-o.fs-4 {
+        border: none;
+    }
+
+    .card-header {
+        color: #fff;
+    }
+</style>
+
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header bg-primary mainh">Batch Quiz</div>
+        <div class="card-body">
+            <div>
+                <form class="form row" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="targetFolder" value="BatchNote" />
+                    <div class="row dflex">
+
+                        <div class="col-4 flex-fill">
+                            <div class="did-floating-label-content">
+                                <select class="did-floating-select select2" asp-for="BatchQuiz.BatchId" id="selectBatch">
+                                    @foreach (var item in Model.GetBatches)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-4  flex-fill">
+                            <div class="did-floating-label-content">
+                                <select class="did-floating-select select2" asp-for="BatchQuiz.SubjectId" id="selectSubject">
+                                    @foreach (var item in Model.GetSubjects)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+
+
+                            </div>
+                        </div>
+                        <div class="col-3  flex-fill">
+                            <div class="did-floating-label-content">
+                                <input type="hidden" asp-for="BatchQuiz.Id" />
+                                <input type="hidden" asp-for="BatchQuiz.CreatedBy" />
+                                <input type="hidden" asp-for="BatchQuiz.CreatedDate" />
+                                <input class="did-floating-input" type="text" placeholder="" asp-for="BatchQuiz.QuestionType" id="questionType">
+                                <label class="did-floating-label">Question Type</label>
+                            </div>
+                        </div>
+                       
+                        <div class="col-1 flex-fill" style="text-align:center;">
+                            <input type="submit" value="@Model.value" class="btn btn-primary shadow rounded" id="save" />
+                        </div>
+                        <div class="col-6 flex-fill mt-2">
+                            <div class="did-floating-label-content">
+                                <input class="did-floating-input" type="text" placeholder=" " id="EnglishQ" asp-for="BatchQuiz.Questions">
+                                <label class="did-floating-label">Question(In English)</label>
+                            </div>
+                        </div>
+                        <div class="col-6 flex-fill mt-2">
+                            <div class="did-floating-label-content">
+                                <input class="did-floating-input" type="text" placeholder=" " id="HindiQ" asp-for="BatchQuiz.HQuestions">
+                                <label class="did-floating-label">Question(In Hindi)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid mt-3">
+                        <div class="card">
+                            <div class="card-header bg-primary mainh">Add Option</div>
+                            <div class="card-body">
+                                <div>
+                                    <div class="dfelx">
+
+                                        <div class="flex-fill col-3">
+                                            <div class="did-floating-label-content">
+                                                <input class="did-floating-input" type="text" placeholder=" " id="Eoption">
+                                                <label class="did-floating-label">Option(In English)</label>
+                                            </div>
+                                        </div>
+                                        <div class="flex-fill">
+                                            <div class="did-floating-label-content">
+                                                <input class="did-floating-input" type="text" placeholder=" " id="Hoption">
+                                                <label class="did-floating-label">Option(In Hindi)</label>
+                                            </div>
+                                        </div>
+                                        <div class="flex-fill col-2" style="text-align:center" >
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="isTrue" style="float:inherit;">
+                                                <label class="form-check-label"  for="defaultCheck1" >Is True</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex-fill" style="text-align:center;">
+                                            <button type="button" class="btn btn-primary shadow rounded" id="addOption">
+                                                <i class="fas fa-plus"></i> Add Options
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Dynamic Subjects Table -->
+                                    <div class="card-body tbl">
+                                        <table class="table mt-3" id="optionsTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Option(In English)</th>
+                                                    <th>Option(In Hindi)</th>
+                                                    <th>Is True</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Rows will be added dynamically here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="container-fluid mt-3">
+    <div class="card">
+        <div class="card-header">List</div>
+        <div class="card-body tbl">
+            <table class="table" id="dtdata">
+                <thead>
+                    <tr>
+                        <th>SrNo</th>
+                        <th>Batch</th>
+                        <th>Subject</th>
+                        <th>Question Type</th>
+                        <th>Question(English)</th>
+                        <th>Question(Hindi)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var srno = 1;
+                    }
+                    @foreach (var item in Model.BatchQuizzes)
+                    {
+                        <tr>
+
+                            <td>@srno</td>
+                            <td>@item.Batch.Name</td>
+                            <td>@item.Subject.Name</td>
+                            <td>@item.QuestionType</td>
+                            <td>@item.Questions</td>
+                            <td>@item.HQuestions</td>
+                            <td>
+                                <a href="/BatchQuiz/@item.Id" class="fas fa-edit text-success"></a>&nbsp;
+
+                                <button class="fa fa-trash-o fs-4 text-danger" asp-page="" asp-page-handler="Delete"
+                                        asp-route-Id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="DisplayConfirmDeleteModal(@item.Id)">
+                                </button>
+
+                            </td>
+
+                        </tr>
+                        srno++;
+                    }
+
+                </tbody>
+            </table>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Do You really want to Delete??
+                        </div>
+                        <div class="modal-footer">
+                            <form method="Post" asp-page-handler="Delete">
+                                <input type="hidden" id="idtoDelete" asp-for="@Model.Id" class="form-control" />
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                @*<a id="deletes" class="fa fa-trash-o fs-4 text-danger" asp-page="Country" asp-page-handler="Delete"
+                                asp-route-Id="" ></a>*@
+                                <button asp-page-handler="Delete" class="btn btn-danger db">Delete</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
+<script type="text/javascript">
+
+    function DisplayConfirmDeleteModal(Id) {
+        $("#idtoDelete").val(Id);
+        //$(".db").attr('asp-route-id', Id);
+    }
+</script>
+<style>
+
+    button.fa.fa-trash-o.fs-4 {
+        border: none;
+    }
+
+    .card-header {
+        color: #fff;
+    }
+
+    </style >
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#addOption').on('click', function () {
+            let EngOption = $('#Eoption').val();
+            let HindiOption = $('#Hoption').val();
+            let IsTrue = $("#isTrue").is(':checked');
+       
+     
+
+            if (EngOption && HindiOption) {
+
+                let newRow = `<tr>
+                            <td>${EngOption}</td>
+                            <td>${HindiOption}</td>
+                            <td>${IsTrue}</td>
+                        <td><button class="btn btn-danger delete-button"><i class="fas fa-trash"></i></button></td>
+                    </tr>`;
+
+                $('#optionsTable tbody').append(newRow);
+
+
+                $('#Eoption').val('');
+                $('#Hoption').val('');
+                $('#isTrue').prop('checked', false);
+            } else {
+                alert("Please fill all fields.");
+            }
+        });
+
+        $('#optionsTable').on('click', '.delete-button', function () {
+            $(this).closest('tr').remove();
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#save').on('click', function () {
+           
+            var batchId = $('#selectBatch').val();
+            var subjectId = $('#selectSubject').val();
+            var questionType = $('#questionType').val();
+            var engQuestion = $('#EnglishQ').val();
+            var hindiQuestion = $('#HindiQ').val();
+            
+            var formData = new FormData();
+            formData.append("batchId", batchId);
+            formData.append("subjectId", subjectId);
+            formData.append("questionType", questionType);
+            formData.append("engQuestion", engQuestion);
+            formData.append("hindiQuestion", hindiQuestion);
+
+
+            $('#optionsTable tbody tr').each(function (index) {
+                let optionEng = $(this).find('input[name*="EngOption"]').val();
+                let optionHindi = $(this).find('input[name*="HindiOption"]').val();
+                let isTrue = $(this).find('td:eq(2)').text() === 'true';
+
+                formData.append(`[${index}].optionEng`,optionEng);
+                formData.append(`[${index}].optionHindi`,optionHindi);
+                formData.append(`[${index}].isTrue`, isTrue);
+            });
+            let formDataObject = Object.fromEntries(formData.entries());
+
+            document.write(formDataObject);
+        });
+    });
+</script>

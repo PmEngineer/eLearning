@@ -1,4 +1,5 @@
-﻿using ELearning.Response;
+﻿using ELearning.Request;
+using ELearning.Response;
 using ELearning_Core.Model.Quiz;
 using ELearning_Core.Shared;
 
@@ -21,6 +22,10 @@ namespace ELearning.API
 
         #region BatchQuiz
         public Task<Result<List<BatchQuizResponse>>> GetQuizResponses(int Bid,int Sid);
+        #endregion
+
+        #region QuizAnswer
+        public Task<Result<int>> InsertQuizAnswer(QuizAnswerRequest request);
         #endregion
 
     }

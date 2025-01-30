@@ -311,5 +311,15 @@ namespace ELearning.Controllers
             return Ok(data);
         }
         #endregion
+
+        #region QuizAnswer
+        [HttpPost]
+        [Route("InsertQuizAnswer")]
+        public async Task<IActionResult> InsertQuizAnswer(QuizAnswerRequest request)
+        {
+            var data=await _batchService.InsertQuizAnswer(request);
+            return Ok(data);
+            }
+        #endregion
     }
 }
