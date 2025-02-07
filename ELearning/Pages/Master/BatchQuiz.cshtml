@@ -11,7 +11,6 @@
 <script src="~/bootcatch-sidebar-master/js/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf/notyf.min.css">
 <script src="https://cdn.jsdelivr.net/npm/notyf/notyf.min.js"></script>
 <style>
@@ -73,9 +72,9 @@
                                 <label class="did-floating-label">Question Type</label>
                             </div>
                         </div>
-                       
+
                         <div class="col-1 flex-fill" style="text-align:center;">
-                            <input type="submit" value="@Model.value" class="btn btn-primary shadow rounded" id="save" />
+                            <input type="button" value="@Model.value" class="btn btn-primary shadow rounded" id="save" />
                         </div>
                         <div class="col-6 flex-fill mt-2">
                             <div class="did-floating-label-content">
@@ -110,10 +109,10 @@
                                                 <label class="did-floating-label">Option(In Hindi)</label>
                                             </div>
                                         </div>
-                                        <div class="flex-fill col-2" style="text-align:center" >
+                                        <div class="flex-fill col-2" style="text-align:center">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="isTrue" style="float:inherit;">
-                                                <label class="form-check-label"  for="defaultCheck1" >Is True</label>
+                                                <label class="form-check-label" for="defaultCheck1">Is True</label>
                                             </div>
                                         </div>
 
@@ -248,71 +247,61 @@
         color: #fff;
     }
 
-    </style >
+</style>
+<script type="text/javascript" src="~/js/BatchQuizJs.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#addOption').on('click', function () {
-            let EngOption = $('#Eoption').val();
-            let HindiOption = $('#Hoption').val();
-            let IsTrue = $("#isTrue").is(':checked');
-       
-     
+    $("#save").on('click', function () {
 
-            if (EngOption && HindiOption) {
+        var SubjectId = $("#selectSubject").val();
+        var BatchId = $("#selectBatch").val();
+        var Questions = $("#EnglishQ").val();
+        var HQuestions = $("#HindiQ").val();
+        var QuestionType = $("#questionType").val();
 
-                let newRow = `<tr>
-                            <td>${EngOption}</td>
-                            <td>${HindiOption}</td>
-                            <td>${IsTrue}</td>
-                        <td><button class="btn btn-danger delete-button"><i class="fas fa-trash"></i></button></td>
-                    </tr>`;
+        var formData = new FormData();
 
-                $('#optionsTable tbody').append(newRow);
+        formData.append("request.SubjectId", SubjectId);
+        formData.append("request.BatchId", BatchId);
+        formData.append("request.Questions", Questions);
+        formData.append("request.HQuestions", HQuestions);
+        formData.append("request.QuestionType", QuestionType);
+
+        $('#optionsTable tbody tr').each(function (index) {
+
+            let Eoption = $(this).find('td:eq(0)').text().trim();
+            let Hoption = $(this).find('td:eq(1)').text().trim();
+            let IsCorrect = $(this).find('input[type="checkbox"]').is(':checked');
 
 
-                $('#Eoption').val('');
-                $('#Hoption').val('');
-                $('#isTrue').prop('checked', false);
-            } else {
-                alert("Please fill all fields.");
+            formData.append(`request.QuizOptions[${index}].Eoption`, Eoption);
+            formData.append(`request.QuizOptions[${index}].Hoption`, Hoption);
+            formData.append(`request.QuizOptions[${index}].IsCorrect`, IsCorrect);
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("AddBatchQuiz", "MasterBatch")',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                $('#result').html(response.message);
+
+                $("#selectSubject").val('');
+                $("#selectBatch").val('');
+                $("#EnglishQ").val('');;
+                $("#HindiQ").val('');
+                $("#questionType").val('');
+                $("#optionsTable tbody").empty();
+
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error:", status, error);
             }
+
+
         });
 
-        $('#optionsTable').on('click', '.delete-button', function () {
-            $(this).closest('tr').remove();
-        });
     });
 </script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#save').on('click', function () {
-           
-            var batchId = $('#selectBatch').val();
-            var subjectId = $('#selectSubject').val();
-            var questionType = $('#questionType').val();
-            var engQuestion = $('#EnglishQ').val();
-            var hindiQuestion = $('#HindiQ').val();
-            
-            var formData = new FormData();
-            formData.append("batchId", batchId);
-            formData.append("subjectId", subjectId);
-            formData.append("questionType", questionType);
-            formData.append("engQuestion", engQuestion);
-            formData.append("hindiQuestion", hindiQuestion);
-
-
-            $('#optionsTable tbody tr').each(function (index) {
-                let optionEng = $(this).find('input[name*="EngOption"]').val();
-                let optionHindi = $(this).find('input[name*="HindiOption"]').val();
-                let isTrue = $(this).find('td:eq(2)').text() === 'true';
-
-                formData.append(`[${index}].optionEng`,optionEng);
-                formData.append(`[${index}].optionHindi`,optionHindi);
-                formData.append(`[${index}].isTrue`, isTrue);
-            });
-            let formDataObject = Object.fromEntries(formData.entries());
-
-            document.write(formDataObject);
-        });
-    });
-</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ELearning.Interface;
+using ELearning.Request;
 using ELearning.Response;
 using ELearning_Core.Model.Faculty;
 using ELearning_Core.Model.Quiz;
@@ -12,13 +13,16 @@ namespace ELearning.Services
         public readonly IGenericRepository<BatchClass> _batchclassRepository;
         public readonly IGenericRepository<BatchNote>  _batchnoteRepository;
         public readonly IGenericRepository<BatchQuiz>  _batchquizRepository;
+        public readonly IGenericRepository<QuizOption> _quizoptionRepository;
         IMapper _mapper;
-        public BatchService(IGenericRepository<BatchClass> batchclassRepository, IMapper mapper, IGenericRepository<BatchNote> batchnoteRepository, IGenericRepository<BatchQuiz> batchquizRepository)
+        public BatchService(IGenericRepository<BatchClass> batchclassRepository, IMapper mapper, IGenericRepository<BatchNote> batchnoteRepository, IGenericRepository<BatchQuiz> batchquizRepository, IGenericRepository<QuizOption> quizoptionRepository)
         {
             _batchclassRepository = batchclassRepository;
             _mapper = mapper;
             _batchnoteRepository = batchnoteRepository;
             _batchquizRepository = batchquizRepository;
+            _quizoptionRepository = quizoptionRepository;
+              
         }
         #region Batch Class
         public async Task<List<BatchClass>> GetBatcheClasses()
@@ -144,12 +148,32 @@ namespace ELearning.Services
 
          
         }
-        public async Task<Result<int>> InsertQuiz(BatchQuiz batchquiz)
+        public async Task<Result<int>> InsertQuiz(BatchQuizRequest batchquiz)
         {
             try
             {
-                await _batchquizRepository.AddAsync(batchquiz);
-                return await Result<int>.SuccessAsync(batchquiz.Id,"Quiz Question Added Successfully...");
+
+               var data=_mapper.Map<BatchQuiz>(batchquiz);
+
+                if (data.QuestionType == 3)
+                {
+                    data.CreatedDate = DateTime.Now;
+                    var quizData = await _batchquizRepository.AddAsync(data);
+                }
+                else
+                {
+                    data.CreatedDate = DateTime.Now;
+                    var quizData = await _batchquizRepository.AddAsync(data);
+
+                    var quizOptions = _mapper.Map<List<QuizOption>>(batchquiz.QuizOptions);
+                    quizOptions.Select(x => { x.CreatedBy = quizData.CreatedBy; return x; }).ToList();
+                    quizOptions.Select(x => { x.CreatedDate = quizData.CreatedDate; return x; }).ToList();
+                    quizOptions.Select(x => { x.BatchQuizId = quizData.Id; return x; }).ToList();
+
+                    await _quizoptionRepository.BulkAddAsync(quizOptions);
+                }
+              
+                return await Result<int>.SuccessAsync(data.Id, "Quiz Question Added Successfully");
             }
             catch (Exception ex)
             {

@@ -23,7 +23,7 @@ namespace ELearning.Interface
 
         #region BatchQuiz
         public Task<List<BatchQuiz>> GetQuizzes();
-        public Task<Result<int>> InsertQuiz(BatchQuiz batchquiz);   
+        public Task<Result<int>> InsertQuiz(BatchQuizRequest batchquiz);   
         public Task<Result<int>> UpdateQuiz(BatchQuiz batchquiz);   
         public Task<Result<int>> DeleteQuiz(int Id);    
         #endregion

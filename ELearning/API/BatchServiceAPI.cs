@@ -180,7 +180,7 @@ namespace ELearning.API
             {
                 if (request.OptionId == null)
                 {
-                    List<int> ids = new List<int>();
+
                     return await Result<int>.FailAsync(request.StudentId + "Answer is Not Selected. Please Select the Answer...");
 
                 }
