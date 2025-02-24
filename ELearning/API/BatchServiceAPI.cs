@@ -171,12 +171,14 @@ namespace ELearning.API
         public async Task<Result<int>> InsertQuizAnswer(QuizAnswerRequest request)
         {
             var data = _mapper.Map<QuizAnswer>(request);
+
+            
             if (request == null)
             {
                 throw new ArgumentNullException(nameof(request));
 
             }
-            if (request.QuestionType == 1 || request.QuestionType == 2)
+            if (request.QuestionType == 1)
             {
                 if (request.OptionId == null)
                 {
@@ -211,6 +213,32 @@ namespace ELearning.API
                     return await Result<int>.SuccessAsync(data.Id, "Answer for this Question saved Successfully..");
                 }
 
+            }
+            else
+            {
+                if (request.OptionId == null)
+                {
+
+                    return await Result<int>.FailAsync(request.StudentId + "Answer is Not Selected. Please Select the Answer...");
+
+                }
+                else
+                {
+                    try
+                    {
+                        foreach (var item in data.Answer)
+                        {
+                            data.CreatedDate = DateTime.Now;
+                            await _quizAnswerRepositor.AddAsync(data);
+                        }
+                      
+                        return await Result<int>.SuccessAsync(data.Id, "Answer for this Question saved Successfully..");
+                    }
+                    catch (Exception ex)
+                    {
+                        return await Result<int>.FailAsync("Answer is not saved." + ex.Message);
+                    }
+                }
             }
 
             return await Result<int>.SuccessAsync(request.StudentId + "Answer Saved Successfully...");
